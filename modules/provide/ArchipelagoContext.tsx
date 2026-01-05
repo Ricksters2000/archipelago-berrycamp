@@ -2,25 +2,27 @@ import {Client} from "archipelago.js";
 import {createContext, useContext} from "react";
 import {ConnectionStatus} from "../data/ConnectionStatus";
 
-type ChapterItems = {
-  sides: Array<{
-    levelClear?: true;
-    heart?: true;
-    golden?: true;
-    cassette?: true;
-    checkpoints: Record<string, true>;
-    cars: Record<string, true>;
-    keys: Record<string, true>;
-    gems: Record<string, true>;
-    binoculars: Record<string, true>;
-    strawberries: Record<string, true>;
-    rooms: Record<string, true>;
-  }>
+export type LevelLocations = {
+  levelClear?: true;
+  heart?: true;
+  golden?: true;
+  cassette?: true;
+  checkpoints: Record<string, true>;
+  cars: Record<string, true>;
+  keys: Record<string, true>;
+  gems: Record<string, true>;
+  binoculars: Record<string, true>;
+  strawberries: Record<string, true>;
+  rooms: Record<string, true>;
+}
+
+export type ChapterSides = {
+  sides: Array<LevelLocations>
 }
 
 export type CheckedLocations = {
   area: {
-    celeste: Record<number, ChapterItems>;
+    celeste: Record<number, ChapterSides>;
   }
 }
 
@@ -34,7 +36,7 @@ export type RandomizerOptions = {
   roomSanity: boolean;
   includeGoldens: boolean;
   includeCore: boolean;
-  includeFarewell: false | `white-space` | `farewell`;
+  includeFarewell: false | `empty-space` | `farewell`;
   includeBSides: boolean;
   includeCSides: boolean;
 }

@@ -8,14 +8,16 @@ import {AppProps} from 'next/app';
 import '../styles/globals.css';
 import {Client, ConnectedPacket, ConnectionOptions, defaultConnectionOptions, RoomUpdatePacket} from 'archipelago.js';
 import {useCallback, useEffect, useMemo, useState} from 'react';
-import {ArchipelagoContext, defaultCheckedLocations, defaultRandomizerOptions, RandomizerOptions} from '~/modules/provide/ArchipelagoContext';
+import {ArchipelagoContext, ChapterSides, CheckedLocations, defaultCheckedLocations, defaultRandomizerOptions, LevelLocations, RandomizerOptions} from '~/modules/provide/ArchipelagoContext';
 import {ConnectionStatus} from '~/modules/data/ConnectionStatus';
 import {CelesteSlotData} from '~/modules/data/dataTypes';
+import {useImmer} from 'use-immer';
+import {getLocationDataFromAP, LocationData} from '~/modules/data/apLocationData';
 
 const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.NoConnection)
   const [randomizerOptions, setRandomizerOptions] = useState(defaultRandomizerOptions)
-  const [checkedLocations, setCheckedLocations] = useState(defaultCheckedLocations)
+  const [checkedLocations, setCheckedLocations] = useImmer(defaultCheckedLocations)
   const client = useMemo(() => new Client(), [])
   const loginClient = useCallback((host: string, name: string, password: string = "") => {
     setConnectionStatus(ConnectionStatus.Connecting)
@@ -25,6 +27,114 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
 
   useEffect(() => {
     if (!client) return
+    const checkLocation = (checkedLocationsDraft: CheckedLocations, locationData: LocationData) => {
+      let chapter = checkedLocationsDraft.area.celeste[locationData.location[0]]
+      if (!chapter) {
+        chapter = createBlankChapter()
+        checkedLocationsDraft.area.celeste[locationData.location[0]] = chapter
+      }
+      let currentSide = chapter.sides[locationData.location[1]]
+      if (!currentSide) {
+        currentSide = createBlankSide()
+        chapter.sides[locationData.location[1]] = currentSide
+      }
+      const roomId = locationData.location[2]
+      switch (locationData.type) {
+        case 'levelClear':
+          currentSide.levelClear = true
+          break
+        case 'heart':
+          currentSide.heart = true
+          break
+        case 'golden':
+          currentSide.golden = true
+          break
+        case 'cassette':
+          currentSide.cassette = true
+          break
+        case 'checkpoint':
+          currentSide.checkpoints[roomId] = true
+          break
+        case 'Car':
+          currentSide.cars[roomId] = true
+          break
+        case 'key':
+          currentSide.keys[roomId] = true
+          break
+        case 'gem':
+          currentSide.gems[roomId] = true
+          break
+        case 'binoculars':
+          currentSide.binoculars[roomId] = true
+          break
+        case 'berry':
+          currentSide.strawberries[roomId] = true
+          break
+        case 'room':
+          currentSide.rooms[roomId] = true
+          break
+      }
+    }
+
+    const createBlankChapter = (): ChapterSides => {
+      return {sides: []}
+    }
+
+    const createBlankSide = (): LevelLocations => {
+      return {
+        checkpoints: {},
+        cars: {},
+        keys: {},
+        gems: {},
+        strawberries: {},
+        binoculars: {},
+        rooms: {},
+      }
+    }
+
+    const onConnected = (packet: ConnectedPacket) => {
+      setConnectionStatus(ConnectionStatus.Connected)
+      console.log(`Connected to archipelago`, packet)
+      const slotData = packet.slot_data as CelesteSlotData
+      const playerRandomizerOptions: RandomizerOptions = {
+        checkpointSanity: slotData.checkpointsanity === 1,
+        binoSanity: slotData.binosanity === 1,
+        keySanity: slotData.keysanity === 1,
+        gemSanity: slotData.gemsanity === 1,
+        carSanity: slotData.carsanity === 1,
+        roomSanity: slotData.roomsanity === 1,
+        includeGoldens: slotData.include_goldens === 1,
+        includeCore: slotData.include_core === 1,
+        includeFarewell: slotData.include_farewell === 0 ? false : slotData.include_farewell === 1 ? 'empty-space' : 'farewell',
+        includeBSides: slotData.include_b_sides === 1,
+        includeCSides: slotData.include_c_sides === 1,
+      }
+      setRandomizerOptions(playerRandomizerOptions)
+      if (packet.checked_locations.length > 0) {
+        setCheckedLocations(draft => {
+          packet.checked_locations.forEach(checked => {
+            const locationData = getLocationDataFromAP(checked)
+            checkLocation(draft, locationData)
+          })
+        })
+      }
+    }
+
+    const onDisconnected = () => {
+      setConnectionStatus(ConnectionStatus.Disconnected)
+    }
+
+    const onRoomUpdate = (packet: RoomUpdatePacket) => {
+      if (!packet.checked_locations) return;
+      setCheckedLocations(draft => {
+        if (!packet.checked_locations) return
+        packet.checked_locations.forEach(checked => {
+          const locationData = getLocationDataFromAP(checked)
+          checkLocation(draft, locationData)
+        })
+      })
+    }
+
     const socket = client.socket
     socket.on(`connected`, onConnected)
     socket.on(`disconnected`, onDisconnected)
@@ -35,35 +145,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       socket.off(`disconnected`, onDisconnected)
       socket.off(`roomUpdate`, onRoomUpdate)
     }
-  }, [client])
-
-  const onConnected = (packet: ConnectedPacket) => {
-    setConnectionStatus(ConnectionStatus.Connected)
-    console.log(`Connected to archipelago`, packet)
-    const slotData = packet.slot_data as CelesteSlotData
-    const playerRandomizerOptions: RandomizerOptions = {
-      checkpointSanity: slotData.checkpointsanity === 1,
-      binoSanity: slotData.binosanity === 1,
-      keySanity: slotData.keysanity === 1,
-      gemSanity: slotData.gemsanity === 1,
-      carSanity: slotData.carsanity === 1,
-      roomSanity: slotData.roomsanity === 1,
-      includeGoldens: slotData.include_goldens === 1,
-      includeCore: slotData.include_core === 1,
-      includeFarewell: slotData.include_farewell === 0 ? false : slotData.include_farewell === 1 ? 'white-space' : 'farewell',
-      includeBSides: slotData.include_b_sides === 1,
-      includeCSides: slotData.include_c_sides === 1,
-    }
-    setRandomizerOptions(playerRandomizerOptions)
-  }
-
-  const onDisconnected = () => {
-    setConnectionStatus(ConnectionStatus.Disconnected)
-  }
-
-  const onRoomUpdate = (packet: RoomUpdatePacket) => {
-    if (!packet.checked_locations) return;
-  }
+  }, [client, setCheckedLocations])
 
   return (
     <ArchipelagoContext.Provider value={{
