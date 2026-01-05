@@ -76,7 +76,9 @@ export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
                 onChange={(event) => setPassword(event.target.value)}
               />
               <Box display={`flex`} alignItems={`center`} gap={1}>
-                <Button variant="outlined" onClick={() => login(host, name, password)} disabled={!host || !name}>Login</Button>
+                <Button variant="outlined" loading={connectionStatus === ConnectionStatus.Connecting} onClick={() => login(host, name, password)} disabled={!host || !name}>
+                  Login
+                </Button>
                 {[ConnectionStatus.Connected, ConnectionStatus.Disconnected].includes(connectionStatus) &&
                   <Typography color={connectionStatus === ConnectionStatus.Connected ? `green` : `red`}>
                     {connectionStatus === ConnectionStatus.Connected ? `Connected` : `Disconnected`}
