@@ -74,3 +74,38 @@ export interface Canvas {
   size: ExtentCanvasSize;
   boundingBox: ExtentCanvasViewBox;
 }
+
+export type CelesteSlotData = {
+  active_levels: string[];
+  active_traps: Record<number, number>;
+  apworld_version: number;
+  binosanity: number;
+  carsanity: number;
+  checkpointsanity: number;
+  chosen_poem: number;
+  death_link: number;
+  death_link_amnesty: number;
+  gemsanity: number;
+  goal_area: string;
+  include_b_sides: number;
+  include_c_sides: number;
+  include_core: number;
+  include_farewell: number;
+  include_goldens: number;
+  keysanity: number;
+  lock_goal_area: number;
+  madeline_feather_hair_color: number;
+  madeline_hair_length: number;
+  madeline_no_dash_hair_color: number;
+  madeline_one_dash_hair_color: number;
+  madeline_two_dash_hair_color: number;
+  min_mod_version: number;
+  music_map: Record<number, number>;
+  music_shuffle: number;
+  require_cassettes: number;
+  roomsanity: number;
+  strawberries_required: number;
+  trap_expiration_action: number;
+  trap_expiration_amount: number;
+  trap_link: number;
+}

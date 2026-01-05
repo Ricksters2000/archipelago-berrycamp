@@ -6,8 +6,36 @@
   - gems
 */
 type LocationData = {
-  type: `Car` | `berry` | `golden` | `binoculars` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`
-  location: [chapter: number, side: `a` | `b` | `c`, room: string]
+  type: `Car` | `berry` | `golden` | `binoculars` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
+  location: [chapter: number, side: `a` | `b` | `c`, room: string];
+}
+
+export const getLocationDataFromAP = (ap: number) => {
+  let locationData: LocationData;
+  if (CheckpointAPToID[ap]) {
+    locationData = CheckpointAPToID[ap];
+  } else if (LevelClearAPToID[ap]) {
+    locationData = LevelClearAPToID[ap];
+  } else if (CassetteAPToID[ap]) {
+    locationData = CassetteAPToID[ap];
+  } else if (CrystalHeartAPToID[ap]) {
+    locationData = CrystalHeartAPToID[ap];
+  } else if (KeyAPToID[ap]) {
+    locationData = KeyAPToID[ap];
+  } else if (GemAPToID[ap]) {
+    locationData = GemAPToID[ap];
+  } else if (CarAPToID[ap]) {
+    locationData = CarAPToID[ap];
+  } else if (StrawberryAPToID[ap]) {
+    locationData = StrawberryAPToID[ap];
+  } else if (BinocularsAPToID[ap]) {
+    locationData = BinocularsAPToID[ap];
+  } else if (RoomAPToID[ap]) {
+    locationData = RoomAPToID[ap];
+  } else {
+    throw new Error(`Failed to find location data from archipelago ID: ${ap}`);
+  }
+  return locationData;
 }
 
 export const CheckpointAPToID: Record<number, LocationData> = {
