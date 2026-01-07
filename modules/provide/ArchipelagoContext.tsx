@@ -80,3 +80,19 @@ export const ArchipelagoContext = createContext<IArchipelagoContext>({
 export const useArchipelagoContext = (): IArchipelagoContext => {
   return useContext<IArchipelagoContext>(ArchipelagoContext)
 }
+
+export const createBlankChapter = (): ChapterSides => {
+  return {sides: []}
+}
+
+export const createBlankSide = (): LevelLocations => {
+  return {
+    checkpoints: {},
+    cars: {},
+    keys: {},
+    gems: {},
+    strawberries: {},
+    binoculars: {},
+    rooms: {},
+  }
+}

@@ -21,6 +21,8 @@ export interface FullLocationCount {
   total: LocationCount;
 }
 
+type SideProps = Omit<Side, `img` | `canvas` | `id` | `name`>
+
 export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterSides, chapter: Omit<Chapter, `desc`>, randomizerOptions: RandomizerOptions): FullLocationCount => {
   const result: FullLocationCount = {
     levelClear: {checked: 0, total: 0},
@@ -111,7 +113,7 @@ export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterS
   return result
 }
 
-export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocations, side: Side, randomizerOptions: RandomizerOptions): FullLocationCount => {
+export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocations, side: SideProps, randomizerOptions: RandomizerOptions): FullLocationCount => {
   const result: FullLocationCount = {
     levelClear: {checked: 0, total: 0},
     heart: {checked: 0, total: 0},
@@ -216,7 +218,7 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
   return result
 }
 
-export const getCheckedAndTotalCheckpointLocations = (checkedLocations: LevelLocations, side: Side): LocationCount => {
+export const getCheckedAndTotalCheckpointLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
   let checked = 0
   const total = side.checkpoints.length
   // Checkpoints are stored by roomId, check if any room in each checkpoint is checked
@@ -234,7 +236,7 @@ export const getCheckedAndTotalCheckpointLocations = (checkedLocations: LevelLoc
   }
 }
 
-export const getCheckedAndTotalCarLocations = (checkedLocations: LevelLocations, side: Side): LocationCount => {
+export const getCheckedAndTotalCarLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
@@ -251,7 +253,7 @@ export const getCheckedAndTotalCarLocations = (checkedLocations: LevelLocations,
   }
 }
 
-export const getCheckedAndTotalKeyLocations = (checkedLocations: LevelLocations, side: Side): LocationCount => {
+export const getCheckedAndTotalKeyLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
@@ -266,7 +268,7 @@ export const getCheckedAndTotalKeyLocations = (checkedLocations: LevelLocations,
   }
 }
 
-export const getCheckedAndTotalGemLocations = (checkedLocations: LevelLocations, side: Side): LocationCount => {
+export const getCheckedAndTotalGemLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
@@ -281,7 +283,7 @@ export const getCheckedAndTotalGemLocations = (checkedLocations: LevelLocations,
   }
 }
 
-export const getCheckedAndTotalBinocularLocations = (checkedLocations: LevelLocations, side: Side): LocationCount => {
+export const getCheckedAndTotalBinocularLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
@@ -296,7 +298,7 @@ export const getCheckedAndTotalBinocularLocations = (checkedLocations: LevelLoca
   }
 }
 
-export const getCheckedAndTotalBerryLocations = (checkedLocations: LevelLocations, side: Side): LocationCount => {
+export const getCheckedAndTotalBerryLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
@@ -313,7 +315,7 @@ export const getCheckedAndTotalBerryLocations = (checkedLocations: LevelLocation
   }
 }
 
-export const getCheckedAndTotalRoomLocations = (checkedLocations: LevelLocations, side: Side): LocationCount => {
+export const getCheckedAndTotalRoomLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {

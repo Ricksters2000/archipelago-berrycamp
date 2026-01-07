@@ -8,7 +8,7 @@ import {AppProps} from 'next/app';
 import '../styles/globals.css';
 import {Client, ConnectedPacket, ConnectionOptions, defaultConnectionOptions, RoomUpdatePacket} from 'archipelago.js';
 import {useCallback, useEffect, useMemo, useState} from 'react';
-import {ArchipelagoContext, ChapterSides, CheckedLocations, defaultCheckedLocations, defaultRandomizerOptions, LevelLocations, RandomizerOptions} from '~/modules/provide/ArchipelagoContext';
+import {ArchipelagoContext, CheckedLocations, createBlankChapter, createBlankSide, defaultCheckedLocations, defaultRandomizerOptions, RandomizerOptions} from '~/modules/provide/ArchipelagoContext';
 import {ConnectionStatus} from '~/modules/data/ConnectionStatus';
 import {CelesteSlotData} from '~/modules/data/dataTypes';
 import {useImmer} from 'use-immer';
@@ -73,22 +73,6 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
         case 'room':
           currentSide.rooms[roomId] = true
           break
-      }
-    }
-
-    const createBlankChapter = (): ChapterSides => {
-      return {sides: []}
-    }
-
-    const createBlankSide = (): LevelLocations => {
-      return {
-        checkpoints: {},
-        cars: {},
-        keys: {},
-        gems: {},
-        strawberries: {},
-        binoculars: {},
-        rooms: {},
       }
     }
 

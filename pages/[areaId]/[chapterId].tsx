@@ -90,7 +90,7 @@ export const getStaticProps: GetStaticProps<ChapterProps, ChapterParams> = async
 
   const {areaId, chapterId} = params;
 
-  const area: Area =  await fetchArea(areaId);
+  const area: Area = await fetchArea(areaId);
 
   const chapterIndex: number = area.chapters.findIndex(chapter => chapter.id === chapterId);
   const chapter: Chapter | undefined = area.chapters[chapterIndex];
@@ -115,8 +115,12 @@ export const getStaticProps: GetStaticProps<ChapterProps, ChapterParams> = async
         desc: chapter.desc,
         ...(chapter.chapterNo && {no: chapter?.chapterNo}),
       },
-      sides: chapter.sides.map(({name, id, checkpoints, img}) => ({
+      sides: chapter.sides.map(({name, id, checkpoints, img, rooms}) => ({
+        chapterIndex,
+        id,
         name,
+        checkpoints,
+        rooms,
         href: `/${area.id}/${chapter.id}/${id}`,
         src: getRoomPreviewUrl(area.id, chapter.id, id, img),
         roomCount: checkpoints.reduce((a, b) => a + b.roomCount, 0),

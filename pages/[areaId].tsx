@@ -14,7 +14,6 @@ import {Area, Side} from '../modules/data/dataTypes'
 import {CampPage} from './_app'
 import {useArchipelagoContext} from '~/modules/provide/ArchipelagoContext'
 import {getCheckedAndTotalLocationsForChapter} from '~/modules/data/countLocations'
-import {ConnectionStatus} from '~/modules/data/ConnectionStatus'
 import {LocationCounterList} from '~/modules/ap/LocationCounterList'
 
 const AreaPage: CampPage<AreaProps> = ({area, chapters}) => {
@@ -48,7 +47,7 @@ export const AreaView: FC<AreaProps> = ({area, chapters}) => {
 
 const GridArea: FC<AreaProps> = ({area, chapters}) => {
   const [chapterHovering, setChapterHovering] = useState(``)
-  const {randomizerOptions, checkedLocations, connectionStatus} = useArchipelagoContext()
+  const {randomizerOptions, checkedLocations} = useArchipelagoContext()
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box
@@ -87,8 +86,7 @@ const GridArea: FC<AreaProps> = ({area, chapters}) => {
                         imageRendering: "pixelated",
                       }}
                     />
-                    {connectionStatus === ConnectionStatus.Connected &&
-                      <LocationCounterList show={chapterHovering === chapter.id} fullLocationCount={totalCounts} />}
+                    <LocationCounterList show={chapterHovering === chapter.id} fullLocationCount={totalCounts} />
                   </CardMedia>
                   <CardContent>
                     <Typography component="div" variant="h6">

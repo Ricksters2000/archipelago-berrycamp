@@ -1,7 +1,9 @@
 import {FC} from "react";
-import {FullLocationCount, LocationCount} from "../data/countLocations";
+import {FullLocationCount} from "../data/countLocations";
 import {Fade, Grid2} from "@mui/material";
 import {LocationCounter} from "./LocationCounter";
+import {useArchipelagoContext} from "../provide/ArchipelagoContext";
+import {ConnectionStatus} from "../data/ConnectionStatus";
 
 interface Props {
   show: boolean;
@@ -9,6 +11,8 @@ interface Props {
 }
 
 export const LocationCounterList: FC<Props> = ({show, fullLocationCount}) => {
+  const {connectionStatus} = useArchipelagoContext();
+  if (connectionStatus !== ConnectionStatus.Connected) return null;
   return (
     <Fade in={show}>
       <Grid2
@@ -22,6 +26,7 @@ export const LocationCounterList: FC<Props> = ({show, fullLocationCount}) => {
           position: `absolute`,
           width: '100%',
           height: '100%',
+          zIndex: 1,
         }}
       >
         {fullLocationCount.levelClear.total > 0 && (
