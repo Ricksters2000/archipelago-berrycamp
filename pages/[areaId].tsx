@@ -8,10 +8,14 @@ import Image from "next/image"
 import Link from "next/link"
 import {GetStaticPaths, GetStaticProps} from 'next/types'
 import {ParsedUrlQuery} from 'querystring'
-import {FC, Fragment} from 'react'
+import {FC, Fragment, useState} from 'react'
 import {AspectBox} from '~/modules/common/aspectBox/AspectBox'
-import {Area} from '../modules/data/dataTypes'
+import {Area, Side} from '../modules/data/dataTypes'
 import {CampPage} from './_app'
+import {useArchipelagoContext} from '~/modules/provide/ArchipelagoContext'
+import {getCheckedAndTotalLocationsForChapter} from '~/modules/data/countLocations'
+import {ConnectionStatus} from '~/modules/data/ConnectionStatus'
+import {LocationCounterList} from '~/modules/ap/LocationCounterList'
 
 const AreaPage: CampPage<AreaProps> = ({area, chapters}) => {
   return (
@@ -22,7 +26,7 @@ const AreaPage: CampPage<AreaProps> = ({area, chapters}) => {
         image={getAreaImageUrl(area.id)}
       />
       <Container>
-        <AreaView area={area} chapters={chapters}/>
+        <AreaView area={area} chapters={chapters} />
       </Container>
     </Fragment>
   )
@@ -34,15 +38,17 @@ export const AreaView: FC<AreaProps> = ({area, chapters}) => {
   return (
     <Fragment>
       {listMode ? (
-        <ListArea area={area} chapters={chapters}/>
+        <ListArea area={area} chapters={chapters} />
       ) : (
-        <GridArea area={area} chapters={chapters}/>
+        <GridArea area={area} chapters={chapters} />
       )}
     </Fragment>
   );
 }
 
 const GridArea: FC<AreaProps> = ({area, chapters}) => {
+  const [chapterHovering, setChapterHovering] = useState(``)
+  const {randomizerOptions, checkedLocations, connectionStatus} = useArchipelagoContext()
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box
@@ -58,32 +64,44 @@ const GridArea: FC<AreaProps> = ({area, chapters}) => {
           <Typography component="div" variant="h4" marginTop={4} marginBottom={1}>{area.name}</Typography>
           <Typography component="div" color="text.secondary" marginBottom={2}>{area.desc}</Typography>
         </Box>
-        {chapters.map(chapter => (
-          <Card key={chapter.id}>
-            <Link passHref href={`/${area.id}/${chapter.id}`}>
-              <CardActionArea>
-                <CardMedia component={AspectBox}>
-                  <Image
-                    unoptimized
-                    layout="fill"
-                    src={getChapterImageUrl(area.id, chapter.id)}
-                    alt={`An image of chapter ${chapter.name}`}
-                    style={{
-                      imageRendering: "pixelated",
-                    }}
-                  />
-                </CardMedia>
-                <CardContent>
-                  <Typography component="div" variant="h6">
-                    {chapter.no && `Chapter ${chapter.no} - `}
-                    {chapter.name}
-                  </Typography>
-                  <Typography component="div" variant="body2" color="textSecondary">{chapter.gameId}</Typography>
-                </CardContent>
-              </CardActionArea>
-            </Link>
-          </Card>
-        ))}
+        {chapters.map((chapter, i) => {
+          let checkedChapter = checkedLocations.area.celeste[i]
+          if (!checkedChapter) {
+            checkedChapter = {sides: []}
+          }
+          const totalCounts = getCheckedAndTotalLocationsForChapter(checkedChapter, chapter, randomizerOptions)
+          return (
+            <Card key={chapter.id} onMouseEnter={() => setChapterHovering(chapter.id)} onMouseLeave={() => setChapterHovering(``)}>
+              <Link passHref href={`/${area.id}/${chapter.id}`}>
+                <CardActionArea>
+                  <CardMedia
+                    component={AspectBox}
+                    sx={{position: 'relative'}}
+                  >
+                    <Image
+                      unoptimized
+                      layout="fill"
+                      src={getChapterImageUrl(area.id, chapter.id)}
+                      alt={`An image of chapter ${chapter.name}`}
+                      style={{
+                        imageRendering: "pixelated",
+                      }}
+                    />
+                    {connectionStatus === ConnectionStatus.Connected &&
+                      <LocationCounterList show={chapterHovering === chapter.id} fullLocationCount={totalCounts} />}
+                  </CardMedia>
+                  <CardContent>
+                    <Typography component="div" variant="h6">
+                      {chapter.no && `Chapter ${chapter.no} - `}
+                      {chapter.name}
+                    </Typography>
+                    <Typography component="div" variant="body2" color="textSecondary">{chapter.gameId}</Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Link>
+            </Card>
+          )
+        })}
       </Box>
     </Box>
   );
@@ -126,7 +144,7 @@ const ListArea: FC<AreaProps> = ({area, chapters}) => {
 
 export interface AreaProps {
   area: AreaData;
-  chapters: ChapterData[]; 
+  chapters: ChapterData[];
 }
 
 interface AreaData {
@@ -140,6 +158,7 @@ interface ChapterData {
   gameId: string;
   name: string;
   no?: number;
+  sides: Side[];
 }
 
 interface AreaParams extends ParsedUrlQuery {
@@ -158,12 +177,12 @@ export const getStaticProps: GetStaticProps<AreaProps, AreaParams> = async ({par
     throw Error("Params is not defined");
   }
 
-  const {id, name, desc, chapters}: Area =  await fetchArea(params.areaId);
+  const {id, name, desc, chapters}: Area = await fetchArea(params.areaId);
 
   return {
     props: {
       area: {id, name, desc},
-      chapters: chapters.map(({id, gameId, chapterNo: no, name}) => ({id, gameId, name, ...(no && {no})})),
+      chapters: chapters.map(({id, gameId, chapterNo: no, name, sides}) => ({id, gameId, name, sides, ...(no && {no})})),
     },
   };
 };

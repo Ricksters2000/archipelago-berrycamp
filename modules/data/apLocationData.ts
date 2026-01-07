@@ -5,8 +5,11 @@
   - keys
   - gems
 */
+
+export type LocationType = `Car` | `berry` | `golden` | `binoculars` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
+
 export type LocationData = {
-  type: `Car` | `berry` | `golden` | `binoculars` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
+  type: LocationType;
   location: [chapter: number, side: number, room: string];
 }
 
