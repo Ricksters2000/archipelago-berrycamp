@@ -14,7 +14,7 @@ export type LocationData = {
 }
 
 export const getLocationDataFromAP = (ap: number) => {
-  let locationData: LocationData;
+  let locationData: LocationData | undefined;
   if (CheckpointAPToID[ap]) {
     locationData = CheckpointAPToID[ap];
   } else if (LevelClearAPToID[ap]) {
@@ -35,7 +35,8 @@ export const getLocationDataFromAP = (ap: number) => {
     locationData = BinocularsAPToID[ap];
   } else if (RoomAPToID[ap]) {
     locationData = RoomAPToID[ap];
-  } else {
+  }
+  if (!locationData) {
     throw new Error(`Failed to find location data from archipelago ID: ${ap}`);
   }
   return locationData;
