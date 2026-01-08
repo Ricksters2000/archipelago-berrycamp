@@ -37,7 +37,8 @@ export const getLocationDataFromAP = (ap: number) => {
     locationData = RoomAPToID[ap];
   }
   if (!locationData) {
-    throw new Error(`Failed to find location data from archipelago ID: ${ap}`);
+    console.error(`Failed to find location data from archipelago ID: ${ap}`);
+    locationData = {type: `berry`, location: [0, 0, `missing-${ap}`]}
   }
   return locationData;
 }
@@ -237,10 +238,10 @@ export const GemAPToID: Record<number, LocationData> = {
 
 export const CarAPToID: Record<number, LocationData> = {
   // Prologue
-  0xCA12A0: {type: "Car", location: [0, 0, "-1"]},
+  0xCA12A00: {type: "Car", location: [0, 0, "-1"]},
 
   // Core
-  0xCA12A1: {type: "Car", location: [9, 0, "0x"]},
+  0xCA12A01: {type: "Car", location: [9, 0, "0x"]},
 
   // Farewell
   0xCA12A02: {type: "Car", location: [10, 0, "e-01"]},
