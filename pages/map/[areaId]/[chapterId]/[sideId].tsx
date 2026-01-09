@@ -75,9 +75,10 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
   }, []), [searchValue, side.checkpoints, side.rooms]);
 
   const canvasRooms: CanvasRoom[] = useMemo(() => side.rooms.map(room => {
-    const {id, canvas: {position, boundingBox: view}} = room;
+    const {id, entities, canvas: {position, boundingBox: view}} = room;
     return ({
       id,
+      entities,
       position,
       view,
       image: getRoomImageUrl(area.id, chapter.id, side.id, id),
@@ -117,7 +118,7 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
     virtualCanvas.width = size.width;
     virtualCanvas.height = size.height;
     context.translate(-contentViewRef.current.left, -contentViewRef.current.top);
-    
+
     imagesRef.current.forEach(({img, position: {x, y}, view}) => {
       if (contentViewRef.current === undefined || !viewsCollide(view, contentViewRef.current)) {
         return;
@@ -165,12 +166,12 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
       return;
     }
 
-    if (isFirstLoad){
+    if (isFirstLoad) {
       setIsFirstLoad(false);
     }
 
     const {checkpoint, room, top, bottom, left, right, x, y} = query;
-    
+
     if (typeof checkpoint === "string") {
       const data: CheckpointData | undefined = side.checkpoints[Number(query.checkpoint) - 1];
       if (data !== undefined) {
@@ -202,7 +203,7 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
       }
       return;
     }
-    
+
     setView(side.boundingBox)
   }, [canvasRooms, isFirstLoad, isReady, query, side.boundingBox, side.checkpoints, side.rooms]);
 
@@ -275,9 +276,9 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
                       onClick={() => setSearchValue("")}
                       aria-label="clear search"
                     >
-                      <Clear fontSize="small"/>
+                      <Clear fontSize="small" />
                     </IconButton>
-                    <Search color="primary" fontSize="small"/>
+                    <Search color="primary" fontSize="small" />
                   </Box>
                 ),
               }}
@@ -296,7 +297,7 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
           <ResizableDivider
             onMouseDown={enableRoomMenuMouseResize}
             onTouchStart={enableRoomMenuTouchResize}
-            orientation={isLargeScreen ? "horizontal": "vertical"}
+            orientation={isLargeScreen ? "horizontal" : "vertical"}
             sx={{
               zIndex: 1,
               bgcolor: "background.paper",
@@ -305,7 +306,7 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
           <Box
             display="flex"
             flexDirection="column"
-            width="100%" 
+            width="100%"
             height="100%"
             flex={1}
             sx={{
@@ -329,7 +330,7 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
             <Button
               fullWidth
               variant="contained"
-              endIcon={!oversized && <ScreenshotMonitor/>}
+              endIcon={!oversized && <ScreenshotMonitor />}
               sx={{borderRadius: 0, whiteSpace: "nowrap"}}
               onClick={handleSave}
               disabled={oversized}
@@ -470,10 +471,10 @@ export const getEntityViewBox = ({left, top}: ExtentCanvasViewBox, x: number, y:
  * @param view The view.
  * @returns The canvas size.
  */
- const calculateCanvasSize = ({top, bottom, left, right}: ExtentCanvasViewBox): ExtentCanvasSize => ({
-  width: right - left, 
+const calculateCanvasSize = ({top, bottom, left, right}: ExtentCanvasViewBox): ExtentCanvasSize => ({
+  width: right - left,
   height: bottom - top,
-}) 
+})
 
 /**
  * Determine if the view is too large to render.
@@ -482,7 +483,7 @@ export const getEntityViewBox = ({left, top}: ExtentCanvasViewBox, x: number, y:
  * @param height The image height.
  * @returns If the view is too large.
  */
- const oversizedCanvas = ({width, height}: ExtentCanvasSize): boolean => {
+const oversizedCanvas = ({width, height}: ExtentCanvasSize): boolean => {
   return width * height > 268435456;
 };
 

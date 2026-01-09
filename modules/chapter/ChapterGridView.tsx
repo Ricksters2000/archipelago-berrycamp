@@ -7,7 +7,7 @@ import {AspectBox} from "../common/aspectBox/AspectBox";
 import {Checkpoint, Side} from "../data/dataTypes";
 import {getCheckedAndTotalLocationsForSide} from "../data/countLocations";
 import {createBlankSide, LevelLocations, useArchipelagoContext} from "../provide/ArchipelagoContext";
-import {sideIdToIndex} from "../common/sideIdToIndex";
+import {sideIdToIndex} from "../common/levelIdToIndex";
 import {LocationCounterList} from "../ap/LocationCounterList";
 
 export interface ChapterViewItemProps {

@@ -1,6 +1,7 @@
 import {ExtentCanvasPoint, ExtentCanvasViewBox, ExtentCanvasViewChangeReason} from "extent-canvas";
 import {MutableRefObject} from "react";
 import {CanvasImage} from "./CampCanvas";
+import {Entities} from "../data/dataTypes";
 
 export interface CampCanvasProps {
   view: ExtentCanvasViewBox | undefined;
@@ -17,4 +18,5 @@ export interface CanvasRoom {
   position: ExtentCanvasPoint;
   view: ExtentCanvasViewBox;
   image: string;
+  entities: Partial<Entities>;
 }
