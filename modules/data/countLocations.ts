@@ -21,7 +21,7 @@ export interface FullLocationCount {
   total: LocationCount;
 }
 
-type SideProps = Omit<Side, `img` | `canvas` | `id` | `name`>
+type SideProps = Omit<Side, `img` | `canvas` | `name`>
 
 export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterSides, chapter: Omit<Chapter, `desc`>, randomizerOptions: RandomizerOptions): FullLocationCount => {
   const result: FullLocationCount = {
@@ -135,10 +135,12 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
     result.levelClear.checked = 1
   }
 
-  // heart - always count (1 per side)
-  result.heart.total = 1
-  if (checkedLocations.heart) {
-    result.heart.checked = 1
+  // heart - only for a-side as the heart for the other sides counts as a level clear
+  if (side.id === `a`) {
+    result.heart.total = 1
+    if (checkedLocations.heart) {
+      result.heart.checked = 1
+    }
   }
 
   // golden - only if includeGoldens is true
@@ -149,10 +151,12 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
     }
   }
 
-  // cassette - always count (1 per side)
-  result.cassette.total = 1
-  if (checkedLocations.cassette) {
-    result.cassette.checked = 1
+  // cassette - only appears in a-sides
+  if (side.id === `a`) {
+    result.cassette.total = 1
+    if (checkedLocations.cassette) {
+      result.cassette.checked = 1
+    }
   }
 
   // checkpoints - only if checkpointSanity is true
