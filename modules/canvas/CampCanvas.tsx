@@ -170,11 +170,11 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       }
       context.fillStyle = `red`
       if (entities.berry && sideCheckedLocations.strawberries[id]) {
-        const berry = entities.berry[0]
-        if (berry) {
-          const pos = getRoomPos(berry)
-          // console.log(`filling berry at pos:`, pos.x, pos.y)
-          context.fillRect(pos.x - 5, pos.y - 5, 10, 10)
+        for (const berry of entities.berry) {
+          if (sideCheckedLocations.strawberries[id][berry.id]) {
+            const pos = getRoomPos(berry)
+            context.fillRect(pos.x - 5, pos.y - 5, 10, 10)
+          }
         }
       }
       if (entities.cassette && sideCheckedLocations.cassette) {

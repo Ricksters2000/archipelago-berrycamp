@@ -13,7 +13,7 @@ export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
   const [host, setHost] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const {login, connectionStatus} = useArchipelagoContext()
+  const {login, connectionStatus, errorMsg} = useArchipelagoContext()
   return (
     <Fragment>
       <CampHead
@@ -79,9 +79,13 @@ export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
                 <Button variant="outlined" loading={connectionStatus === ConnectionStatus.Connecting} onClick={() => login(host, name, password)} disabled={!host || !name}>
                   Login
                 </Button>
-                {[ConnectionStatus.Connected, ConnectionStatus.Disconnected].includes(connectionStatus) &&
+                {[ConnectionStatus.Connected, ConnectionStatus.Disconnected, ConnectionStatus.Error].includes(connectionStatus) &&
                   <Typography color={connectionStatus === ConnectionStatus.Connected ? `green` : `red`}>
-                    {connectionStatus === ConnectionStatus.Connected ? `Connected` : `Disconnected`}
+                    {
+                      connectionStatus === ConnectionStatus.Connected ? `Connected`
+                        : connectionStatus === ConnectionStatus.Disconnected ? `Disconnected`
+                          : errorMsg
+                    }
                   </Typography>
                 }
               </Box>

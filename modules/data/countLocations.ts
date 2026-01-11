@@ -306,10 +306,15 @@ export const getCheckedAndTotalBerryLocations = (checkedLocations: LevelLocation
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
-    if (side.rooms[roomId]?.entities.berry) {
-      total++
-      if (checkedLocations.strawberries[roomId]) {
-        checked++
+    const berries = side.rooms[roomId]?.entities.berry;
+    if (berries) {
+      total += berries.length;
+      const checkedStrawberries = checkedLocations.strawberries[roomId];
+      if (!checkedStrawberries) continue;
+      for (const berry of berries) {
+        if (checkedStrawberries[berry.id]) {
+          checked++;
+        }
       }
     }
   }

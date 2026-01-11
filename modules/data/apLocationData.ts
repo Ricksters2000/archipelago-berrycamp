@@ -6,11 +6,16 @@
   - gems
 */
 
-export type LocationType = `Car` | `berry` | `golden` | `binoculars` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
+export type LocationType = `Car` | `golden` | `binoculars` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
 
-export type LocationData = {
+export type LocationData = BerryLocationData | {
   type: LocationType;
-  location: [chapter: number, side: number, room: string, id?: number];
+  location: [chapter: number, side: number, room: string];
+}
+
+type BerryLocationData = {
+  type: `berry`;
+  location: [chapter: number, side: number, room: string, id: number];
 }
 
 export const getLocationDataFromAP = (ap: number) => {
@@ -38,7 +43,7 @@ export const getLocationDataFromAP = (ap: number) => {
   }
   if (!locationData) {
     console.error(`Failed to find location data from archipelago ID: ${ap}`);
-    locationData = {type: `berry`, location: [0, 0, `missing-${ap}`]}
+    locationData = {type: `berry`, location: [0, 0, `missing-${ap}`, -1]}
   }
   return locationData;
 }

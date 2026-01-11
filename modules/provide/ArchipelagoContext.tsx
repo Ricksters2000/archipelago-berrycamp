@@ -12,7 +12,8 @@ export type LevelLocations = {
   keys: Record<string, true>;
   gems: Record<string, true>;
   binoculars: Record<string, true>;
-  strawberries: Record<string, true>;
+  /** The first id is for the room id and then for the strawberry id */
+  strawberries: Record<string, Record<string, true>>;
   rooms: Record<string, true>;
 }
 
@@ -44,6 +45,7 @@ export type RandomizerOptions = {
 export interface IArchipelagoContext {
   client: Client;
   connectionStatus: ConnectionStatus;
+  errorMsg: string,
   randomizerOptions: RandomizerOptions;
   checkedLocations: CheckedLocations;
   login: (host: string, name: string, password: string) => void;
@@ -72,6 +74,7 @@ export const defaultCheckedLocations: CheckedLocations = {
 export const ArchipelagoContext = createContext<IArchipelagoContext>({
   client: new Client(),
   connectionStatus: ConnectionStatus.NoConnection,
+  errorMsg: ``,
   randomizerOptions: defaultRandomizerOptions,
   checkedLocations: defaultCheckedLocations,
   login: () => undefined,

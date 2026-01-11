@@ -6,7 +6,7 @@ import {CampThemeProvider} from 'modules/provide/CampTheme';
 import {NextPage} from 'next';
 import {AppProps} from 'next/app';
 import '../styles/globals.css';
-import {Client, ConnectedPacket, ConnectionOptions, defaultConnectionOptions, RoomUpdatePacket} from 'archipelago.js';
+import {Client, ConnectedPacket, ConnectionOptions, ConnectionRefusedPacket, defaultConnectionOptions, RoomUpdatePacket} from 'archipelago.js';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {ArchipelagoContext, CheckedLocations, createBlankChapter, createBlankSide, defaultCheckedLocations, defaultRandomizerOptions, RandomizerOptions} from '~/modules/provide/ArchipelagoContext';
 import {ConnectionStatus} from '~/modules/data/ConnectionStatus';
@@ -16,13 +16,16 @@ import {getLocationDataFromAP, LocationData} from '~/modules/data/apLocationData
 
 const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.NoConnection)
+  const [errorMsg, setErrorMsg] = useState(``)
   const [randomizerOptions, setRandomizerOptions] = useState(defaultRandomizerOptions)
   const [checkedLocations, setCheckedLocations] = useImmer(defaultCheckedLocations)
   const client = useMemo(() => new Client(), [])
   const loginClient = useCallback((host: string, name: string, password: string = "") => {
     setConnectionStatus(ConnectionStatus.Connecting)
     const connOptions: Required<ConnectionOptions> = {...defaultConnectionOptions, password}
-    client.login(host, name, `Celeste (Open World)`, connOptions)
+    client.login(host, name, `Celeste (Open World)`, connOptions).catch(error => {
+      setConnectionStatus(ConnectionStatus.Error)
+    })
   }, [client]);
 
   useEffect(() => {
@@ -68,7 +71,10 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
           currentSide.binoculars[roomId] = true
           break
         case 'berry':
-          currentSide.strawberries[roomId] = true
+          currentSide.strawberries[roomId] = {
+            ...currentSide.strawberries[roomId],
+            [locationData.location[3]]: true,
+          }
           break
         case 'room':
           currentSide.rooms[roomId] = true
@@ -104,6 +110,15 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       }
     }
 
+    const onConnectionRefused = (packet: ConnectionRefusedPacket) => {
+      setConnectionStatus(ConnectionStatus.Error)
+      console.error(`Connection refused:`, packet)
+      const errors = packet.errors
+      if (errors && errors[0]) {
+        setErrorMsg(errors[0])
+      }
+    }
+
     const onDisconnected = () => {
       setConnectionStatus(ConnectionStatus.Disconnected)
     }
@@ -121,11 +136,13 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
 
     const socket = client.socket
     socket.on(`connected`, onConnected)
+    socket.on(`connectionRefused`, onConnectionRefused)
     socket.on(`disconnected`, onDisconnected)
     socket.on(`roomUpdate`, onRoomUpdate)
 
     return () => {
       socket.off(`connected`, onConnected)
+      socket.off(`connectionRefused`, onConnectionRefused)
       socket.off(`disconnected`, onDisconnected)
       socket.off(`roomUpdate`, onRoomUpdate)
     }
@@ -135,6 +152,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
     <ArchipelagoContext.Provider value={{
       client,
       connectionStatus,
+      errorMsg,
       randomizerOptions,
       checkedLocations,
       login: loginClient,
