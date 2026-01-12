@@ -291,9 +291,16 @@ export const getCheckedAndTotalBinocularLocations = (checkedLocations: LevelLoca
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
-    if (checkedLocations.binoculars[roomId]) {
-      checked++
-      total++
+    const binoculars = side.rooms[roomId]?.entities.binoculars;
+    if (binoculars) {
+      total += binoculars.length;
+      const checkedBinoculars = checkedLocations.binoculars[roomId];
+      if (!checkedBinoculars) continue;
+      for (const bino of binoculars) {
+        if (checkedBinoculars[bino.id]) {
+          checked++;
+        }
+      }
     }
   }
   return {

@@ -68,7 +68,10 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
           currentSide.gems[roomId] = true
           break
         case 'binoculars':
-          currentSide.binoculars[roomId] = true
+          currentSide.binoculars[roomId] = {
+            ...currentSide.binoculars[roomId],
+            [locationData.location[3]]: true,
+          }
           break
         case 'berry':
           currentSide.strawberries[roomId] = {

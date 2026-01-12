@@ -2,6 +2,9 @@ import {Client} from "archipelago.js";
 import {createContext, useContext} from "react";
 import {ConnectionStatus} from "../data/ConnectionStatus";
 
+/** The first id is for the room id and then for the entity id */
+type MultiEntityLocation<K extends string | number | symbol> = Record<string, Record<K, true>>;
+
 export type LevelLocations = {
   levelClear?: true;
   heart?: true;
@@ -11,9 +14,8 @@ export type LevelLocations = {
   cars: Record<string, true>;
   keys: Record<string, true>;
   gems: Record<string, true>;
-  binoculars: Record<string, true>;
-  /** The first id is for the room id and then for the strawberry id */
-  strawberries: Record<string, Record<string, true>>;
+  binoculars: MultiEntityLocation<string>;
+  strawberries: MultiEntityLocation<number>;
   rooms: Record<string, true>;
 }
 

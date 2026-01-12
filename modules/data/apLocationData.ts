@@ -6,16 +6,26 @@
   - gems
 */
 
-export type LocationType = `Car` | `golden` | `binoculars` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
+export type LocationType = SimpleLocationType | BerryLocationType | BinocularsLocationType;
+export type SimpleLocationType = `Car` | `golden` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
+type BerryLocationType = `berry`
+type BinocularsLocationType = `binoculars`
 
-export type LocationData = BerryLocationData | {
-  type: LocationType;
-  location: [chapter: number, side: number, room: string];
+type LocationTuple = [chapter: number, side: number, room: string];
+
+export type LocationData = BerryLocationData | BinocularsLocationData | {
+  type: SimpleLocationType;
+  location: LocationTuple;
 }
 
 type BerryLocationData = {
-  type: `berry`;
-  location: [chapter: number, side: number, room: string, id: number];
+  type: BerryLocationType;
+  location: [...LocationTuple, id: number];
+}
+
+type BinocularsLocationData = {
+  type: BinocularsLocationType;
+  location: [...LocationTuple, id: string];
 }
 
 export const getLocationDataFromAP = (ap: number) => {
@@ -485,116 +495,116 @@ export const StrawberryAPToID: Record<number, LocationData> = {
 
 export const BinocularsAPToID: Record<number, LocationData> = {
   // Forsaken City
-  0xCA17000: {type: "binoculars", location: [1, 1, "03"]},
-  0xCA17001: {type: "binoculars", location: [1, 1, "09"]},
+  0xCA17000: {type: "binoculars", location: [1, 1, "03", "1088_-616"]},
+  0xCA17001: {type: "binoculars", location: [1, 1, "09", "3520_-2016"]},
 
-  0xCA17002: {type: "binoculars", location: [1, 2, "01"]},
-  0xCA17003: {type: "binoculars", location: [1, 2, "02"]},
+  0xCA17002: {type: "binoculars", location: [1, 2, "01", "584_64"]},
+  0xCA17003: {type: "binoculars", location: [1, 2, "02", "1496_-48"]},
 
   // Old Site
-  0xCA17004: {type: "binoculars", location: [2, 0, "d3"]},
+  0xCA17004: {type: "binoculars", location: [2, 0, "d3", "1880_472"]},
 
-  0xCA17005: {type: "binoculars", location: [2, 1, "10"]},
-  0xCA17006: {type: "binoculars", location: [2, 1, "11"]},
+  0xCA17005: {type: "binoculars", location: [2, 1, "10", "4592_-1912"]},
+  0xCA17006: {type: "binoculars", location: [2, 1, "11", "4624_-2256"]},
 
-  0xCA17007: {type: "binoculars", location: [2, 2, "02"]},
+  0xCA17007: {type: "binoculars", location: [2, 2, "02", "600_56"]},
 
   // Celestial Resort
-  0xCA17008: {type: "binoculars", location: [3, 1, "back"]},
-  0xCA17009: {type: "binoculars", location: [3, 1, "12"]},
+  0xCA17008: {type: "binoculars", location: [3, 1, "back", "-432_80"]},
+  0xCA17009: {type: "binoculars", location: [3, 1, "12", "6224_-432"]},
 
-  0xCA1700A: {type: "binoculars", location: [3, 2, "02"]},
+  0xCA1700A: {type: "binoculars", location: [3, 2, "02", "560_-312"]},
 
   // Golden Ridge
-  0xCA1700B: {type: "binoculars", location: [4, 0, "a-11"]},
-  0xCA1700C: {type: "binoculars", location: [4, 0, "b-02"]},
-  0xCA1700D: {type: "binoculars", location: [4, 0, "d-00b"]},
+  0xCA1700B: {type: "binoculars", location: [4, 0, "a-11", "3704_-760"]},
+  0xCA1700C: {type: "binoculars", location: [4, 0, "b-02", "4600_-1264"]},
+  0xCA1700D: {type: "binoculars", location: [4, 0, "d-00b", "9232_-4368"]},
 
-  0xCA1700E: {type: "binoculars", location: [4, 1, "b-02"]},
-  0xCA1700F: {type: "binoculars", location: [4, 1, "c-03"]},
-  0xCA17010: {type: "binoculars", location: [4, 1, "d-01"]},
-  0xCA17011: {type: "binoculars", location: [4, 1, "end"]},
+  0xCA1700E: {type: "binoculars", location: [4, 1, "b-02", "4360_-512"]},
+  0xCA1700F: {type: "binoculars", location: [4, 1, "c-03", "8160_-1744"]},
+  0xCA17010: {type: "binoculars", location: [4, 1, "d-01", "9600_-2736"]},
+  0xCA17011: {type: "binoculars", location: [4, 1, "end", "13208_-2784"]},
 
-  0xCA17012: {type: "binoculars", location: [4, 2, "01"]},
-  0xCA17013: {type: "binoculars", location: [4, 2, "02"]},
+  0xCA17012: {type: "binoculars", location: [4, 2, "01", "352_-56"]},
+  0xCA17013: {type: "binoculars", location: [4, 2, "02", "624_-496"]},
 
   // Mirror Temple
-  0xCA17014: {type: "binoculars", location: [5, 0, "b-22"]},
+  0xCA17014: {type: "binoculars", location: [5, 0, "b-22", "5240_88"]},
 
-  0xCA17015: {type: "binoculars", location: [5, 1, "b-09"]},
+  0xCA17015: {type: "binoculars", location: [5, 1, "b-09", "2160_-808"]},
 
-  0xCA17016: {type: "binoculars", location: [5, 2, "02"]},
+  0xCA17016: {type: "binoculars", location: [5, 2, "02", "648_-48"]},
 
   // Reflection
-  0xCA17017: {type: "binoculars", location: [6, 0, "04e"]},
+  0xCA17017: {type: "binoculars", location: [6, 0, "04e", "-1472_-2728"]},
+  0xCA17018: {type: "binoculars", location: [6, 0, "a-02", "112_-576"]},
 
-  0xCA17018: {type: "binoculars", location: [6, 0, "a-02"]},
-  0xCA17019: {type: "binoculars", location: [6, 1, "a-06"]},
+  0xCA17019: {type: "binoculars", location: [6, 1, "a-06", "2472_-1024"]},
+  0xCA1701A: {type: "binoculars", location: [6, 1, "02", "1024_720"]},
 
-  0xCA1701A: {type: "binoculars", location: [6, 1, "02"]},
-  0xCA1701B: {type: "binoculars", location: [6, 2, "02"]},
+  0xCA1701B: {type: "binoculars", location: [6, 2, "02", "1368_1200"]},
 
   // The Summit
-  0xCA1701C: {type: "binoculars", location: [7, 0, "b-01"]},
-  0xCA1701D: {type: "binoculars", location: [7, 0, "b-02"]},
-  0xCA1701E: {type: "binoculars", location: [7, 0, "b-02b"]},
-  0xCA1701F: {type: "binoculars", location: [7, 0, "c-03b"]},
-  0xCA17020: {type: "binoculars", location: [7, 0, "c-05"]},
-  0xCA17021: {type: "binoculars", location: [7, 0, "c-06c"]},
-  0xCA17022: {type: "binoculars", location: [7, 0, "c-07b"]},
-  0xCA17023: {type: "binoculars", location: [7, 0, "g-03"]},
+  0xCA1701C: {type: "binoculars", location: [7, 0, "b-01", "2976_-2008"]},
+  0xCA1701D: {type: "binoculars", location: [7, 0, "b-02", "3592_-2080"]},
+  0xCA1701E: {type: "binoculars", location: [7, 0, "b-02b", "3536_-2456"]},
+  0xCA1701F: {type: "binoculars", location: [7, 0, "c-03b", "6696_-5160"]},
+  0xCA17020: {type: "binoculars", location: [7, 0, "c-05", "8408_-5304"]},
+  0xCA17021: {type: "binoculars", location: [7, 0, "c-06c", "8440_-5832"]},
+  0xCA17022: {type: "binoculars", location: [7, 0, "c-07b", "7744_-6104"]},
+  0xCA17023: {type: "binoculars", location: [7, 0, "g-03", "26424_-22944"]},
 
-  0xCA17024: {type: "binoculars", location: [7, 1, "b-01"]},
-  0xCA17025: {type: "binoculars", location: [7, 1, "b-02"]},
+  0xCA17024: {type: "binoculars", location: [7, 1, "b-01", "2160_-2096"]},
+  0xCA17025: {type: "binoculars", location: [7, 1, "b-02", "2800_-2880"]},
 
-  0xCA17026: {type: "binoculars", location: [7, 2, "01"]},
-  0xCA17027: {type: "binoculars", location: [7, 2, "03"]},
+  0xCA17026: {type: "binoculars", location: [7, 2, "01", "32_144"]},
+  0xCA17027: {type: "binoculars", location: [7, 2, "03", "1200_-944"]},
 
   // Core
-  0xCA17028: {type: "binoculars", location: [9, 2, "01"]},
-  0xCA17029: {type: "binoculars", location: [9, 2, "02"]},
+  0xCA17028: {type: "binoculars", location: [9, 2, "01", "824_-32"]},
+  0xCA17029: {type: "binoculars", location: [9, 2, "02", "1944_-24"]},
 
   // Farewell
-  0xCA1702A: {type: "binoculars", location: [10, 0, "a-04"]},
-  0xCA1702B: {type: "binoculars", location: [10, 0, "b-06"]},
-  0xCA1702C: {type: "binoculars", location: [10, 0, "d-00"]},
-  0xCA1702D: {type: "binoculars", location: [10, 0, "d-04"]},
-  0xCA1702E: {type: "binoculars", location: [10, 0, "d-03"]},
-  0xCA1702F: {type: "binoculars", location: [10, 0, "d-01"]},
-  0xCA17030: {type: "binoculars", location: [10, 0, "d-02"]},
-  0xCA17031: {type: "binoculars", location: [10, 0, "d-05"]},
-  0xCA17032: {type: "binoculars", location: [10, 0, "e-00yb"]},
-  0xCA17033: {type: "binoculars", location: [10, 0, "e-00b"]},
-  0xCA17034: {type: "binoculars", location: [10, 0, "e-01"]},
-  0xCA17035: {type: "binoculars", location: [10, 0, "e-02"]},
-  0xCA17036: {type: "binoculars", location: [10, 0, "e-04"]},
-  0xCA17037: {type: "binoculars", location: [10, 0, "e-08"]},
-  0xCA17038: {type: "binoculars", location: [10, 0, "f-06"]},
-  0xCA17039: {type: "binoculars", location: [10, 0, "f-07"]},
-  0xCA1703A: {type: "binoculars", location: [10, 0, "f-08"]},
-  0xCA1703B: {type: "binoculars", location: [10, 0, "f-09"]},
-  0xCA1703C: {type: "binoculars", location: [10, 0, "g-00"]},
-  0xCA1703D: {type: "binoculars", location: [10, 0, "g-04"]},
-  0xCA1703E: {type: "binoculars", location: [10, 0, "g-06"]},
-  0xCA1703F: {type: "binoculars", location: [10, 0, "h-01"]},
-  0xCA17040: {type: "binoculars", location: [10, 0, "h-02"]},
-  0xCA17041: {type: "binoculars", location: [10, 0, "h-03b"]},
-  0xCA17042: {type: "binoculars", location: [10, 0, "h-04"]},
-  0xCA17043: {type: "binoculars", location: [10, 0, "h-05"]},
-  0xCA17044: {type: "binoculars", location: [10, 0, "h-06b"]},
-  0xCA17045: {type: "binoculars", location: [10, 0, "h-07"]},
-  0xCA17046: {type: "binoculars", location: [10, 0, "h-07"]},
-  0xCA17047: {type: "binoculars", location: [10, 0, "h-08"]},
-  0xCA17048: {type: "binoculars", location: [10, 0, "h-09"]},
-  0xCA17049: {type: "binoculars", location: [10, 0, "i-00b"]},
-  0xCA1704A: {type: "binoculars", location: [10, 0, "i-02"]},
-  0xCA1704B: {type: "binoculars", location: [10, 0, "i-04"]},
-  0xCA1704C: {type: "binoculars", location: [10, 0, "i-05"]},
-  0xCA1704D: {type: "binoculars", location: [10, 0, "j-16"]},
-  0xCA1704E: {type: "binoculars", location: [10, 0, "j-19"]},
-  0xCA1704F: {type: "binoculars", location: [10, 0, "end-golden"]},
-  0xCA17050: {type: "binoculars", location: [10, 0, "end-golden"]},
-  0xCA17051: {type: "binoculars", location: [10, 0, "end-golden"]},
+  0xCA1702A: {type: "binoculars", location: [10, 0, "a-04", "4320_-1800"]},
+  0xCA1702B: {type: "binoculars", location: [10, 0, "b-06", "8648_-1912"]},
+  0xCA1702C: {type: "binoculars", location: [10, 0, "d-00", "12664_-2496"]},
+  0xCA1702D: {type: "binoculars", location: [10, 0, "d-04", "13400_-2928"]},
+  0xCA1702E: {type: "binoculars", location: [10, 0, "d-03", "13456_-2456"]},
+  0xCA1702F: {type: "binoculars", location: [10, 0, "d-01", "12232_-2688"]},
+  0xCA17030: {type: "binoculars", location: [10, 0, "d-02", "12432_-3104"]},
+  0xCA17031: {type: "binoculars", location: [10, 0, "d-05", "12584_-3120"]},
+  0xCA17032: {type: "binoculars", location: [10, 0, "e-00yb", "12992_-3328"]},
+  0xCA17033: {type: "binoculars", location: [10, 0, "e-00b", "12992_-5120"]},
+  0xCA17034: {type: "binoculars", location: [10, 0, "e-01", "12896_-5512"]},
+  0xCA17035: {type: "binoculars", location: [10, 0, "e-02", "12912_-6168"]},
+  0xCA17036: {type: "binoculars", location: [10, 0, "e-04", "13944_-6248"]},
+  0xCA17037: {type: "binoculars", location: [10, 0, "e-08", "17648_-6184"]},
+  0xCA17038: {type: "binoculars", location: [10, 0, "f-06", "23880_-6768"]},
+  0xCA17039: {type: "binoculars", location: [10, 0, "f-07", "24472_-6672"]},
+  0xCA1703A: {type: "binoculars", location: [10, 0, "f-08", "25568_-6664"]},
+  0xCA1703B: {type: "binoculars", location: [10, 0, "f-09", "26072_-6776"]},
+  0xCA1703C: {type: "binoculars", location: [10, 0, "g-00", "26312_-6968"]},
+  0xCA1703D: {type: "binoculars", location: [10, 0, "g-04", "27080_-8208"]},
+  0xCA1703E: {type: "binoculars", location: [10, 0, "g-06", "28648_-7672"]},
+  0xCA1703F: {type: "binoculars", location: [10, 0, "h-01", "32248_-7768"]},
+  0xCA17040: {type: "binoculars", location: [10, 0, "h-02", "32432_-8496"]},
+  0xCA17041: {type: "binoculars", location: [10, 0, "h-03b", "33992_-8592"]},
+  0xCA17042: {type: "binoculars", location: [10, 0, "h-04", "34864_-8664"]},
+  0xCA17043: {type: "binoculars", location: [10, 0, "h-05", "35176_-7816"]},
+  0xCA17044: {type: "binoculars", location: [10, 0, "h-06b", "36816_-7872"]},
+  0xCA17045: {type: "binoculars", location: [10, 0, "h-07", "37008_-8680"]},
+  0xCA17046: {type: "binoculars", location: [10, 0, "h-07", "37576_-8664"]},
+  0xCA17047: {type: "binoculars", location: [10, 0, "h-08", "38952_-8608"]},
+  0xCA17048: {type: "binoculars", location: [10, 0, "h-09", "39696_-8720"]},
+  0xCA17049: {type: "binoculars", location: [10, 0, "i-00b", "44536_-10080"]},
+  0xCA1704A: {type: "binoculars", location: [10, 0, "i-02", "45672_-10232"]},
+  0xCA1704B: {type: "binoculars", location: [10, 0, "i-04", "46960_-10304"]},
+  0xCA1704C: {type: "binoculars", location: [10, 0, "i-05", "47580_-10256"]},
+  0xCA1704D: {type: "binoculars", location: [10, 0, "j-16", "47580_-10256"]},
+  0xCA1704E: {type: "binoculars", location: [10, 0, "j-19", "82032_-13272"]},
+  0xCA1704F: {type: "binoculars", location: [10, 0, "end-golden", "146232_-280"]},
+  0xCA17050: {type: "binoculars", location: [10, 0, "end-golden", "146256_-440"]},
+  0xCA17051: {type: "binoculars", location: [10, 0, "end-golden", "146184_-944"]},
 }
 
 export const RoomAPToID: Record<number, LocationData> = {

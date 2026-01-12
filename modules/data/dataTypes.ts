@@ -52,6 +52,7 @@ export interface Room {
 export interface Entities {
   spawn: SpawnPoint[];
   berry: BerryPoint[];
+  binoculars: IdPoint[];
   golden: ExtentCanvasPoint[];
   heart: ExtentCanvasPoint[];
   cassette: ExtentCanvasPoint[];
@@ -67,6 +68,10 @@ export interface BerryPoint extends ExtentCanvasPoint {
 
   // Currently broken.
   order: number;
+}
+
+export interface IdPoint extends ExtentCanvasPoint {
+  id: string;
 }
 
 export interface Canvas {

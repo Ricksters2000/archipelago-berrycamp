@@ -169,10 +169,20 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         }
       }
       context.fillStyle = `red`
-      if (entities.berry && sideCheckedLocations.strawberries[id]) {
+      const checkedBerries = sideCheckedLocations.strawberries[id]
+      if (entities.berry && checkedBerries) {
         for (const berry of entities.berry) {
-          if (sideCheckedLocations.strawberries[id][berry.id]) {
+          if (checkedBerries[berry.id]) {
             const pos = getRoomPos(berry)
+            context.fillRect(pos.x - 5, pos.y - 5, 10, 10)
+          }
+        }
+      }
+      const checkedBinoculars = sideCheckedLocations.binoculars[id]
+      if (entities.binoculars && checkedBinoculars) {
+        for (const binoculars of entities.binoculars) {
+          if (checkedBinoculars[binoculars.id]) {
+            const pos = getRoomPos(binoculars)
             context.fillRect(pos.x - 5, pos.y - 5, 10, 10)
           }
         }
