@@ -54,6 +54,14 @@ export const MapEntityMenu: FC<MapEntityMenuProps> = memo(({areaGameId, chapterG
           createItemName={((berry: BerryPoint) => `${room.id}:${berry.id}`) as never}
         />
       )}
+      {room.entities.binoculars && (
+        <MapEntityMenuGroup
+          name="Binoculars"
+          entities={room.entities.binoculars}
+          roomId={room.id}
+          createItemName={(binoculars) => `${binoculars.id}` as never}
+        />
+      )}
       {room.entities.cassette && room.entities.cassette[0] && (
         <MapEntityMenuItem
           name="Cassette"
@@ -72,21 +80,21 @@ export const MapEntityMenu: FC<MapEntityMenuProps> = memo(({areaGameId, chapterG
   </>;
 });
 
-interface MapEntityMenuGroupProps {
+interface MapEntityMenuGroupProps<T extends ExtentCanvasPoint> {
   name: string;
-  entities: ExtentCanvasPoint[];
-  createItemName: (entity: ExtentCanvasPoint, index: number) => string;
+  entities: T[];
+  createItemName: (entity: T, index: number) => string;
   roomId: string;
   teleportParams?: string;
 }
 
-export const MapEntityMenuGroup: FC<MapEntityMenuGroupProps> = ({
+export const MapEntityMenuGroup = <T extends ExtentCanvasPoint = ExtentCanvasPoint>({
   name,
   entities,
   createItemName,
   roomId,
   teleportParams,
-}) => {
+}: MapEntityMenuGroupProps<T>) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleClick = (): void => {
@@ -131,7 +139,7 @@ export const MapEntityMenuItem: FC<MapEntityMenuItemProps> = ({
   indent,
   roomId,
   teleportParams,
-}) => { 
+}) => {
   const {settings: {everestUrl, everest}} = useCampContext();
   const {isMobile} = useMobile();
   const router = useRouter();
@@ -157,7 +165,7 @@ export const MapEntityMenuItem: FC<MapEntityMenuItemProps> = ({
         secondaryAction: (
           <Tooltip title="Open" enterDelay={750}>
             <IconButton size="small" onClick={handleTeleport} color="primary">
-              <RocketLaunch fontSize="small"/>
+              <RocketLaunch fontSize="small" />
             </IconButton>
           </Tooltip>
         ),
