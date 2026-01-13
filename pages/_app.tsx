@@ -58,7 +58,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
         case 'checkpoint':
           currentSide.checkpoints[roomId] = true
           break
-        case 'Car':
+        case 'car':
           currentSide.cars[roomId] = true
           break
         case 'key':

@@ -53,6 +53,7 @@ export interface Entities {
   spawn: SpawnPoint[];
   berry: BerryPoint[];
   binoculars: IdPoint[];
+  car: ExtentCanvasPoint[];
   golden: ExtentCanvasPoint[];
   heart: ExtentCanvasPoint[];
   cassette: ExtentCanvasPoint[];

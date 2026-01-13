@@ -7,7 +7,7 @@
 */
 
 export type LocationType = SimpleLocationType | BerryLocationType | BinocularsLocationType;
-export type SimpleLocationType = `Car` | `golden` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
+export type SimpleLocationType = `car` | `golden` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
 type BerryLocationType = `berry`
 type BinocularsLocationType = `binoculars`
 
@@ -253,14 +253,14 @@ export const GemAPToID: Record<number, LocationData> = {
 
 export const CarAPToID: Record<number, LocationData> = {
   // Prologue
-  0xCA12A00: {type: "Car", location: [0, 0, "-1"]},
+  0xCA12A00: {type: "car", location: [0, 0, "-1"]},
 
   // Core
-  0xCA12A01: {type: "Car", location: [9, 0, "0x"]},
+  0xCA12A01: {type: "car", location: [9, 0, "0x"]},
 
   // Farewell
-  0xCA12A02: {type: "Car", location: [10, 0, "e-01"]},
-  0xCA12A03: {type: "Car", location: [10, 0, "f-00"]},
+  0xCA12A02: {type: "car", location: [10, 0, "e-01"]},
+  0xCA12A03: {type: "car", location: [10, 0, "f-00"]},
 }
 
 export const StrawberryAPToID: Record<number, LocationData> = {

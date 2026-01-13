@@ -187,6 +187,13 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           }
         }
       }
+      if (entities.car && sideCheckedLocations.cars[id]) {
+        const car = entities.car[0]
+        if (car) {
+          const pos = getRoomPos(car)
+          context.fillRect(pos.x - 5, pos.y - 5, 20, 20)
+        }
+      }
       if (entities.cassette && sideCheckedLocations.cassette) {
         const cassette = entities.cassette[0]
         if (cassette) {
