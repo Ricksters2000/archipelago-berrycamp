@@ -212,6 +212,13 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           context.fillRect(heart.x, heart.y, 20, 20)
         }
       }
+      if (entities.gem && sideCheckedLocations.gems[id]) {
+        const gem = entities.gem[0]
+        if (gem) {
+          const pos = getRoomPos(gem)
+          context.fillRect(pos.x - 5, pos.y - 5, 20, 20)
+        }
+      }
       if (sideCheckedLocations.rooms[id]) {
         context.fillRect(position.x, position.y, 20, 20)
       }

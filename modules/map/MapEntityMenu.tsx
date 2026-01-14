@@ -83,6 +83,13 @@ export const MapEntityMenu: FC<MapEntityMenuProps> = memo(({areaGameId, chapterG
           roomId={room.id}
         />
       )}
+      {room.entities.gem && room.entities.gem[0] && (
+        <MapEntityMenuItem
+          name="Gem"
+          entity={room.entities.gem[0]}
+          roomId={room.id}
+        />
+      )}
     </List>
   </>;
 });
