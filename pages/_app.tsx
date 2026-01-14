@@ -62,7 +62,10 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
           currentSide.cars[roomId] = true
           break
         case 'key':
-          currentSide.keys[roomId] = true
+          currentSide.keys[roomId] = {
+            ...currentSide.keys[roomId],
+            [locationData.location[3]]: true,
+          }
           break
         case 'gem':
           currentSide.gems[roomId] = true

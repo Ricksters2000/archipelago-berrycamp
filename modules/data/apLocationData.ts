@@ -6,26 +6,28 @@
   - gems
 */
 
-export type LocationType = SimpleLocationType | BerryLocationType | BinocularsLocationType;
-export type SimpleLocationType = `car` | `golden` | `cassette` | `heart` | `key` | `gem` | `checkpoint` | `levelClear` | `room`;
-type BerryLocationType = `berry`
+export type LocationType = SimpleLocationType | NumberIdLocationType | BinocularsLocationType;
+export type SimpleLocationType = `car` | `golden` | `cassette` | `heart` | `gem` | `checkpoint` | `levelClear` | `room`;
+type NumberIdLocationType = `berry` | `key`
 type BinocularsLocationType = `binoculars`
 
 type LocationTuple = [chapter: number, side: number, room: string];
+type NumberIdLocationTuple = [chapter: number, side: number, room: string, id: number];
+type StringIdLocationTuple = [chapter: number, side: number, room: string, id: string];
 
-export type LocationData = BerryLocationData | BinocularsLocationData | {
+export type LocationData = NumberIdLocationData | BinocularsLocationData | {
   type: SimpleLocationType;
   location: LocationTuple;
 }
 
-type BerryLocationData = {
-  type: BerryLocationType;
-  location: [...LocationTuple, id: number];
+type NumberIdLocationData = {
+  type: NumberIdLocationType;
+  location: NumberIdLocationTuple;
 }
 
 type BinocularsLocationData = {
   type: BinocularsLocationType;
-  location: [...LocationTuple, id: string];
+  location: StringIdLocationTuple;
 }
 
 export const getLocationDataFromAP = (ap: number) => {
@@ -214,31 +216,31 @@ export const CrystalHeartAPToID: Record<number, LocationData> = {
 
 export const KeyAPToID: Record<number, LocationData> = {
   // Celestial Resort
-  0xCA16000: {type: "key", location: [3, 0, "s3"]},
-  0xCA16001: {type: "key", location: [3, 0, "02-b"]},
-  0xCA16002: {type: "key", location: [3, 0, "07-b"]},
-  0xCA16003: {type: "key", location: [3, 0, "09-b"]},
-  0xCA16004: {type: "key", location: [3, 0, "02-c"]},
+  0xCA16000: {type: "key", location: [3, 0, "s3", 15]},
+  0xCA16001: {type: "key", location: [3, 0, "02-b", 32]},
+  0xCA16002: {type: "key", location: [3, 0, "07-b", 2]},
+  0xCA16003: {type: "key", location: [3, 0, "09-b", 13]},
+  0xCA16004: {type: "key", location: [3, 0, "02-c", 1]},
 
   // Mirror Temple
-  0xCA16005: {type: "key", location: [5, 0, "a-08"]}, // Entrance
-  0xCA16006: {type: "key", location: [5, 0, "b-04"]}, // Depths
-  0xCA16007: {type: "key", location: [5, 0, "d-04"]}, // Search 1 (Left)
-  0xCA16008: {type: "key", location: [5, 0, "d-04"]}, // Search 2 (Right)
-  0xCA16009: {type: "key", location: [5, 0, "d-15"]}, // Search 3
+  0xCA16005: {type: "key", location: [5, 0, "a-08", 55]}, // Entrance
+  0xCA16006: {type: "key", location: [5, 0, "b-04", 3]}, // Depths
+  0xCA16007: {type: "key", location: [5, 0, "d-04", 39]}, // Search 1 (Left)
+  0xCA16008: {type: "key", location: [5, 0, "d-04", 14]}, // Search 2 (Right)
+  0xCA16009: {type: "key", location: [5, 0, "d-15", 216]}, // Search 3
 
-  0xCA1600A: {type: "key", location: [5, 1, "b-02"]}, // Left
-  0xCA1600B: {type: "key", location: [5, 1, "b-02"]}, // Right
+  0xCA1600A: {type: "key", location: [5, 1, "b-02", 221]}, // Left
+  0xCA1600B: {type: "key", location: [5, 1, "b-02", 219]}, // Right
 
   // The Summit
-  0xCA1600C: {type: "key", location: [7, 0, "f-07"]},
+  0xCA1600C: {type: "key", location: [7, 0, "f-07", 712]},
 
   // Farewell
-  0xCA1600D: {type: "key", location: [10, 0, "d-04"]},
-  0xCA1600E: {type: "key", location: [10, 0, "d-03"]},
-  0xCA1600F: {type: "key", location: [10, 0, "d-01"]},
-  0xCA16010: {type: "key", location: [10, 0, "d-02"]},
-  0xCA16011: {type: "key", location: [10, 0, "d-05"]},
+  0xCA1600D: {type: "key", location: [10, 0, "d-04", 444]},
+  0xCA1600E: {type: "key", location: [10, 0, "d-03", 315]},
+  0xCA1600F: {type: "key", location: [10, 0, "d-01", 261]},
+  0xCA16010: {type: "key", location: [10, 0, "d-02", 70]},
+  0xCA16011: {type: "key", location: [10, 0, "d-05", 593]},
 }
 
 export const GemAPToID: Record<number, LocationData> = {

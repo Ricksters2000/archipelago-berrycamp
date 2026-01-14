@@ -52,7 +52,8 @@ export interface Room {
 export interface Entities {
   spawn: SpawnPoint[];
   berry: BerryPoint[];
-  binoculars: IdPoint[];
+  binoculars: IdPoint<string>[];
+  key: IdPoint<number>[];
   gem: ExtentCanvasPoint[];
   car: ExtentCanvasPoint[];
   golden: ExtentCanvasPoint[];
@@ -72,8 +73,8 @@ export interface BerryPoint extends ExtentCanvasPoint {
   order: number;
 }
 
-export interface IdPoint extends ExtentCanvasPoint {
-  id: string;
+export interface IdPoint<T extends number | string> extends ExtentCanvasPoint {
+  id: T;
 }
 
 export interface Canvas {

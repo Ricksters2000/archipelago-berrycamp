@@ -178,6 +178,15 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           }
         }
       }
+      const checkedKeys = sideCheckedLocations.keys[id]
+      if (entities.key && checkedKeys) {
+        for (const key of entities.key) {
+          if (checkedKeys[key.id]) {
+            const pos = getRoomPos(key)
+            context.fillRect(pos.x - 5, pos.y - 5, 10, 10)
+          }
+        }
+      }
       const checkedBinoculars = sideCheckedLocations.binoculars[id]
       if (entities.binoculars && checkedBinoculars) {
         for (const binoculars of entities.binoculars) {

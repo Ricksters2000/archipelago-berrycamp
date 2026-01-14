@@ -12,7 +12,7 @@ export type LevelLocations = {
   cassette?: true;
   checkpoints: Record<string, true>;
   cars: Record<string, true>;
-  keys: Record<string, true>;
+  keys: MultiEntityLocation<number>;
   gems: Record<string, true>;
   binoculars: MultiEntityLocation<string>;
   strawberries: MultiEntityLocation<number>;
