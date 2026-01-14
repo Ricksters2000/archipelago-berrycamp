@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {FC, PropsWithChildren} from "react";
 import {SettingsMenu} from "~/modules/settings/SettingsMenu";
+import {ConnectionDisplay} from "../ap/ConnectionDisplay";
 
 export const Layout: FC<PropsWithChildren> = ({children}) => (
   <>
@@ -57,10 +58,13 @@ export const Layout: FC<PropsWithChildren> = ({children}) => (
             </Link>
           </Box>
         </Box>
-        <SettingsMenu />
+        <Box display={`flex`} gap={1} alignItems={`center`}>
+          <ConnectionDisplay />
+          <SettingsMenu />
+        </Box>
       </Toolbar>
     </AppBar>
-    <Toolbar variant="dense"/>
+    <Toolbar variant="dense" />
     <main>
       {children}
     </main>

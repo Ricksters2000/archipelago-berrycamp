@@ -1,6 +1,6 @@
 import {Avatar, Box, Button, Chip, Container, Paper, TextField, Typography} from "@mui/material";
 import {GetStaticProps} from "next";
-import {Fragment, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {Area} from "~/modules/data/dataTypes";
 import {fetchArea, getRootImageUrl} from "~/modules/fetch/dataApi";
 import {CampHead} from "~/modules/head/CampHead";
@@ -8,12 +8,29 @@ import {AreaProps, AreaView} from "./[areaId]";
 import {CampPage} from "./_app";
 import {useArchipelagoContext} from "~/modules/provide/ArchipelagoContext";
 import {ConnectionStatus} from "~/modules/data/ConnectionStatus";
+import {ConnectionDisplay} from "~/modules/ap/ConnectionDisplay";
+import {localStorageAPUserKey, StoredAPUser} from "~/modules/data/apStorageKeys";
 
 export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
   const [host, setHost] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const {login, connectionStatus, errorMsg} = useArchipelagoContext()
+  const {login, connectionStatus} = useArchipelagoContext()
+
+  useEffect(() => {
+    const apUserRaw = localStorage.getItem(localStorageAPUserKey);
+    if (apUserRaw) {
+      const apUser = JSON.parse(apUserRaw) as StoredAPUser;
+      setHost(apUser.host);
+      setName(apUser.name);
+      if (apUser.password) setPassword(apUser.password);
+    }
+  }, [])
+
+  const onSubmit = () => {
+    login(host, name, password);
+  }
+
   return (
     <Fragment>
       <CampHead
@@ -76,18 +93,10 @@ export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
                 onChange={(event) => setPassword(event.target.value)}
               />
               <Box display={`flex`} alignItems={`center`} gap={1}>
-                <Button variant="outlined" loading={connectionStatus === ConnectionStatus.Connecting} onClick={() => login(host, name, password)} disabled={!host || !name}>
+                <Button variant="outlined" loading={connectionStatus === ConnectionStatus.Connecting} onClick={onSubmit} disabled={!host || !name}>
                   Login
                 </Button>
-                {[ConnectionStatus.Connected, ConnectionStatus.Disconnected, ConnectionStatus.Error].includes(connectionStatus) &&
-                  <Typography color={connectionStatus === ConnectionStatus.Connected ? `green` : `red`}>
-                    {
-                      connectionStatus === ConnectionStatus.Connected ? `Connected`
-                        : connectionStatus === ConnectionStatus.Disconnected ? `Disconnected`
-                          : errorMsg
-                    }
-                  </Typography>
-                }
+                <ConnectionDisplay />
               </Box>
             </Box>
           </Box>

@@ -13,6 +13,10 @@ import {ConnectionStatus} from '~/modules/data/ConnectionStatus';
 import {CelesteSlotData} from '~/modules/data/dataTypes';
 import {useImmer} from 'use-immer';
 import {getLocationDataFromAP, LocationData} from '~/modules/data/apLocationData';
+import {sessionStorageDateConnectedKey, StoredAPUser, localStorageAPUserKey} from '~/modules/data/apStorageKeys';
+
+// Session will last 1 hour
+const sessionIdleTimerInMs = 1000 * 60 * 60;
 
 const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.NoConnection)
@@ -23,10 +27,33 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
   const loginClient = useCallback((host: string, name: string, password: string = "") => {
     setConnectionStatus(ConnectionStatus.Connecting)
     const connOptions: Required<ConnectionOptions> = {...defaultConnectionOptions, password}
-    client.login(host, name, `Celeste (Open World)`, connOptions).catch(error => {
-      setConnectionStatus(ConnectionStatus.Error)
-    })
+    client.login(host, name, `Celeste (Open World)`, connOptions)
+      .then(() => {
+        const apUser: StoredAPUser = {
+          host,
+          name,
+          password
+        }
+        localStorage.setItem(localStorageAPUserKey, JSON.stringify(apUser));
+        sessionStorage.setItem(sessionStorageDateConnectedKey, new Date().toISOString())
+      })
+      .catch(error => {
+        setConnectionStatus(ConnectionStatus.Error)
+      })
   }, [client]);
+
+  useEffect(() => {
+    const apUserRaw = localStorage.getItem(localStorageAPUserKey);
+    const lastDateConnectedString = sessionStorage.getItem(sessionStorageDateConnectedKey);
+    if (apUserRaw && lastDateConnectedString) {
+      const currentDate = new Date();
+      const lastDateConnected = new Date(lastDateConnectedString);
+      const apUser = JSON.parse(apUserRaw) as StoredAPUser;
+      if (currentDate.valueOf() - lastDateConnected.valueOf() < sessionIdleTimerInMs) {
+        loginClient(apUser.host, apUser.name, apUser.password);
+      }
+    }
+  }, [loginClient])
 
   useEffect(() => {
     if (!client) return
