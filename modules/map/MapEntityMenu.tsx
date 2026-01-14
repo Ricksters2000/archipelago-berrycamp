@@ -70,6 +70,13 @@ export const MapEntityMenu: FC<MapEntityMenuProps> = memo(({areaGameId, chapterG
           createItemName={(binoculars) => `${binoculars.id}`}
         />
       )}
+      {room.entities.golden && room.entities.golden[0] && (
+        <MapEntityMenuItem
+          name="Golden"
+          entity={room.entities.golden[0]}
+          roomId={room.id}
+        />
+      )}
       {room.entities.car && room.entities.car[0] && (
         <MapEntityMenuItem
           name="Car"
