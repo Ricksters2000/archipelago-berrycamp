@@ -1,7 +1,9 @@
 import {FC} from "react";
 import {LocationType} from "../data/apLocationData";
 import {LocationCount} from "../data/countLocations";
-import {Grid2, ListItem, ListItemText, Typography} from "@mui/material";
+import {Grid2, Stack, Typography} from "@mui/material";
+import Image from "next/image";
+import {getCelesteItemImageUrl} from "../fetch/dataApi";
 
 interface Props {
   type: LocationType;
@@ -11,7 +13,10 @@ interface Props {
 export const LocationCounter: FC<Props> = ({type, locationCount}) => {
   return (
     <Grid2>
-      <Typography>{`${locationCount.checked}/${locationCount.total}`}</Typography>
+      <Stack component={`span`} spacing={1} direction={`row`} alignItems={`center`}>
+        <Image src={getCelesteItemImageUrl(type)} alt={`${type}`} width={24} height={24} style={type === `car` ? {maxHeight: 16} : {}} />
+        <Typography>{`${locationCount.checked}/${locationCount.total}`}</Typography>
+      </Stack>
     </Grid2>
   )
 }

@@ -1,5 +1,6 @@
 import area from "~/data/celeste.json";
 import {Area} from "../data/dataTypes";
+import {LocationType} from "../data/apLocationData";
 
 const baseImgUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/img`;
 
@@ -35,4 +36,8 @@ export const getRoomPreviewUrl = (areaId: string, chapterId: string, sideId: str
 
 export const getRoomImageUrl = (areaId: string, chapterId: string, sideId: string, roomId: string): string => {
   return `${baseImgUrl}/${areaId}/rooms/${chapterId}/${sideId}/${roomId}.png`
+};
+
+export const getCelesteItemImageUrl = (itemName: LocationType) => {
+  return `${baseImgUrl}/celeste/items/${itemName}.png`;
 };
