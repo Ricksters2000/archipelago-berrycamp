@@ -14,7 +14,14 @@ export const LocationCounter: FC<Props> = ({type, locationCount}) => {
   return (
     <Grid2>
       <Stack component={`span`} spacing={1} direction={`row`} alignItems={`center`}>
-        <Image src={getCelesteItemImageUrl(type)} alt={`${type}`} width={24} height={24} style={type === `car` ? {maxHeight: 16} : {}} />
+        <Image
+          src={getCelesteItemImageUrl(type)}
+          alt={`${type}`}
+          width={24}
+          height={24}
+          objectFit={type === `binoculars` ? `none` : `contain`}
+          objectPosition={type === `binoculars` ? `bottom` : undefined}
+        />
         <Typography>{`${locationCount.checked}/${locationCount.total}`}</Typography>
       </Stack>
     </Grid2>
