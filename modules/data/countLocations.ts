@@ -244,11 +244,11 @@ export const getCheckedAndTotalCarLocations = (checkedLocations: LevelLocations,
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
-    // Count cars - they might be in entities or stored by roomId
-    // For now, count based on checked locations (total would need entity data)
-    if (checkedLocations.cars[roomId]) {
-      checked++
-      total++
+    if (side.rooms[roomId]?.entities.car) {
+      total++;
+      if (checkedLocations.cars[roomId]) {
+        checked++;
+      }
     }
   }
   return {
@@ -261,9 +261,16 @@ export const getCheckedAndTotalKeyLocations = (checkedLocations: LevelLocations,
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
-    if (checkedLocations.keys[roomId]) {
-      checked++
-      total++
+    const keys = side.rooms[roomId]?.entities.key;
+    if (keys) {
+      total += keys.length;
+      const checkedKeys = checkedLocations.keys[roomId];
+      if (!checkedKeys) continue;
+      for (const key of keys) {
+        if (checkedKeys[key.id]) {
+          checked++;
+        }
+      }
     }
   }
   return {
@@ -276,9 +283,11 @@ export const getCheckedAndTotalGemLocations = (checkedLocations: LevelLocations,
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
-    if (checkedLocations.gems[roomId]) {
-      checked++
-      total++
+    if (side.rooms[roomId]?.entities.gem) {
+      total++;
+      if (checkedLocations.gems[roomId]) {
+        checked++;
+      }
     }
   }
   return {

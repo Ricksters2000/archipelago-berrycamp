@@ -1,10 +1,4 @@
 // Location IDs from: https://github.com/PoryGoneDev/Celeste-Archipelago-Open-World/blob/main/Source/Locations/APLocationData.cs
-/* Items that have to be added in celeste.json
-  - Car: some of them are missing
-  - binoculars
-  - keys
-  - gems
-*/
 
 export type LocationType = SimpleLocationType | NumberIdLocationType | BinocularsLocationType;
 export type SimpleLocationType = `car` | `golden` | `cassette` | `heart` | `gem` | `checkpoint` | `levelClear` | `room`;
