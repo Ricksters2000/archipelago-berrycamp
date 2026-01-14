@@ -137,9 +137,19 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
 
   // heart - only for a-side as the heart for the other sides counts as a level clear
   if (side.id === `a`) {
-    result.heart.total = 1
-    if (checkedLocations.heart) {
-      result.heart.checked = 1
+    let hasHeart = false;
+    // check if chapter contains a heart crystal
+    for (const roomId in side.rooms) {
+      if (side.rooms[roomId]?.entities.heart) {
+        hasHeart = true;
+        break;
+      }
+    }
+    if (hasHeart) {
+      result.heart.total = 1
+      if (checkedLocations.heart) {
+        result.heart.checked = 1
+      }
     }
   }
 
@@ -153,9 +163,19 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
 
   // cassette - only appears in a-sides
   if (side.id === `a`) {
-    result.cassette.total = 1
-    if (checkedLocations.cassette) {
-      result.cassette.checked = 1
+    let hasCassette = false;
+    // check if chapter contains a cassette
+    for (const roomId in side.rooms) {
+      if (side.rooms[roomId]?.entities.cassette) {
+        hasCassette = true;
+        break;
+      }
+    }
+    if (hasCassette) {
+      result.cassette.total = 1
+      if (checkedLocations.cassette) {
+        result.cassette.checked = 1
+      }
     }
   }
 
@@ -224,9 +244,12 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
 
 export const getCheckedAndTotalCheckpointLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
   let checked = 0
-  const total = side.checkpoints.length
+  const total = side.checkpoints.length - 1 // The first checkpoint never counts
   // Checkpoints are stored by roomId, check if any room in each checkpoint is checked
-  for (const checkpoint of side.checkpoints) {
+  // Skip the first checkpoint as this is always the first room of the chapter
+  for (let i = 1; i < side.checkpoints.length; i++) {
+    const checkpoint = side.checkpoints[i];
+    if (!checkpoint) break;
     for (const roomId of checkpoint.roomOrder) {
       if (checkedLocations.checkpoints[roomId]) {
         checked++
