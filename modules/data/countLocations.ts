@@ -39,6 +39,9 @@ export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterS
     total: {checked: 0, total: 0},
   }
 
+  if (!randomizerOptions.includeCore && chapter.id === `core`) return result;
+  if (!randomizerOptions.includeFarewell && chapter.id === `farewell`) return result;
+
   // Iterate through each side in the chapter
   for (let i = 0; i < chapter.sides.length; i++) {
     const side = chapter.sides[i]
@@ -129,6 +132,9 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
     total: {checked: 0, total: 0},
   }
 
+  if (!randomizerOptions.includeBSides && side.id === `b`) return result;
+  if (!randomizerOptions.includeCSides && side.id === `c`) return result;
+
   // levelClear - always count (1 per side)
   result.levelClear.total = 1
   if (checkedLocations.levelClear) {
@@ -155,9 +161,19 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
 
   // golden - only if includeGoldens is true
   if (randomizerOptions.includeGoldens) {
-    result.golden.total = 1
-    if (checkedLocations.golden) {
-      result.golden.checked = 1
+    let hasGolden = false;
+    // check if chapter contains a golden berry
+    for (const roomId in side.rooms) {
+      if (side.rooms[roomId]?.entities.golden) {
+        hasGolden = true;
+        break;
+      }
+    }
+    if (hasGolden) {
+      result.golden.total = 1
+      if (checkedLocations.golden) {
+        result.golden.checked = 1
+      }
     }
   }
 

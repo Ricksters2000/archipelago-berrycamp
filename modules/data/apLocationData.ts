@@ -259,6 +259,51 @@ export const CarAPToID: Record<number, LocationData> = {
   0xCA12A03: {type: "car", location: [10, 0, "f-00"]},
 }
 
+export const GoldenAPToID: Record<number, LocationData> = {
+  // Forsaken City
+  0xCA11000: {type: "berry", location: [1, 0, "1", 12]},
+  0xCA11002: {type: "berry", location: [1, 1, "00", 25]},
+  0xCA11003: {type: "berry", location: [1, 2, "00", 50]},
+
+  // Old Site
+  0xCA11004: {type: "berry", location: [2, 0, "start", 5]},
+  0xCA11005: {type: "berry", location: [2, 1, "start", 5]},
+  0xCA11006: {type: "berry", location: [2, 2, "00", 6]},
+
+  // Celestial Resort
+  0xCA11007: {type: "berry", location: [3, 0, "s0", 7]},
+  0xCA11008: {type: "berry", location: [3, 1, "00", 2]},
+  0xCA11009: {type: "berry", location: [3, 2, "00", 86]},
+
+  // Golden Ridge
+  0xCA1100A: {type: "berry", location: [4, 0, "a-00", 13]},
+  0xCA1100B: {type: "berry", location: [4, 1, "a-00", 41]},
+  0xCA1100C: {type: "berry", location: [4, 2, "00", 1]},
+
+  // Mirror Temple
+  0xCA1100D: {type: "berry", location: [5, 0, "a-00b", 3]},
+  0xCA1100E: {type: "berry", location: [5, 1, "start", 3]},
+  0xCA1100F: {type: "berry", location: [5, 2, "00", 25]},
+
+  // Reflection
+  0xCA11010: {type: "berry", location: [6, 0, "00", 51]},
+  0xCA11011: {type: "berry", location: [6, 1, "a-00", 137]},
+  0xCA11012: {type: "berry", location: [6, 2, "00", 3]},
+
+  // The Summit
+  0xCA11013: {type: "berry", location: [7, 0, "a-00", 57]},
+  0xCA11014: {type: "berry", location: [7, 1, "a-00", 102]},
+  0xCA11015: {type: "berry", location: [7, 2, "01", 334]},
+
+  // Core
+  0xCA11016: {type: "berry", location: [9, 0, "a-00", 19]},
+  0xCA11017: {type: "berry", location: [9, 1, "a-00", 22]},
+  0xCA11018: {type: "berry", location: [9, 2, "00", 93]},
+
+  // Farewell
+  0xCA11019: {type: "berry", location: [10, 0, "a-00", 449]},
+}
+
 export const StrawberryAPToID: Record<number, LocationData> = {
   // Forsaken City
   0xCA10000: {type: "berry", location: [1, 0, "2", 11]},
@@ -282,10 +327,7 @@ export const StrawberryAPToID: Record<number, LocationData> = {
   0xCA10012: {type: "berry", location: [1, 0, "11", 9]},
   0xCA10013: {type: "berry", location: [1, 0, "12z", 8]},
 
-  0xCA11000: {type: "berry", location: [1, 0, "1", 12]},
   0xCA11001: {type: "berry", location: [1, 0, "end", 4]},
-  0xCA11002: {type: "berry", location: [1, 1, "00", 25]},
-  0xCA11003: {type: "berry", location: [1, 2, "00", 50]},
 
   // Old Site
   0xCA10014: {type: "berry", location: [2, 0, "1", 1]},
@@ -306,10 +348,6 @@ export const StrawberryAPToID: Record<number, LocationData> = {
   0xCA10023: {type: "berry", location: [2, 0, "12c", 7]},
   0xCA10024: {type: "berry", location: [2, 0, "12d", 44]},
   0xCA10025: {type: "berry", location: [2, 0, "end_3c", 13]},
-
-  0xCA11004: {type: "berry", location: [2, 0, "start", 5]},
-  0xCA11005: {type: "berry", location: [2, 1, "start", 5]},
-  0xCA11006: {type: "berry", location: [2, 2, "00", 6]},
 
   // Celestial Resort
   0xCA10026: {type: "berry", location: [3, 0, "s2", 18]},
@@ -337,10 +375,6 @@ export const StrawberryAPToID: Record<number, LocationData> = {
   0xCA1003C: {type: "berry", location: [3, 0, "roof03", 97]},
   0xCA1003D: {type: "berry", location: [3, 0, "roof06", 276]},
   0xCA1003E: {type: "berry", location: [3, 0, "roof06", 308]},
-
-  0xCA11007: {type: "berry", location: [3, 0, "s0", 7]},
-  0xCA11008: {type: "berry", location: [3, 1, "00", 2]},
-  0xCA11009: {type: "berry", location: [3, 2, "00", 86]},
 
   // Golden Ridge
   0xCA1003F: {type: "berry", location: [4, 0, "a-01x", 11]},
@@ -372,10 +406,6 @@ export const StrawberryAPToID: Record<number, LocationData> = {
   0xCA10059: {type: "berry", location: [4, 0, "d-04", 88]},
   0xCA1005A: {type: "berry", location: [4, 0, "d-07", 70]},
   0xCA1005B: {type: "berry", location: [4, 0, "d-09", 18]},
-
-  0xCA1100A: {type: "berry", location: [4, 0, "a-00", 13]},
-  0xCA1100B: {type: "berry", location: [4, 1, "a-00", 41]},
-  0xCA1100C: {type: "berry", location: [4, 2, "00", 1]},
 
   // Mirror Temple
   0xCA1005C: {type: "berry", location: [5, 0, "a-00x", 7]},
@@ -409,15 +439,6 @@ export const StrawberryAPToID: Record<number, LocationData> = {
   0xCA10078: {type: "berry", location: [5, 0, "d-13", 157]},
   0xCA10079: {type: "berry", location: [5, 0, "d-19", 533]},
   0xCA1007A: {type: "berry", location: [5, 0, "e-06", 56]},
-
-  0xCA1100D: {type: "berry", location: [5, 0, "a-00b", 3]},
-  0xCA1100E: {type: "berry", location: [5, 1, "start", 3]},
-  0xCA1100F: {type: "berry", location: [5, 2, "00", 25]},
-
-  // Reflection
-  0xCA11010: {type: "berry", location: [6, 0, "00", 51]},
-  0xCA11011: {type: "berry", location: [6, 1, "a-00", 137]},
-  0xCA11012: {type: "berry", location: [6, 2, "00", 3]},
 
   // The Summit
   0xCA1007B: {type: "berry", location: [7, 0, "a-02b", 61]},
@@ -468,10 +489,6 @@ export const StrawberryAPToID: Record<number, LocationData> = {
   0xCA100A8: {type: "berry", location: [7, 0, "g-01", 342]},
   0xCA100A9: {type: "berry", location: [7, 0, "g-03", 1504]},
 
-  0xCA11013: {type: "berry", location: [7, 0, "a-00", 57]},
-  0xCA11014: {type: "berry", location: [7, 1, "a-00", 102]},
-  0xCA11015: {type: "berry", location: [7, 2, "01", 334]},
-
   // Core
   0xCA100AA: {type: "berry", location: [9, 0, "b-06", 174]},
   0xCA100AB: {type: "berry", location: [9, 0, "c-00b", 211]},
@@ -479,14 +496,8 @@ export const StrawberryAPToID: Record<number, LocationData> = {
   0xCA100AD: {type: "berry", location: [9, 0, "c-03b", 276]},
   0xCA100AE: {type: "berry", location: [9, 0, "d-06", 130]},
 
-  0xCA11016: {type: "berry", location: [9, 0, "a-00", 19]},
-  0xCA11017: {type: "berry", location: [9, 1, "a-00", 22]},
-  0xCA11018: {type: "berry", location: [9, 2, "00", 93]},
-
   // Farewell
   0xCA100AF: {type: "berry", location: [10, 0, "j-19", 9]},
-
-  0xCA11019: {type: "berry", location: [10, 0, "a-00", 449]},
 }
 
 export const BinocularsAPToID: Record<number, LocationData> = {
