@@ -2,10 +2,12 @@ import {ExtentCanvasPoint, ExtentCanvasViewBox, ExtentCanvasViewChangeReason} fr
 import {MutableRefObject} from "react";
 import {CanvasImage} from "./CampCanvas";
 import {Entities} from "../data/dataTypes";
+import {CheckpointData} from "../map";
 
 export interface CampCanvasProps {
   view: ExtentCanvasViewBox | undefined;
   rooms: CanvasRoom[];
+  checkpoints: CheckpointData[];
   imagesRef: MutableRefObject<CanvasImage[]>;
   contentViewRef: MutableRefObject<ExtentCanvasViewBox | undefined>;
   onViewChange: (reason: ExtentCanvasViewChangeReason) => void;

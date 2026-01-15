@@ -7,10 +7,14 @@ import {useCampContext} from "../provide/CampContext";
 import {CampCanvasProps} from "./types";
 import {createBlankSide, LevelLocations, useArchipelagoContext} from "../provide/ArchipelagoContext";
 import {chapterIdToIndex, sideIdToIndex} from "../common/levelIdToIndex";
+import {getCelesteItemImageUrl, getCollectedCelesteItemImageUrl} from "../fetch/dataApi";
+
+type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear`;
 
 export const CampCanvas: FC<CampCanvasProps> = memo(({
   view,
   rooms,
+  checkpoints,
   imagesRef,
   contentViewRef,
   onViewChange,
@@ -30,6 +34,13 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
   const ref = useRef<HTMLCanvasElement | null>(null);
   const viewRef = useRef<ExtentCanvasView | undefined>();
   const viewBoxRef = useRef<ExtentCanvasViewBox | undefined>();
+  const collectedItemImagesRef = useRef<Record<CollectedItemImageKey, CanvasImageSource | undefined>>({
+    ghostBerry: undefined,
+    ghostGolden: undefined,
+    ghostCassette: undefined,
+    ghostHeart: undefined,
+    levelClear: undefined,
+  })
 
   const [contextMenu, setContextMenu] = useState<{
     mouseX: number,
@@ -125,6 +136,21 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         }
         return pos;
       }
+      const drawCollectedItemImage = (key: CollectedItemImageKey, imageSrc: string, cb: (img: CanvasImageSource) => void) => {
+        const loadedImage = collectedItemImagesRef.current[key];
+        context.globalCompositeOperation = `source-over`;
+        if (loadedImage) {
+          cb(loadedImage);
+        } else {
+          const img = new Image();
+          img.src = imageSrc;
+          collectedItemImagesRef.current[key] = img;
+          img.onload = () => {
+            cb(img);
+          };
+        }
+        context.globalCompositeOperation = `lighter`;
+      }
       if (viewBoxRef.current === undefined) {
         return;
       }
@@ -168,15 +194,19 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           context.drawImage(img, position.x, position.y);
         }
       }
-      context.fillStyle = `red`
+      // Display checked locations (if there are any)
+      context.fillStyle = `green`
       const checkedBerries = sideCheckedLocations.strawberries[id]
       if (entities.berry && checkedBerries) {
-        for (const berry of entities.berry) {
-          if (checkedBerries[berry.id]) {
-            const pos = getRoomPos(berry)
-            context.fillRect(pos.x - 5, pos.y - 5, 10, 10)
+        drawCollectedItemImage(`ghostBerry`, getCollectedCelesteItemImageUrl(`ghostBerry`), (img) => {
+          if (!entities.berry) return;
+          for (const berry of entities.berry) {
+            if (checkedBerries[berry.id]) {
+              const pos = getRoomPos(berry)
+              context.drawImage(img, pos.x - 8, pos.y - 8)
+            }
           }
-        }
+        })
       }
       const checkedKeys = sideCheckedLocations.keys[id]
       if (entities.key && checkedKeys) {
@@ -206,19 +236,28 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (entities.cassette && sideCheckedLocations.cassette) {
         const cassette = entities.cassette[0]
         if (cassette) {
-          context.fillRect(cassette.x, cassette.y, 20, 20)
+          drawCollectedItemImage(`ghostCassette`, getCollectedCelesteItemImageUrl(`ghostCassette`), img => {
+            const pos = getRoomPos(cassette);
+            context.drawImage(img, pos.x - 16, pos.y - 16)
+          })
         }
       }
       if (entities.golden && sideCheckedLocations.golden) {
         const golden = entities.golden[0]
         if (golden) {
-          context.fillRect(golden.x, golden.y, 20, 20)
+          drawCollectedItemImage(`ghostGolden`, getCollectedCelesteItemImageUrl(`ghostGolden`), img => {
+            const pos = getRoomPos(golden);
+            context.drawImage(img, pos.x - 8, pos.y - 8)
+          })
         }
       }
       if (entities.heart && sideCheckedLocations.heart) {
         const heart = entities.heart[0]
         if (heart) {
-          context.fillRect(heart.x, heart.y, 20, 20)
+          drawCollectedItemImage(`ghostHeart`, getCollectedCelesteItemImageUrl(`ghostHeart`), img => {
+            const pos = getRoomPos(heart);
+            context.drawImage(img, pos.x, pos.y)
+          })
         }
       }
       if (entities.gem && sideCheckedLocations.gems[id]) {
@@ -228,11 +267,25 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           context.fillRect(pos.x - 5, pos.y - 5, 20, 20)
         }
       }
+      let lastRoomId = ``;
+      const roomOrder = checkpoints[checkpoints.length - 1]?.roomOrder;
+      if (roomOrder) {
+        lastRoomId = roomOrder[roomOrder.length - 1] ?? ``;
+      }
+      if (id === lastRoomId && sideCheckedLocations.levelClear) {
+        drawCollectedItemImage(`levelClear`, getCelesteItemImageUrl(`levelClear`), img => {
+          context.drawImage(img, position.x, position.y)
+        })
+      }
+      context.strokeStyle = `green`;
+      context.lineWidth = 2;
       if (sideCheckedLocations.rooms[id]) {
-        context.fillRect(position.x, position.y, 20, 20)
+        const width = view.right - view.left
+        const height = view.bottom - view.top
+        context.strokeRect(position.x + 1, position.y + 1, width - 2, height - 2)
       }
     });
-  }, [contentViewRef, imagesRef, rooms, sideCheckedLocations]);
+  }, [contentViewRef, imagesRef, rooms, checkpoints, sideCheckedLocations]);
 
   const {setViewBox, draw} = useExtentCanvas({
     ref,

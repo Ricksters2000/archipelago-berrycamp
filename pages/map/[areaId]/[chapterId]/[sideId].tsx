@@ -352,6 +352,7 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
           <CampCanvas
             view={view}
             rooms={canvasRooms}
+            checkpoints={side.checkpoints}
             imagesRef={imagesRef}
             contentViewRef={contentViewRef}
             onViewChange={handleViewChange}

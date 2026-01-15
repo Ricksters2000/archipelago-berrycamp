@@ -41,3 +41,8 @@ export const getRoomImageUrl = (areaId: string, chapterId: string, sideId: strin
 export const getCelesteItemImageUrl = (itemName: LocationType) => {
   return `${baseImgUrl}/celeste/items/${itemName}.png`;
 };
+
+type CollectedCelesteItem = `ghostBerry` | `ghostCassette` | `ghostGolden` | `ghostHeart`;
+export const getCollectedCelesteItemImageUrl = (itemName: CollectedCelesteItem) => {
+  return `${baseImgUrl}/celeste/items/collected/${itemName}.png`;
+}
