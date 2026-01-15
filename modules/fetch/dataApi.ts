@@ -1,5 +1,6 @@
 import area from "~/data/celeste.json";
 import {Area} from "../data/dataTypes";
+import {LocationType} from "../data/apLocationData";
 
 const baseImgUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/img`;
 
@@ -36,3 +37,17 @@ export const getRoomPreviewUrl = (areaId: string, chapterId: string, sideId: str
 export const getRoomImageUrl = (areaId: string, chapterId: string, sideId: string, roomId: string): string => {
   return `${baseImgUrl}/${areaId}/rooms/${chapterId}/${sideId}/${roomId}.png`
 };
+
+type ExtraItems = `fullClear`;
+export const getCelesteItemImageUrl = (itemName: LocationType | ExtraItems) => {
+  return `${baseImgUrl}/celeste/items/${itemName}.png`;
+};
+
+type CollectedCelesteItem = `ghostBerry` | `ghostCassette` | `ghostGolden` | `ghostHeart`;
+export const getCollectedCelesteItemImageUrl = (itemName: CollectedCelesteItem) => {
+  return `${baseImgUrl}/celeste/items/collected/${itemName}.png`;
+}
+
+export const getAPIconImageUrl = () => {
+  return `${baseImgUrl}/apIcon.png`;
+}

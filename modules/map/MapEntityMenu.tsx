@@ -54,6 +54,43 @@ export const MapEntityMenu: FC<MapEntityMenuProps> = memo(({areaGameId, chapterG
           createItemName={((berry: BerryPoint) => `${room.id}:${berry.id}`) as never}
         />
       )}
+      {room.entities.key && (
+        <MapEntityMenuGroup
+          name="Keys"
+          entities={room.entities.key}
+          roomId={room.id}
+          createItemName={(key) => `${key.id}`}
+        />
+      )}
+      {room.entities.binoculars && (
+        <MapEntityMenuGroup
+          name="Binoculars"
+          entities={room.entities.binoculars}
+          roomId={room.id}
+          createItemName={(binoculars) => `${binoculars.id}`}
+        />
+      )}
+      {room.entities.golden && room.entities.golden[0] && (
+        <MapEntityMenuItem
+          name="Golden"
+          entity={room.entities.golden[0]}
+          roomId={room.id}
+        />
+      )}
+      {room.entities.checkpoint && room.entities.checkpoint[0] && (
+        <MapEntityMenuItem
+          name="Checkpoint"
+          entity={room.entities.checkpoint[0]}
+          roomId={room.id}
+        />
+      )}
+      {room.entities.car && room.entities.car[0] && (
+        <MapEntityMenuItem
+          name="Car"
+          entity={room.entities.car[0]}
+          roomId={room.id}
+        />
+      )}
       {room.entities.cassette && room.entities.cassette[0] && (
         <MapEntityMenuItem
           name="Cassette"
@@ -68,25 +105,32 @@ export const MapEntityMenu: FC<MapEntityMenuProps> = memo(({areaGameId, chapterG
           roomId={room.id}
         />
       )}
+      {room.entities.gem && room.entities.gem[0] && (
+        <MapEntityMenuItem
+          name="Gem"
+          entity={room.entities.gem[0]}
+          roomId={room.id}
+        />
+      )}
     </List>
   </>;
 });
 
-interface MapEntityMenuGroupProps {
+interface MapEntityMenuGroupProps<T extends ExtentCanvasPoint> {
   name: string;
-  entities: ExtentCanvasPoint[];
-  createItemName: (entity: ExtentCanvasPoint, index: number) => string;
+  entities: T[];
+  createItemName: (entity: T, index: number) => string;
   roomId: string;
   teleportParams?: string;
 }
 
-export const MapEntityMenuGroup: FC<MapEntityMenuGroupProps> = ({
+export const MapEntityMenuGroup = <T extends ExtentCanvasPoint = ExtentCanvasPoint>({
   name,
   entities,
   createItemName,
   roomId,
   teleportParams,
-}) => {
+}: MapEntityMenuGroupProps<T>) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleClick = (): void => {
@@ -131,7 +175,7 @@ export const MapEntityMenuItem: FC<MapEntityMenuItemProps> = ({
   indent,
   roomId,
   teleportParams,
-}) => { 
+}) => {
   const {settings: {everestUrl, everest}} = useCampContext();
   const {isMobile} = useMobile();
   const router = useRouter();
@@ -157,7 +201,7 @@ export const MapEntityMenuItem: FC<MapEntityMenuItemProps> = ({
         secondaryAction: (
           <Tooltip title="Open" enterDelay={750}>
             <IconButton size="small" onClick={handleTeleport} color="primary">
-              <RocketLaunch fontSize="small"/>
+              <RocketLaunch fontSize="small" />
             </IconButton>
           </Tooltip>
         ),
