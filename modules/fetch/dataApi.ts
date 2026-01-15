@@ -47,3 +47,7 @@ type CollectedCelesteItem = `ghostBerry` | `ghostCassette` | `ghostGolden` | `gh
 export const getCollectedCelesteItemImageUrl = (itemName: CollectedCelesteItem) => {
   return `${baseImgUrl}/celeste/items/collected/${itemName}.png`;
 }
+
+export const getAPIconImageUrl = () => {
+  return `${baseImgUrl}/apIcon.png`;
+}

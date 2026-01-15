@@ -2,7 +2,7 @@ import {Avatar, Box, Button, Chip, Container, Paper, TextField, Typography} from
 import {GetStaticProps} from "next";
 import {Fragment, useEffect, useState} from "react";
 import {Area} from "~/modules/data/dataTypes";
-import {fetchArea, getRootImageUrl} from "~/modules/fetch/dataApi";
+import {fetchArea, getAPIconImageUrl, getRootImageUrl} from "~/modules/fetch/dataApi";
 import {CampHead} from "~/modules/head/CampHead";
 import {AreaProps, AreaView} from "./[areaId]";
 import {CampPage} from "./_app";
@@ -10,6 +10,7 @@ import {useArchipelagoContext} from "~/modules/provide/ArchipelagoContext";
 import {ConnectionStatus} from "~/modules/data/ConnectionStatus";
 import {ConnectionDisplay} from "~/modules/ap/ConnectionDisplay";
 import {localStorageAPUserKey, StoredAPUser} from "~/modules/data/apStorageKeys";
+import Image from "next/image";
 
 export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
   const [host, setHost] = useState("");
@@ -69,6 +70,18 @@ export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
                   label="wishcresp"
                 />
               </Box>
+              <Box display={`flex`} alignItems={`center`} gap={1} marginTop={2}>
+                <Image src={getAPIconImageUrl()} alt="Archipelago Icon" width={24} height={24} objectFit="contain" />
+                <Typography variant="h6">
+                  Connect to Archipelago on the right side!
+                </Typography>
+              </Box>
+              <Typography>
+                Once connected, hovering over the chapters and sides will show all checked locations.
+              </Typography>
+              <Typography>
+                In the interactive map, anything with a green outline is checked. Note that some locations like strawberries will be displayed as a ghost strawberry when checked, similar to when getting a strawberry in Celeste.
+              </Typography>
             </Container>
             <Box display={`flex`} gap={1} flexDirection={`column`}>
               <TextField
