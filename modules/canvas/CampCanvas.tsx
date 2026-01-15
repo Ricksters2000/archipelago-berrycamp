@@ -196,6 +196,8 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       }
       // Display checked locations (if there are any)
       context.fillStyle = `green`
+      context.strokeStyle = `green`;
+      context.lineWidth = 2;
       const checkedBerries = sideCheckedLocations.strawberries[id]
       if (entities.berry && checkedBerries) {
         drawCollectedItemImage(`ghostBerry`, getCollectedCelesteItemImageUrl(`ghostBerry`), (img) => {
@@ -213,7 +215,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         for (const key of entities.key) {
           if (checkedKeys[key.id]) {
             const pos = getRoomPos(key)
-            context.fillRect(pos.x - 5, pos.y - 5, 10, 10)
+            context.strokeRect(pos.x - 7, pos.y - 7, 12, 12)
           }
         }
       }
@@ -222,7 +224,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         for (const binoculars of entities.binoculars) {
           if (checkedBinoculars[binoculars.id]) {
             const pos = getRoomPos(binoculars)
-            context.fillRect(pos.x - 5, pos.y - 5, 10, 10)
+            context.strokeRect(pos.x - 6, pos.y - 15, 11, 15)
           }
         }
       }
@@ -230,7 +232,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         const car = entities.car[0]
         if (car) {
           const pos = getRoomPos(car)
-          context.fillRect(pos.x - 5, pos.y - 5, 20, 20)
+          context.strokeRect(pos.x - 22, pos.y - 16, 46, 16)
         }
       }
       if (entities.cassette && sideCheckedLocations.cassette) {
@@ -256,7 +258,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         if (heart) {
           drawCollectedItemImage(`ghostHeart`, getCollectedCelesteItemImageUrl(`ghostHeart`), img => {
             const pos = getRoomPos(heart);
-            context.drawImage(img, pos.x, pos.y)
+            context.drawImage(img, pos.x - 10, pos.y - 9)
           })
         }
       }
@@ -264,7 +266,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         const gem = entities.gem[0]
         if (gem) {
           const pos = getRoomPos(gem)
-          context.fillRect(pos.x - 5, pos.y - 5, 20, 20)
+          context.strokeRect(pos.x - 11, pos.y - 11, 22, 22)
         }
       }
       let lastRoomId = ``;
@@ -277,8 +279,6 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           context.drawImage(img, position.x, position.y)
         })
       }
-      context.strokeStyle = `green`;
-      context.lineWidth = 2;
       if (sideCheckedLocations.rooms[id]) {
         const width = view.right - view.left
         const height = view.bottom - view.top
