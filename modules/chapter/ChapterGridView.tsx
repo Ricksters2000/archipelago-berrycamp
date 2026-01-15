@@ -9,6 +9,7 @@ import {getCheckedAndTotalLocationsForSide} from "../data/countLocations";
 import {createBlankSide, LevelLocations, useArchipelagoContext} from "../provide/ArchipelagoContext";
 import {sideIdToIndex} from "../common/levelIdToIndex";
 import {LocationCounterList} from "../ap/LocationCounterList";
+import {TotalLocationCounter} from "../ap/TotalLocationCounter";
 
 export interface ChapterViewItemProps {
   chapterIndex: number;
@@ -67,6 +68,7 @@ const ChapterGridViewItem: FC<ChapterViewItemProps> = (props) => {
                 }}
               />
               <LocationCounterList show={showCheckedLocations} fullLocationCount={totalCounts} />
+              <TotalLocationCounter show={!showCheckedLocations} totalCount={totalCounts.total} />
             </CardMedia>
             <ImageListItemBar
               title={`${name}`}

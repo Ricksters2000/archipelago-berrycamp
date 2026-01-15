@@ -45,7 +45,7 @@ export const LocationCounterList: FC<Props> = ({show, fullLocationCount}) => {
           <LocationCounter type="checkpoint" locationCount={fullLocationCount.checkpoints} />
         )}
         {fullLocationCount.cars.total > 0 && (
-          <LocationCounter type="Car" locationCount={fullLocationCount.cars} />
+          <LocationCounter type="car" locationCount={fullLocationCount.cars} />
         )}
         {fullLocationCount.keys.total > 0 && (
           <LocationCounter type="key" locationCount={fullLocationCount.keys} />

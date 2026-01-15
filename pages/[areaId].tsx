@@ -15,6 +15,7 @@ import {CampPage} from './_app'
 import {useArchipelagoContext} from '~/modules/provide/ArchipelagoContext'
 import {getCheckedAndTotalLocationsForChapter} from '~/modules/data/countLocations'
 import {LocationCounterList} from '~/modules/ap/LocationCounterList'
+import {TotalLocationCounter} from '~/modules/ap/TotalLocationCounter'
 
 const AreaPage: CampPage<AreaProps> = ({area, chapters}) => {
   return (
@@ -87,6 +88,7 @@ const GridArea: FC<AreaProps> = ({area, chapters}) => {
                       }}
                     />
                     <LocationCounterList show={chapterHovering === chapter.id} fullLocationCount={totalCounts} />
+                    <TotalLocationCounter show={chapterHovering !== chapter.id} totalCount={totalCounts.total} />
                   </CardMedia>
                   <CardContent>
                     <Typography component="div" variant="h6">

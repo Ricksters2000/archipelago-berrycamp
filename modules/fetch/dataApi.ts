@@ -38,7 +38,8 @@ export const getRoomImageUrl = (areaId: string, chapterId: string, sideId: strin
   return `${baseImgUrl}/${areaId}/rooms/${chapterId}/${sideId}/${roomId}.png`
 };
 
-export const getCelesteItemImageUrl = (itemName: LocationType) => {
+type ExtraItems = `fullClear`;
+export const getCelesteItemImageUrl = (itemName: LocationType | ExtraItems) => {
   return `${baseImgUrl}/celeste/items/${itemName}.png`;
 };
 
