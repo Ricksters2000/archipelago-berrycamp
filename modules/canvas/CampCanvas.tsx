@@ -269,6 +269,13 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           context.strokeRect(pos.x - 11, pos.y - 11, 22, 22)
         }
       }
+      if (entities.checkpoint && sideCheckedLocations.checkpoints[id]) {
+        const checkpoint = entities.checkpoint[0]
+        if (checkpoint) {
+          const pos = getRoomPos(checkpoint)
+          context.strokeRect(pos.x - 10, pos.y - 23, 20, 23)
+        }
+      }
       let lastRoomId = ``;
       const roomOrder = checkpoints[checkpoints.length - 1]?.roomOrder;
       if (roomOrder) {

@@ -54,6 +54,7 @@ export interface Entities {
   berry: BerryPoint[];
   binoculars: IdPoint<string>[];
   key: IdPoint<number>[];
+  checkpoint: ExtentCanvasPoint[];
   gem: ExtentCanvasPoint[];
   car: ExtentCanvasPoint[];
   golden: ExtentCanvasPoint[];

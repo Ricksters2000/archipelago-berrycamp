@@ -260,16 +260,12 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
 
 export const getCheckedAndTotalCheckpointLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
   let checked = 0
-  const total = side.checkpoints.length - 1 // The first checkpoint never counts
-  // Checkpoints are stored by roomId, check if any room in each checkpoint is checked
-  // Skip the first checkpoint as this is always the first room of the chapter
-  for (let i = 1; i < side.checkpoints.length; i++) {
-    const checkpoint = side.checkpoints[i];
-    if (!checkpoint) break;
-    for (const roomId of checkpoint.roomOrder) {
+  let total = 0
+  for (const roomId in side.rooms) {
+    if (side.rooms[roomId]?.entities.checkpoint) {
+      total++;
       if (checkedLocations.checkpoints[roomId]) {
-        checked++
-        break // Count each checkpoint only once
+        checked++;
       }
     }
   }
