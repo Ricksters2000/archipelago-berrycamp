@@ -12,7 +12,22 @@ export const generateRoomTags = (room: Room): string[] => {
     tags.push("golden");
   }
   if (room.entities?.heart) {
-    tags.push("crystal heart")
+    tags.push("crystal heart");
+  }
+  if (room.entities.binoculars) {
+    tags.push("binoculars");
+  }
+  if (room.entities.car) {
+    tags.push("car");
+  }
+  if (room.entities.gem) {
+    tags.push("gem");
+  }
+  if (room.entities.checkpoint) {
+    tags.push("checkpoint");
+  }
+  if (room.entities.key) {
+    tags.push("key");
   }
   return tags;
 }
