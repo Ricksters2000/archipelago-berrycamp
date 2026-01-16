@@ -75,12 +75,13 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
   }, []), [searchValue, side.checkpoints, side.rooms]);
 
   const canvasRooms: CanvasRoom[] = useMemo(() => side.rooms.map(room => {
-    const {id, entities, canvas: {position, boundingBox: view}} = room;
+    const {id, entities, hideInTracker, canvas: {position, boundingBox: view}} = room;
     return ({
       id,
       entities,
       position,
       view,
+      hideInTracker: hideInTracker ?? false,
       image: getRoomImageUrl(area.id, chapter.id, side.id, id),
     })
   }), [area.id, chapter.id, side.id, side.rooms]);

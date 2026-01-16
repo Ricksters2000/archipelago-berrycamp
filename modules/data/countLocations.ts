@@ -369,6 +369,8 @@ export const getCheckedAndTotalRoomLocations = (checkedLocations: LevelLocations
   let checked = 0
   let total = 0
   for (const roomId in side.rooms) {
+    // Some rooms may be cutscene or just filler rooms which aren't counted as locations in AP
+    if (side.rooms[roomId]?.hideInTracker) continue;
     total++
     if (checkedLocations.rooms[roomId]) {
       checked++

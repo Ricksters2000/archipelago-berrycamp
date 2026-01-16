@@ -19344,6 +19344,7 @@
             "after-02": {
               "name": "Hold my bag",
               "checkpointNo": 5,
+              "hideInTracker": true,
               "defaultSpawn": {
                 "x": 192,
                 "y": 224
@@ -20320,6 +20321,7 @@
             "start": {
               "name": "Aurora",
               "checkpointNo": 0,
+              "hideInTracker": true,
               "defaultSpawn": {
                 "x": 8,
                 "y": 2672

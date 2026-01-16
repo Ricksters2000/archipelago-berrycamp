@@ -125,7 +125,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     /**
      * Load new rooms.
      */
-    rooms.forEach(({id, image, entities, position, view}, i) => {
+    rooms.forEach(({id, image, entities, position, view, hideInTracker}, i) => {
       const getRoomPos = (offset?: {x: number, y: number}) => {
         const loadedImage = imagesRef.current[i];
         let pos = position;
@@ -309,9 +309,11 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           context.drawImage(img, position.x, position.y)
         })
       }
-      const width = view.right - view.left
-      const height = view.bottom - view.top
-      drawMarkedItemOnPos(sideCheckedLocations.rooms[id], position.x + 1, position.y + 1, width - 2, height - 2)
+      if (!hideInTracker) {
+        const width = view.right - view.left
+        const height = view.bottom - view.top
+        drawMarkedItemOnPos(sideCheckedLocations.rooms[id], position.x + 1, position.y + 1, width - 2, height - 2)
+      }
     });
   }, [contentViewRef, imagesRef, rooms, checkpoints, sideCheckedLocations]);
 

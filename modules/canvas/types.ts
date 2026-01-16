@@ -18,6 +18,7 @@ export interface CampCanvasProps {
 export interface CanvasRoom {
   id: string;
   position: ExtentCanvasPoint;
+  hideInTracker?: boolean;
   view: ExtentCanvasViewBox;
   image: string;
   entities: Partial<Entities>;
