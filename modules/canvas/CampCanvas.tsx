@@ -276,7 +276,8 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         const heart = entities.heart[0]
         if (heart) {
           const pos = getRoomPos(heart);
-          if (sideCheckedLocations.heart) {
+          // The hearts aren't tracked for B and C sides but completing the level is basically getting the heart in their
+          if (sideCheckedLocations.heart || sideId !== `a` && sideCheckedLocations.levelClear) {
             drawCollectedItemImage(`ghostHeart`, getCollectedCelesteItemImageUrl(`ghostHeart`), img => {
               context.drawImage(img, pos.x - 10, pos.y - 9);
             })
@@ -304,7 +305,9 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (roomOrder) {
         lastRoomId = roomOrder[roomOrder.length - 1] ?? ``;
       }
-      if (id === lastRoomId && sideCheckedLocations.levelClear) {
+      // Since getting the heart is essentially a level clear for B and C sides then this doesn't need to show for them
+      // Maybe later on this can be displayed for the other sides when the flag is shown in the top right corner instead of left.
+      if (id === lastRoomId && sideCheckedLocations.levelClear && sideId === `a`) {
         drawCollectedItemImage(`levelClear`, getCelesteItemImageUrl(`levelClear`), img => {
           context.drawImage(img, position.x, position.y)
         })
@@ -315,7 +318,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         drawMarkedItemOnPos(sideCheckedLocations.rooms[id], position.x + 1, position.y + 1, width - 2, height - 2)
       }
     });
-  }, [contentViewRef, imagesRef, rooms, checkpoints, sideCheckedLocations]);
+  }, [contentViewRef, imagesRef, rooms, checkpoints, sideId, sideCheckedLocations]);
 
   const {setViewBox, draw} = useExtentCanvas({
     ref,
