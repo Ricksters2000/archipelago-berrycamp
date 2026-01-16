@@ -195,24 +195,14 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
     }
   }
 
-  // checkpoints - only if checkpointSanity is true
-  if (randomizerOptions.checkpointSanity) {
-    result.checkpoints = getCheckedAndTotalCheckpointLocations(checkedLocations, side)
-  }
+  // keys, gems, and checkpoints are always counted as ap locations so these can always be shown
+  result.checkpoints = getCheckedAndTotalCheckpointLocations(checkedLocations, side)
+  result.keys = getCheckedAndTotalKeyLocations(checkedLocations, side)
+  result.gems = getCheckedAndTotalGemLocations(checkedLocations, side)
 
   // cars - only if carSanity is true
   if (randomizerOptions.carSanity) {
     result.cars = getCheckedAndTotalCarLocations(checkedLocations, side)
-  }
-
-  // keys - only if keySanity is true
-  if (randomizerOptions.keySanity) {
-    result.keys = getCheckedAndTotalKeyLocations(checkedLocations, side)
-  }
-
-  // gems - only if gemSanity is true
-  if (randomizerOptions.gemSanity) {
-    result.gems = getCheckedAndTotalGemLocations(checkedLocations, side)
   }
 
   // binoculars - only if binoSanity is true
