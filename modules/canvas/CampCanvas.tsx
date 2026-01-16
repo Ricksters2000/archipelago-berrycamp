@@ -9,7 +9,7 @@ import {createBlankSide, LevelLocations, useArchipelagoContext} from "../provide
 import {chapterIdToIndex, sideIdToIndex} from "../common/levelIdToIndex";
 import {getCelesteItemImageUrl, getCollectedCelesteItemImageUrl} from "../fetch/dataApi";
 
-type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear`;
+type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden`;
 
 export const CampCanvas: FC<CampCanvasProps> = memo(({
   view,
@@ -40,6 +40,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     ghostCassette: undefined,
     ghostHeart: undefined,
     levelClear: undefined,
+    golden: undefined,
   })
 
   const [contextMenu, setContextMenu] = useState<{
@@ -154,6 +155,17 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (viewBoxRef.current === undefined) {
         return;
       }
+      const drawMarkedItemOnPos = (checked: boolean | undefined, x: number, y: number, width: number, height: number) => {
+        context.globalCompositeOperation = `lighter`;
+        if (checked) {
+          context.fillStyle = `gray`;
+          context.strokeStyle = `gray`;
+        } else {
+          context.fillStyle = `green`;
+          context.strokeStyle = `green`;
+        }
+        context.strokeRect(x, y, width, height);
+      }
 
       // Don't render if not in view.
       const inView: boolean = viewsCollide(view, viewBoxRef.current);
@@ -194,86 +206,97 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           context.drawImage(img, position.x, position.y);
         }
       }
-      // Display checked locations (if there are any)
-      context.fillStyle = `green`
-      context.strokeStyle = `green`;
+      // Display checked and unchecked locations if connected
       context.lineWidth = 2;
       const checkedBerries = sideCheckedLocations.strawberries[id]
-      if (entities.berry && checkedBerries) {
+      if (entities.berry) {
         drawCollectedItemImage(`ghostBerry`, getCollectedCelesteItemImageUrl(`ghostBerry`), (img) => {
           if (!entities.berry) return;
           for (const berry of entities.berry) {
-            if (checkedBerries[berry.id]) {
-              const pos = getRoomPos(berry)
+            const pos = getRoomPos(berry)
+            if (checkedBerries && checkedBerries[berry.id]) {
               context.drawImage(img, pos.x - 8, pos.y - 8)
+            } else {
+              drawMarkedItemOnPos(false, pos.x - 5, pos.y - 5, 10, 10);
             }
           }
         })
       }
       const checkedKeys = sideCheckedLocations.keys[id]
-      if (entities.key && checkedKeys) {
+      if (entities.key) {
         for (const key of entities.key) {
-          if (checkedKeys[key.id]) {
-            const pos = getRoomPos(key)
-            context.strokeRect(pos.x - 7, pos.y - 7, 12, 12)
-          }
+          const pos = getRoomPos(key)
+          drawMarkedItemOnPos(checkedKeys && checkedKeys[key.id], pos.x - 7, pos.y - 7, 12, 12)
         }
       }
       const checkedBinoculars = sideCheckedLocations.binoculars[id]
       if (entities.binoculars && checkedBinoculars) {
         for (const binoculars of entities.binoculars) {
-          if (checkedBinoculars[binoculars.id]) {
-            const pos = getRoomPos(binoculars)
-            context.strokeRect(pos.x - 6, pos.y - 15, 11, 15)
-          }
+          const pos = getRoomPos(binoculars)
+          drawMarkedItemOnPos(checkedBinoculars && checkedBinoculars[binoculars.id], pos.x - 6, pos.y - 15, 11, 15)
         }
       }
-      if (entities.car && sideCheckedLocations.cars[id]) {
+      if (entities.car) {
         const car = entities.car[0]
         if (car) {
           const pos = getRoomPos(car)
-          context.strokeRect(pos.x - 22, pos.y - 16, 46, 16)
+          drawMarkedItemOnPos(sideCheckedLocations.cars[id], pos.x - 22, pos.y - 16, 46, 16)
         }
       }
-      if (entities.cassette && sideCheckedLocations.cassette) {
+      if (entities.cassette) {
         const cassette = entities.cassette[0]
         if (cassette) {
-          drawCollectedItemImage(`ghostCassette`, getCollectedCelesteItemImageUrl(`ghostCassette`), img => {
-            const pos = getRoomPos(cassette);
-            context.drawImage(img, pos.x - 16, pos.y - 16)
-          })
+          const pos = getRoomPos(cassette);
+          if (sideCheckedLocations.cassette) {
+            drawCollectedItemImage(`ghostCassette`, getCollectedCelesteItemImageUrl(`ghostCassette`), img => {
+              context.drawImage(img, pos.x - 16, pos.y - 16)
+            })
+          } else {
+            drawMarkedItemOnPos(false, pos.x - 10, pos.y - 8, 20, 14)
+          }
         }
       }
-      if (entities.golden && sideCheckedLocations.golden) {
+      if (entities.golden) {
         const golden = entities.golden[0]
         if (golden) {
-          drawCollectedItemImage(`ghostGolden`, getCollectedCelesteItemImageUrl(`ghostGolden`), img => {
-            const pos = getRoomPos(golden);
-            context.drawImage(img, pos.x - 8, pos.y - 8)
-          })
+          const pos = getRoomPos(golden);
+          if (sideCheckedLocations.golden) {
+            drawCollectedItemImage(`ghostGolden`, getCollectedCelesteItemImageUrl(`ghostGolden`), img => {
+              context.drawImage(img, pos.x - 8, pos.y - 8);
+            })
+          } else {
+            drawCollectedItemImage(`golden`, getCelesteItemImageUrl(`golden`), img => {
+              context.drawImage(img, pos.x - 8, pos.y - 8);
+              drawMarkedItemOnPos(false, pos.x - 5, pos.y - 6, 12, 12);
+            })
+          }
         }
       }
-      if (entities.heart && sideCheckedLocations.heart) {
+      if (entities.heart) {
         const heart = entities.heart[0]
         if (heart) {
-          drawCollectedItemImage(`ghostHeart`, getCollectedCelesteItemImageUrl(`ghostHeart`), img => {
-            const pos = getRoomPos(heart);
-            context.drawImage(img, pos.x - 10, pos.y - 9)
-          })
+          const pos = getRoomPos(heart);
+          if (sideCheckedLocations.heart) {
+            drawCollectedItemImage(`ghostHeart`, getCollectedCelesteItemImageUrl(`ghostHeart`), img => {
+              context.drawImage(img, pos.x - 10, pos.y - 9);
+            })
+          } else {
+            drawMarkedItemOnPos(false, pos.x - 8, pos.y - 8, 16, 16);
+          }
         }
       }
-      if (entities.gem && sideCheckedLocations.gems[id]) {
+      if (entities.gem) {
         const gem = entities.gem[0]
         if (gem) {
           const pos = getRoomPos(gem)
-          context.strokeRect(pos.x - 11, pos.y - 11, 22, 22)
+          drawMarkedItemOnPos(sideCheckedLocations.gems[id], pos.x - 11, pos.y - 11, 22, 22)
         }
       }
-      if (entities.checkpoint && sideCheckedLocations.checkpoints[id]) {
+      if (entities.checkpoint) {
         const checkpoint = entities.checkpoint[0]
         if (checkpoint) {
           const pos = getRoomPos(checkpoint)
-          context.strokeRect(pos.x - 10, pos.y - 23, 20, 23)
+          drawMarkedItemOnPos(sideCheckedLocations.checkpoints[id], pos.x - 10, pos.y - 23, 20, 23)
         }
       }
       let lastRoomId = ``;
@@ -286,11 +309,9 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           context.drawImage(img, position.x, position.y)
         })
       }
-      if (sideCheckedLocations.rooms[id]) {
-        const width = view.right - view.left
-        const height = view.bottom - view.top
-        context.strokeRect(position.x + 1, position.y + 1, width - 2, height - 2)
-      }
+      const width = view.right - view.left
+      const height = view.bottom - view.top
+      drawMarkedItemOnPos(sideCheckedLocations.rooms[id], position.x + 1, position.y + 1, width - 2, height - 2)
     });
   }, [contentViewRef, imagesRef, rooms, checkpoints, sideCheckedLocations]);
 
