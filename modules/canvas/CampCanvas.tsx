@@ -230,7 +230,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         }
       }
       const checkedBinoculars = sideCheckedLocations.binoculars[id]
-      if (entities.binoculars && checkedBinoculars) {
+      if (entities.binoculars) {
         for (const binoculars of entities.binoculars) {
           const pos = getRoomPos(binoculars)
           drawMarkedItemOnPos(checkedBinoculars && checkedBinoculars[binoculars.id], pos.x - 6, pos.y - 15, 11, 15)

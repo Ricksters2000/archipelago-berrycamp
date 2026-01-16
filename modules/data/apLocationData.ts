@@ -546,11 +546,11 @@ export const BinocularsAPToID: Record<number, LocationData> = {
 
   // Reflection
   0xCA17017: {type: "binoculars", location: [6, 0, "04e", "-1472_-2728"]},
-  0xCA17018: {type: "binoculars", location: [6, 0, "a-02", "112_-576"]},
 
+  0xCA17018: {type: "binoculars", location: [6, 1, "a-02", "112_-576"]},
   0xCA17019: {type: "binoculars", location: [6, 1, "a-06", "2472_-1024"]},
-  0xCA1701A: {type: "binoculars", location: [6, 1, "02", "1024_720"]},
 
+  0xCA1701A: {type: "binoculars", location: [6, 2, "02", "1024_720"]},
   0xCA1701B: {type: "binoculars", location: [6, 2, "02", "1368_1200"]},
 
   // The Summit
