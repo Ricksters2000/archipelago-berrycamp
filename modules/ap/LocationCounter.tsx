@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {LocationType} from "../data/apLocationData";
+import {LocationType} from "../data/ap/apLocationData";
 import {LocationCount} from "../data/countLocations";
 import {Grid2, Stack, Typography} from "@mui/material";
 import Image from "next/image";

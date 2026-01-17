@@ -12,8 +12,8 @@ import {ArchipelagoContext, CheckedLocations, createBlankChapter, createBlankSid
 import {ConnectionStatus} from '~/modules/data/ConnectionStatus';
 import {CelesteSlotData} from '~/modules/data/dataTypes';
 import {useImmer} from 'use-immer';
-import {getLocationDataFromAP, LocationData} from '~/modules/data/apLocationData';
-import {sessionStorageDateConnectedKey, StoredAPUser, localStorageAPUserKey} from '~/modules/data/apStorageKeys';
+import {getLocationDataFromAP, LocationData} from '~/modules/data/ap/apLocationData';
+import {sessionStorageDateConnectedKey, StoredAPUser, localStorageAPUserKey} from '~/modules/data/ap/apStorageKeys';
 
 // Session will last 1 hour
 const sessionIdleTimerInMs = 1000 * 60 * 60;
@@ -117,7 +117,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
 
     const onConnected = (packet: ConnectedPacket) => {
       setConnectionStatus(ConnectionStatus.Connected)
-      console.log(`Connected to archipelago`, packet)
+      console.log(`Connected to archipelago`, packet, client)
       const slotData = packet.slot_data as CelesteSlotData
       const playerRandomizerOptions: RandomizerOptions = {
         checkpointSanity: slotData.checkpointsanity === 1,

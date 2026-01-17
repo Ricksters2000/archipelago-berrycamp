@@ -9,7 +9,7 @@ import {CampPage} from "./_app";
 import {useArchipelagoContext} from "~/modules/provide/ArchipelagoContext";
 import {ConnectionStatus} from "~/modules/data/ConnectionStatus";
 import {ConnectionDisplay} from "~/modules/ap/ConnectionDisplay";
-import {localStorageAPUserKey, StoredAPUser} from "~/modules/data/apStorageKeys";
+import {localStorageAPUserKey, StoredAPUser} from "~/modules/data/ap/apStorageKeys";
 import Image from "next/image";
 
 export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {

@@ -1,6 +1,6 @@
 import area from "~/data/celeste.json";
 import {Area} from "../data/dataTypes";
-import {LocationType} from "../data/apLocationData";
+import {LocationType} from "../data/ap/apLocationData";
 
 const baseImgUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/img`;
 
