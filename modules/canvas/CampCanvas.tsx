@@ -8,6 +8,7 @@ import {CampCanvasProps} from "./types";
 import {createBlankSide, LevelLocations, useArchipelagoContext} from "../provide/ArchipelagoContext";
 import {chapterIdToIndex, sideIdToIndex} from "../common/levelIdToIndex";
 import {getCelesteItemImageUrl, getCollectedCelesteItemImageUrl} from "../fetch/dataApi";
+import {ConnectionStatus} from "../data/ConnectionStatus";
 
 type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden`;
 
@@ -25,7 +26,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
 
   const {settings} = useCampContext();
   const {everest, checkedDrawStyle, uncheckedDrawStyle} = settings;
-  const {checkedLocations} = useArchipelagoContext();
+  const {checkedLocations, randomizerOptions, connectionStatus} = useArchipelagoContext();
 
   const router: NextRouter = useRouter();
 
@@ -87,7 +88,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         preventUpdateView.current = true;
       }
     }
-  }, [sideCheckedLocations, uncheckedDrawStyle, checkedDrawStyle])
+  }, [sideCheckedLocations, uncheckedDrawStyle, checkedDrawStyle, connectionStatus])
 
   /**
    * Set the current view.
@@ -222,6 +223,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         }
       }
       // Display checked and unchecked locations if connected
+      if (connectionStatus !== ConnectionStatus.Connected) return;
       context.lineWidth = 2;
       const checkedBerries = sideCheckedLocations.strawberries[id]
       if (entities.berry) {
@@ -245,13 +247,13 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         }
       }
       const checkedBinoculars = sideCheckedLocations.binoculars[id]
-      if (entities.binoculars) {
+      if (entities.binoculars && randomizerOptions.binoSanity) {
         for (const binoculars of entities.binoculars) {
           const pos = getRoomPos(binoculars)
           drawMarkedItemOnPos(checkedBinoculars && checkedBinoculars[binoculars.id], pos.x - 6, pos.y - 15, 11, 15)
         }
       }
-      if (entities.car) {
+      if (entities.car && randomizerOptions.carSanity) {
         const car = entities.car[0]
         if (car) {
           const pos = getRoomPos(car)
@@ -271,7 +273,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           }
         }
       }
-      if (entities.golden) {
+      if (entities.golden && randomizerOptions.includeGoldens) {
         const golden = entities.golden[0]
         if (golden) {
           const pos = getRoomPos(golden);
@@ -327,13 +329,13 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           context.drawImage(img, position.x, position.y)
         })
       }
-      if (!hideInTracker) {
+      if (!hideInTracker && randomizerOptions.roomSanity) {
         const width = view.right - view.left
         const height = view.bottom - view.top
         drawMarkedItemOnPos(sideCheckedLocations.rooms[id], position.x + 1, position.y + 1, width - 2, height - 2, `stroke`)
       }
     });
-  }, [contentViewRef, imagesRef, rooms, checkpoints, checkedDrawStyle, uncheckedDrawStyle, sideId, sideCheckedLocations]);
+  }, [contentViewRef, imagesRef, rooms, checkpoints, checkedDrawStyle, uncheckedDrawStyle, sideId, sideCheckedLocations, randomizerOptions, connectionStatus]);
 
   const {setViewBox, draw} = useExtentCanvas({
     ref,
