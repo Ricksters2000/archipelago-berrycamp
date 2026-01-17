@@ -81,12 +81,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
 
   useEffect(() => {
     if (sideCheckedLocations && checkedDrawStyle || uncheckedDrawStyle) {
-      if (firstLoad.current) {
-        firstLoad.current = false;
-        return;
-      } else {
-        preventUpdateView.current = true;
-      }
+      preventUpdateView.current = true;
     }
   }, [sideCheckedLocations, uncheckedDrawStyle, checkedDrawStyle, connectionStatus])
 
@@ -476,9 +471,11 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     if (view === undefined || context === null) {
       return;
     }
-    if (preventUpdateView.current) {
+    if (!firstLoad.current && preventUpdateView.current) {
       preventUpdateView.current = false;
       return;
+    } else {
+      firstLoad.current = false;
     }
     setViewBox(view);
     viewRef.current = calculateCanvasView(context.canvas, view);
