@@ -154,6 +154,9 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
 
     const onDisconnected = () => {
       setConnectionStatus(ConnectionStatus.Disconnected)
+      setCheckedLocations({
+        area: {celeste: []}
+      })
     }
 
     const onRoomUpdate = (packet: RoomUpdatePacket) => {
