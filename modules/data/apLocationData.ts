@@ -34,6 +34,8 @@ export const getLocationDataFromAP = (ap: number) => {
     locationData = CassetteAPToID[ap];
   } else if (CrystalHeartAPToID[ap]) {
     locationData = CrystalHeartAPToID[ap];
+  } else if (GoldenAPToID[ap]) {
+    locationData = GoldenAPToID[ap];
   } else if (KeyAPToID[ap]) {
     locationData = KeyAPToID[ap];
   } else if (GemAPToID[ap]) {
@@ -261,47 +263,47 @@ export const CarAPToID: Record<number, LocationData> = {
 
 export const GoldenAPToID: Record<number, LocationData> = {
   // Forsaken City
-  0xCA11000: {type: "berry", location: [1, 0, "1", 12]},
-  0xCA11002: {type: "berry", location: [1, 1, "00", 25]},
-  0xCA11003: {type: "berry", location: [1, 2, "00", 50]},
+  0xCA11000: {type: "golden", location: [1, 0, "1"]},
+  0xCA11002: {type: "golden", location: [1, 1, "00"]},
+  0xCA11003: {type: "golden", location: [1, 2, "00"]},
 
   // Old Site
-  0xCA11004: {type: "berry", location: [2, 0, "start", 5]},
-  0xCA11005: {type: "berry", location: [2, 1, "start", 5]},
-  0xCA11006: {type: "berry", location: [2, 2, "00", 6]},
+  0xCA11004: {type: "golden", location: [2, 0, "start"]},
+  0xCA11005: {type: "golden", location: [2, 1, "start"]},
+  0xCA11006: {type: "golden", location: [2, 2, "00"]},
 
   // Celestial Resort
-  0xCA11007: {type: "berry", location: [3, 0, "s0", 7]},
-  0xCA11008: {type: "berry", location: [3, 1, "00", 2]},
-  0xCA11009: {type: "berry", location: [3, 2, "00", 86]},
+  0xCA11007: {type: "golden", location: [3, 0, "s0"]},
+  0xCA11008: {type: "golden", location: [3, 1, "00"]},
+  0xCA11009: {type: "golden", location: [3, 2, "00"]},
 
   // Golden Ridge
-  0xCA1100A: {type: "berry", location: [4, 0, "a-00", 13]},
-  0xCA1100B: {type: "berry", location: [4, 1, "a-00", 41]},
-  0xCA1100C: {type: "berry", location: [4, 2, "00", 1]},
+  0xCA1100A: {type: "golden", location: [4, 0, "a-00"]},
+  0xCA1100B: {type: "golden", location: [4, 1, "a-00"]},
+  0xCA1100C: {type: "golden", location: [4, 2, "00"]},
 
   // Mirror Temple
-  0xCA1100D: {type: "berry", location: [5, 0, "a-00b", 3]},
-  0xCA1100E: {type: "berry", location: [5, 1, "start", 3]},
-  0xCA1100F: {type: "berry", location: [5, 2, "00", 25]},
+  0xCA1100D: {type: "golden", location: [5, 0, "a-00b"]},
+  0xCA1100E: {type: "golden", location: [5, 1, "start"]},
+  0xCA1100F: {type: "golden", location: [5, 2, "00"]},
 
   // Reflection
-  0xCA11010: {type: "berry", location: [6, 0, "00", 51]},
-  0xCA11011: {type: "berry", location: [6, 1, "a-00", 137]},
-  0xCA11012: {type: "berry", location: [6, 2, "00", 3]},
+  0xCA11010: {type: "golden", location: [6, 0, "00"]},
+  0xCA11011: {type: "golden", location: [6, 1, "a-00"]},
+  0xCA11012: {type: "golden", location: [6, 2, "00"]},
 
   // The Summit
-  0xCA11013: {type: "berry", location: [7, 0, "a-00", 57]},
-  0xCA11014: {type: "berry", location: [7, 1, "a-00", 102]},
-  0xCA11015: {type: "berry", location: [7, 2, "01", 334]},
+  0xCA11013: {type: "golden", location: [7, 0, "a-00"]},
+  0xCA11014: {type: "golden", location: [7, 1, "a-00"]},
+  0xCA11015: {type: "golden", location: [7, 2, "01"]},
 
   // Core
-  0xCA11016: {type: "berry", location: [9, 0, "a-00", 19]},
-  0xCA11017: {type: "berry", location: [9, 1, "a-00", 22]},
-  0xCA11018: {type: "berry", location: [9, 2, "00", 93]},
+  0xCA11016: {type: "golden", location: [9, 0, "a-00"]},
+  0xCA11017: {type: "golden", location: [9, 1, "a-00"]},
+  0xCA11018: {type: "golden", location: [9, 2, "00"]},
 
   // Farewell
-  0xCA11019: {type: "berry", location: [10, 0, "a-00", 449]},
+  0xCA11019: {type: "golden", location: [10, 0, "a-00"]},
 }
 
 export const StrawberryAPToID: Record<number, LocationData> = {
@@ -544,11 +546,11 @@ export const BinocularsAPToID: Record<number, LocationData> = {
 
   // Reflection
   0xCA17017: {type: "binoculars", location: [6, 0, "04e", "-1472_-2728"]},
-  0xCA17018: {type: "binoculars", location: [6, 0, "a-02", "112_-576"]},
 
+  0xCA17018: {type: "binoculars", location: [6, 1, "a-02", "112_-576"]},
   0xCA17019: {type: "binoculars", location: [6, 1, "a-06", "2472_-1024"]},
-  0xCA1701A: {type: "binoculars", location: [6, 1, "02", "1024_720"]},
 
+  0xCA1701A: {type: "binoculars", location: [6, 2, "02", "1024_720"]},
   0xCA1701B: {type: "binoculars", location: [6, 2, "02", "1368_1200"]},
 
   // The Summit

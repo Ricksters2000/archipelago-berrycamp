@@ -47,6 +47,7 @@ export interface Room {
   defaultSpawn: ExtentCanvasPoint;
   entities: Partial<Entities>;
   canvas: Canvas;
+  hideInTracker?: boolean;
 }
 
 export interface Entities {

@@ -1,10 +1,18 @@
 import {BrightnessAuto, DarkMode, Explore, ExploreOff, GridViewSharp, LightMode, Restore, Settings, ViewListSharp} from "@mui/icons-material";
-import {Divider, IconButton, ListItem, ListItemIcon, Menu, MenuItem, TextField, Tooltip, styled} from "@mui/material";
+import {Divider, IconButton, ListItem, ListItemIcon, ListSubheader, Menu, MenuItem, TextField, ToggleButton, ToggleButtonGroup, Tooltip, styled} from "@mui/material";
 import {FC, Fragment, MouseEvent, useState} from "react";
 import {useCampContext} from "~/modules/provide/CampContext";
 
 export const SettingsMenu: FC = () => {
-  const {settings, changeTheme, toggleListMode, setEverestUrl, toggleEverest} = useCampContext();
+  const {
+    settings,
+    changeTheme,
+    toggleListMode,
+    setEverestUrl,
+    toggleEverest,
+    setCheckedDrawStyle,
+    setUncheckedDrawStyle,
+  } = useCampContext();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleOpen = (event: MouseEvent<HTMLElement>) => {
@@ -53,9 +61,9 @@ export const SettingsMenu: FC = () => {
         <MenuItem onClick={toggleEverest}>
           <ListItemIcon>
             {settings.everest ? (
-              <Explore fontSize="small"/>
+              <Explore fontSize="small" />
             ) : (
-              <ExploreOff fontSize="small"/>
+              <ExploreOff fontSize="small" />
             )}
           </ListItemIcon>
           {settings.everest ? "Teleporting On" : "Teleporting Off"}
@@ -95,6 +103,25 @@ export const SettingsMenu: FC = () => {
             </IconButton>
           </ListItem>
         )}
+        <ListSubheader>Tracker Options</ListSubheader>
+        <ListItem>Checked Locations</ListItem>
+        <ButtonGroupMenuItem
+          exclusive
+          value={settings.checkedDrawStyle ?? `stroke`}
+          onChange={(evt, val) => {val && setCheckedDrawStyle(val)}}
+        >
+          <StyledToggleButton value={`fill`}>Fill</StyledToggleButton>
+          <StyledToggleButton value={`stroke`}>Outline</StyledToggleButton>
+        </ButtonGroupMenuItem>
+        <ListItem>Missing Locations</ListItem>
+        <ButtonGroupMenuItem
+          exclusive
+          value={settings.uncheckedDrawStyle ?? `stroke`}
+          onChange={(evt, val) => {val && setUncheckedDrawStyle(val)}}
+        >
+          <StyledToggleButton value={`fill`}>Fill</StyledToggleButton>
+          <StyledToggleButton value={`stroke`}>Outline</StyledToggleButton>
+        </ButtonGroupMenuItem>
       </Menu>
     </Fragment >
   );
@@ -121,3 +148,12 @@ const StyledIconButton = styled(IconButton)(({theme}) => ({
     },
   }),
 }));
+
+const ButtonGroupMenuItem = styled(ToggleButtonGroup)(() => ({
+  width: `100%`,
+}))
+
+const StyledToggleButton = styled(ToggleButton)(() => ({
+  borderRadius: 0,
+  flexGrow: 1,
+}))

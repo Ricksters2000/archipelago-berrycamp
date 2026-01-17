@@ -1,5 +1,7 @@
 import {createContext, FC, PropsWithChildren, useCallback, useContext, useState} from "react";
 
+export type CanvasDrawStyle = `fill` | `stroke`;
+
 export interface ICampContext {
   settings: ICampSettings;
   changeTheme: () => void;
@@ -8,6 +10,8 @@ export interface ICampContext {
   toggleEverest: () => void;
   setEverestUrl: (url?: string) => void;
   setSettings: (settings: ICampSettings) => void;
+  setCheckedDrawStyle: (drawStyle: CanvasDrawStyle) => void;
+  setUncheckedDrawStyle: (drawStyle: CanvasDrawStyle) => void;
 }
 
 export interface ICampSettings {
@@ -16,11 +20,15 @@ export interface ICampSettings {
   listMode?: true;
   everest: boolean;
   everestUrl?: string;
+  checkedDrawStyle?: CanvasDrawStyle;
+  uncheckedDrawStyle?: CanvasDrawStyle;
 }
 
 const CampContext = createContext<ICampContext>({
   settings: {
     everest: true,
+    checkedDrawStyle: `stroke`,
+    uncheckedDrawStyle: `stroke`,
   },
   changeTheme: () => undefined,
   setPrefersDark: () => undefined,
@@ -28,10 +36,14 @@ const CampContext = createContext<ICampContext>({
   toggleEverest: () => undefined,
   setEverestUrl: () => undefined,
   setSettings: () => undefined,
+  setCheckedDrawStyle: () => undefined,
+  setUncheckedDrawStyle: () => undefined,
 });
 
 export const CampContextProvider: FC<PropsWithChildren> = ({children}) => {
-  const [settings, setSettings] = useState<ICampSettings>({everest: true});
+  const [settings, setSettings] = useState<ICampSettings>({
+    everest: true,
+  });
 
   const changeTheme = useCallback(() => {
     setSettings(({theme, ...other}) => ({...other, ...(theme !== "dark" && {theme: theme === undefined ? "light" : "dark"})}));
@@ -51,7 +63,15 @@ export const CampContextProvider: FC<PropsWithChildren> = ({children}) => {
 
   const setEverestUrl = useCallback((everestUrl?: string) => {
     setSettings(({everestUrl: _, ...other}) => ({...other, ...(everestUrl !== undefined && {everestUrl})}));
-  }, [])
+  }, []);
+
+  const setCheckedDrawStyle = useCallback((drawStyle: CanvasDrawStyle) => {
+    setSettings((prev) => ({...prev, checkedDrawStyle: drawStyle}));
+  }, []);
+
+  const setUncheckedDrawStyle = useCallback((drawStyle: CanvasDrawStyle) => {
+    setSettings((prev) => ({...prev, uncheckedDrawStyle: drawStyle}));
+  }, []);
 
   return (
     <CampContext.Provider
@@ -62,7 +82,9 @@ export const CampContextProvider: FC<PropsWithChildren> = ({children}) => {
         toggleListMode,
         toggleEverest,
         setEverestUrl,
-        setSettings
+        setSettings,
+        setCheckedDrawStyle,
+        setUncheckedDrawStyle,
       }}
     >
       {children}

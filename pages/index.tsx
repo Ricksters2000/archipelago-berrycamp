@@ -1,4 +1,4 @@
-import {Avatar, Box, Button, Chip, Container, Paper, TextField, Typography} from "@mui/material";
+import {Avatar, Box, Button, Chip, Container, Paper, styled, TextField, Typography} from "@mui/material";
 import {GetStaticProps} from "next";
 import {Fragment, useEffect, useState} from "react";
 import {Area} from "~/modules/data/dataTypes";
@@ -80,7 +80,10 @@ export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
                 Once connected, hovering over the chapters and sides will show all checked locations.
               </Typography>
               <Typography>
-                In the interactive map, anything with a green outline is checked. Note that some locations like strawberries will be displayed as a ghost strawberry when checked, similar to when getting a strawberry in Celeste.
+                Checked locations will be marked <GrayText>grey</GrayText> and any locations not checked yet will be marked <GreenText>green</GreenText>.
+              </Typography>
+              <Typography>
+                Locations are marked with an outline of a rectangle but this can be changed to be a filled rectangle in the options in the top right.
               </Typography>
             </Container>
             <Box display={`flex`} gap={1} flexDirection={`column`}>
@@ -132,3 +135,11 @@ export const getStaticProps: GetStaticProps<AreaProps> = async () => {
     },
   };
 };
+
+const GrayText = styled(`span`)(({theme}) => ({
+  color: theme.palette.mode === "light" ? `#808080` : `#c2c2c2`,
+}));
+
+const GreenText = styled(`span`)(({theme}) => ({
+  color: theme.palette.mode === "light" ? `#00af00` : `#35ff35`,
+}));
