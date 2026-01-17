@@ -1,9 +1,11 @@
 import {FC, Fragment, PropsWithChildren, useEffect} from "react";
-import {ICampSettings, useCampContext} from "./CampContext";
+import {CanvasDrawStyle, ICampSettings, useCampContext} from "./CampContext";
 
 const THEME_KEY = "theme";
 const LIST_MODE_KEY = "listMode";
 const EVEREST_URL_KEY = "everestUrl";
+const CHECKED_DRAW_STYLE_KEY = "checkedDrawStyle";
+const UNCHECKED_DRAW_STYLE_KEY = "unCheckedDrawStyle";
 
 export const CampPreferencesProvider: FC<PropsWithChildren> = ({children}) => {
   const {settings, setSettings} = useCampContext();
@@ -31,6 +33,16 @@ export const CampPreferencesProvider: FC<PropsWithChildren> = ({children}) => {
       storageSettings.everestUrl = url;
     }
 
+    const checkedDrawStyle = localStorage.getItem(CHECKED_DRAW_STYLE_KEY) as CanvasDrawStyle | null;
+    if (checkedDrawStyle !== null) {
+      storageSettings.checkedDrawStyle = checkedDrawStyle;
+    }
+
+    const uncheckedDrawStyle = localStorage.getItem(UNCHECKED_DRAW_STYLE_KEY) as CanvasDrawStyle | null;
+    if (uncheckedDrawStyle !== null) {
+      storageSettings.uncheckedDrawStyle = uncheckedDrawStyle;
+    }
+
     setSettings(storageSettings);
   }, [setSettings]);
 
@@ -40,7 +52,7 @@ export const CampPreferencesProvider: FC<PropsWithChildren> = ({children}) => {
   useEffect(() => {
     [THEME_KEY, LIST_MODE_KEY, EVEREST_URL_KEY].forEach(key => localStorage.removeItem(key));
 
-    const {theme, listMode, everest, everestUrl} = settings;
+    const {theme, listMode, everest, everestUrl, checkedDrawStyle, uncheckedDrawStyle} = settings;
 
     if (theme !== undefined) {
       localStorage.setItem(THEME_KEY, theme);
@@ -52,6 +64,14 @@ export const CampPreferencesProvider: FC<PropsWithChildren> = ({children}) => {
 
     if (everestUrl !== undefined) {
       localStorage.setItem(EVEREST_URL_KEY, String(everestUrl));
+    }
+
+    if (checkedDrawStyle) {
+      localStorage.setItem(CHECKED_DRAW_STYLE_KEY, checkedDrawStyle);
+    }
+
+    if (uncheckedDrawStyle) {
+      localStorage.setItem(UNCHECKED_DRAW_STYLE_KEY, uncheckedDrawStyle);
     }
   }, [settings]);
 

@@ -3,7 +3,7 @@ import {Box, debounce, IconButton, ListItemText, Menu, MenuItem, Theme, useTheme
 import {calculateCanvasPosition, calculateCanvasView, ExtentCanvasArgs, ExtentCanvasPoint, ExtentCanvasView, ExtentCanvasViewBox, useExtentCanvas} from "extent-canvas";
 import {NextRouter, useRouter} from "next/router";
 import {FC, memo, useCallback, useEffect, useMemo, useRef, useState} from "react";
-import {useCampContext} from "../provide/CampContext";
+import {CanvasDrawStyle, useCampContext} from "../provide/CampContext";
 import {CampCanvasProps} from "./types";
 import {createBlankSide, LevelLocations, useArchipelagoContext} from "../provide/ArchipelagoContext";
 import {chapterIdToIndex, sideIdToIndex} from "../common/levelIdToIndex";
@@ -23,7 +23,8 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
 }) => {
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
 
-  const {settings: {everest}} = useCampContext();
+  const {settings} = useCampContext();
+  const {everest, checkedDrawStyle, uncheckedDrawStyle} = settings;
   const {checkedLocations} = useArchipelagoContext();
 
   const router: NextRouter = useRouter();
@@ -60,8 +61,8 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
   }, 150));
 
   // This is to prevent the view from snapping to a previous position on every location checked
-  const sideCheckedLocationsSetup = useRef(true);
-  const sideCheckedLocationsChanged = useRef(false);
+  const firstLoad = useRef(true);
+  const preventUpdateView = useRef(false);
   const sideCheckedLocations = useMemo(() => {
     let sideCheckedLocations: LevelLocations | undefined;
     if (typeof chapterId === `string`) {
@@ -74,13 +75,19 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     if (!sideCheckedLocations) {
       sideCheckedLocations = createBlankSide();
     }
-    if (!sideCheckedLocationsSetup.current) {
-      sideCheckedLocationsChanged.current = true;
-    } else {
-      sideCheckedLocationsSetup.current = false;
-    }
     return sideCheckedLocations;
   }, [chapterId, checkedLocations.area.celeste, sideId])
+
+  useEffect(() => {
+    if (sideCheckedLocations && checkedDrawStyle || uncheckedDrawStyle) {
+      if (firstLoad.current) {
+        firstLoad.current = false;
+        return;
+      } else {
+        preventUpdateView.current = true;
+      }
+    }
+  }, [sideCheckedLocations, uncheckedDrawStyle, checkedDrawStyle])
 
   /**
    * Set the current view.
@@ -155,16 +162,24 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (viewBoxRef.current === undefined) {
         return;
       }
-      const drawMarkedItemOnPos = (checked: boolean | undefined, x: number, y: number, width: number, height: number) => {
+      const drawMarkedItemOnPos = (checked: boolean | undefined, x: number, y: number, width: number, height: number, forceDrawStyle?: CanvasDrawStyle) => {
         context.globalCompositeOperation = `lighter`;
+        let drawStyle;
         if (checked) {
           context.fillStyle = `gray`;
           context.strokeStyle = `gray`;
+          drawStyle = checkedDrawStyle;
         } else {
           context.fillStyle = `green`;
           context.strokeStyle = `green`;
+          drawStyle = uncheckedDrawStyle;
         }
-        context.strokeRect(x, y, width, height);
+        if (forceDrawStyle) drawStyle = forceDrawStyle;
+        if (drawStyle === `fill`) {
+          context.fillRect(x - 1, y - 1, width + 2, height + 2);
+        } else {
+          context.strokeRect(x, y, width, height);
+        }
       }
 
       // Don't render if not in view.
@@ -315,10 +330,10 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (!hideInTracker) {
         const width = view.right - view.left
         const height = view.bottom - view.top
-        drawMarkedItemOnPos(sideCheckedLocations.rooms[id], position.x + 1, position.y + 1, width - 2, height - 2)
+        drawMarkedItemOnPos(sideCheckedLocations.rooms[id], position.x + 1, position.y + 1, width - 2, height - 2, `stroke`)
       }
     });
-  }, [contentViewRef, imagesRef, rooms, checkpoints, sideId, sideCheckedLocations]);
+  }, [contentViewRef, imagesRef, rooms, checkpoints, checkedDrawStyle, uncheckedDrawStyle, sideId, sideCheckedLocations]);
 
   const {setViewBox, draw} = useExtentCanvas({
     ref,
@@ -459,8 +474,8 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     if (view === undefined || context === null) {
       return;
     }
-    if (sideCheckedLocationsChanged.current) {
-      sideCheckedLocationsChanged.current = false;
+    if (preventUpdateView.current) {
+      preventUpdateView.current = false;
       return;
     }
     setViewBox(view);
