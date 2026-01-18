@@ -6,14 +6,15 @@ import {CampThemeProvider} from 'modules/provide/CampTheme';
 import {NextPage} from 'next';
 import {AppProps} from 'next/app';
 import '../styles/globals.css';
-import {Client, ConnectedPacket, ConnectionOptions, ConnectionRefusedPacket, defaultConnectionOptions, RoomUpdatePacket} from 'archipelago.js';
+import {Client, ConnectedPacket, ConnectionOptions, ConnectionRefusedPacket, defaultConnectionOptions, ReceivedItemsPacket, RoomUpdatePacket} from 'archipelago.js';
 import {useCallback, useEffect, useMemo, useState} from 'react';
-import {ArchipelagoContext, CheckedLocations, createBlankChapter, createBlankSide, defaultCheckedLocations, defaultRandomizerOptions, RandomizerOptions} from '~/modules/provide/ArchipelagoContext';
+import {ArchipelagoContext, ChapterItems, CheckedLocations, createBlankChapter, createBlankSide, createEmptyPlayerInventory, defaultCheckedLocations, defaultRandomizerOptions, PlayerInventory, RandomizerOptions} from '~/modules/provide/ArchipelagoContext';
 import {ConnectionStatus} from '~/modules/data/ConnectionStatus';
-import {CelesteSlotData} from '~/modules/data/dataTypes';
+import {CelesteSlotData, SideId} from '~/modules/data/dataTypes';
 import {useImmer} from 'use-immer';
 import {getLocationDataFromAP, LocationData} from '~/modules/data/ap/apLocationData';
 import {sessionStorageDateConnectedKey, StoredAPUser, localStorageAPUserKey} from '~/modules/data/ap/apStorageKeys';
+import {getItemDataFromAP, ItemData} from '~/modules/data/ap/apItemData';
 
 // Session will last 1 hour
 const sessionIdleTimerInMs = 1000 * 60 * 60;
@@ -23,6 +24,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
   const [errorMsg, setErrorMsg] = useState(``)
   const [randomizerOptions, setRandomizerOptions] = useState(defaultRandomizerOptions)
   const [checkedLocations, setCheckedLocations] = useImmer(defaultCheckedLocations)
+  const [playerInventory, setPlayerInventory] = useImmer(createEmptyPlayerInventory())
   const client = useMemo(() => new Client(), [])
   const loginClient = useCallback((host: string, name: string, password: string = "") => {
     setConnectionStatus(ConnectionStatus.Connecting)
@@ -115,6 +117,39 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       }
     }
 
+    const receiveItem = (playerInventoryDraft: PlayerInventory, itemData: ItemData) => {
+      const getOrCreateSide = (itemMap: ChapterItems, chapterId: number, sideId: SideId) => {
+        let chapter = itemMap[chapterId];
+        if (!chapter) {
+          chapter = {}
+          itemMap[chapterId] = chapter;
+        }
+        let side = chapter[sideId];
+        if (!side) {
+          side = {};
+          chapter[sideId] = side;
+        }
+        return side;
+      }
+
+      switch (itemData.type) {
+        case `checkpoints`:
+          const checkpointSide = getOrCreateSide(playerInventoryDraft.checkpoints, itemData.chapterId, itemData.sideId);
+          checkpointSide[itemData.roomId] = true;
+          break;
+        case `keys`:
+          const keySide = getOrCreateSide(playerInventoryDraft.keys, itemData.chapterId, itemData.sideId);
+          keySide[itemData.itemName] = true;
+          break;
+        case `gems`:
+          const gemSide = getOrCreateSide(playerInventoryDraft.gems, itemData.chapterId, itemData.sideId);
+          gemSide[itemData.itemName] = true;
+          break;
+        default:
+          playerInventoryDraft[itemData.type] = true;
+      }
+    }
+
     const onConnected = (packet: ConnectedPacket) => {
       setConnectionStatus(ConnectionStatus.Connected)
       console.log(`Connected to archipelago`, packet, client)
@@ -141,6 +176,15 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
           })
         })
       }
+      if (client.items.received.length > 0) {
+        setPlayerInventory(draft => {
+          client.items.received.forEach(item => {
+            const itemData = getItemDataFromAP(item.id)
+            if (!itemData) return;
+            receiveItem(draft, itemData)
+          })
+        })
+      }
     }
 
     const onConnectionRefused = (packet: ConnectionRefusedPacket) => {
@@ -157,6 +201,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       setCheckedLocations({
         area: {celeste: []}
       })
+      setPlayerInventory(createEmptyPlayerInventory())
     }
 
     const onRoomUpdate = (packet: RoomUpdatePacket) => {
@@ -170,19 +215,31 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       })
     }
 
+    const onReceivedItems = (packet: ReceivedItemsPacket) => {
+      setPlayerInventory(draft => {
+        packet.items.forEach(item => {
+          const itemData = getItemDataFromAP(item.item)
+          if (!itemData) return;
+          receiveItem(draft, itemData);
+        })
+      })
+    }
+
     const socket = client.socket
     socket.on(`connected`, onConnected)
     socket.on(`connectionRefused`, onConnectionRefused)
     socket.on(`disconnected`, onDisconnected)
     socket.on(`roomUpdate`, onRoomUpdate)
+    socket.on(`receivedItems`, onReceivedItems)
 
     return () => {
       socket.off(`connected`, onConnected)
       socket.off(`connectionRefused`, onConnectionRefused)
       socket.off(`disconnected`, onDisconnected)
       socket.off(`roomUpdate`, onRoomUpdate)
+      socket.off(`receivedItems`, onReceivedItems)
     }
-  }, [client, setCheckedLocations])
+  }, [client, setCheckedLocations, setPlayerInventory])
 
   return (
     <ArchipelagoContext.Provider value={{
@@ -191,6 +248,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       errorMsg,
       randomizerOptions,
       checkedLocations,
+      playerInventory,
       login: loginClient,
     }}>
       <CampContextProvider>

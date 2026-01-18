@@ -85,6 +85,8 @@ export interface Canvas {
   boundingBox: ExtentCanvasViewBox;
 }
 
+export type SideId = `a` | `b` | `c`;
+
 export type CelesteSlotData = {
   active_levels: string[];
   active_traps: Record<number, number>;
