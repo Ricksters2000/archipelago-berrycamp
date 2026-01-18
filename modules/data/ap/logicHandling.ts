@@ -19,7 +19,7 @@ export interface RawLogicLevel {
 export interface RawLogicRoom {
   /** Room id */
   name: string;
-  regions: Region[];
+  regions: RawLogicRegion[];
   doors: RoomDoor[];
   checkpoint: string;
   checkpoint_region: string;
@@ -38,7 +38,7 @@ interface RoomConnection {
   dest_door: string;
 }
 
-interface Region {
+export interface RawLogicRegion {
   name: string;
   connections: RegionConnection[];
   locations?: RegionLocation[];
@@ -56,11 +56,11 @@ interface RegionConnection {
   rule: Rules;
 }
 
-type LocationType = `binoculars` | `car` | `cassette` | `clutter` | `crystal_heart` | `gem` | `golden_strawberry` | `key` | `level_clear` | `strawberry`;
+export type LogicLocationType = `binoculars` | `car` | `cassette` | `clutter` | `crystal_heart` | `gem` | `golden_strawberry` | `key` | `level_clear` | `strawberry`;
 interface RegionLocation {
   name: string;
   display_name: string;
-  type: LocationType;
+  type: LogicLocationType;
   rule: Rules;
 }
 
