@@ -1,6 +1,8 @@
 import area from "~/data/celeste.json";
+import logic from "~/data/logic.json";
 import {Area} from "../data/dataTypes";
 import {LocationType} from "../data/ap/apLocationData";
+import {RawCelesteLogic} from "../data/ap/logicHandling";
 
 const baseImgUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/img`;
 
@@ -17,6 +19,10 @@ export const fetchArea = async (_: string): Promise<Area> => {
    */
   return area as never;
 };
+
+export const fetchLogic = async (): Promise<RawCelesteLogic> => {
+  return logic as never;
+}
 
 export const getRootImageUrl = (): string => {
   return `${baseImgUrl}/celeste/chapters/city.png`

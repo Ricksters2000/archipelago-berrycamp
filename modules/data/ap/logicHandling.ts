@@ -1,21 +1,22 @@
-import {MultiEntityLocation} from "~/modules/provide/ArchipelagoContext";
+import {CheckedLocations, LevelLocations, MultiEntityLocation, PlayerInventory} from "~/modules/provide/ArchipelagoContext";
+import {LogicGraph} from "./LogicGraph";
 
 export interface RawCelesteLogic {
-  levels: Level[];
+  levels: RawLogicLevel[];
 }
 
-interface Level {
+export interface RawLogicLevel {
   /**
    * This will contain the index of the chapter and side as the name.
    * ex: `name: "0a"` would be Prologue - A side
    */
   name: string;
   display_name: string;
-  rooms: Room[];
+  rooms: RawLogicRoom[];
   room_connections: RoomConnection[];
 }
 
-interface Room {
+export interface RawLogicRoom {
   /** Room id */
   name: string;
   regions: Region[];
@@ -126,7 +127,7 @@ type RuleType =
   `traffic_blocks` |
   `white_block` |
   `yellow_cassette_blocks`;
-type Rules = Array<Array<RuleType>>;
+export type Rules = Array<Array<RuleType>>;
 
 export enum LogicStatus {
   InAccessible,
@@ -154,4 +155,10 @@ export interface SideLogicData {
   binoculars: MultiEntityLocation<string, LogicStatus>;
   strawberries: MultiEntityLocation<number, LogicStatus>;
   rooms: Record<string, LogicStatus>;
+}
+
+// export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerInventory, checkedLocations: LevelLocations) => {
+export const getLogicDataFromSide = (rawLogic: RawLogicLevel) => {
+  const tree = new LogicGraph(rawLogic);
+  console.log(`${rawLogic.display_name} tree:`, tree)
 }
