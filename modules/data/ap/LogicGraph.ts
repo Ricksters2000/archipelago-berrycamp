@@ -12,7 +12,7 @@ interface NodeConnection {
   rules: Rules;
 }
 
-class RegionNode {
+export class RegionNode {
   name: string;
   connections: Array<NodeConnection>;
   locations: Array<Location>;
