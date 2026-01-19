@@ -1,8 +1,11 @@
-import {ChapterSides, LevelLocations, RandomizerOptions} from "../provide/ArchipelagoContext";
-import {Chapter, Side} from "./dataTypes";
+import {objectKeys} from "~/modules/common/objectKeys";
+import {ChapterSides, LevelLocations, RandomizerOptions} from "../../provide/ArchipelagoContext";
+import {Chapter, Side} from "../dataTypes";
+import {ChapterLogicData, LogicStatus, SideLogicData} from "./logicHandling";
 
 export interface LocationCount {
   checked: number;
+  accessible: number;
   total: number;
 }
 
@@ -23,20 +26,20 @@ export interface FullLocationCount {
 
 type SideProps = Omit<Side, `img` | `canvas` | `name`>
 
-export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterSides, chapter: Omit<Chapter, `desc`>, randomizerOptions: RandomizerOptions): FullLocationCount => {
+export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterSides, logic: ChapterLogicData, chapter: Omit<Chapter, `desc`>, randomizerOptions: RandomizerOptions): FullLocationCount => {
   const result: FullLocationCount = {
-    levelClear: {checked: 0, total: 0},
-    heart: {checked: 0, total: 0},
-    golden: {checked: 0, total: 0},
-    cassette: {checked: 0, total: 0},
-    checkpoints: {checked: 0, total: 0},
-    cars: {checked: 0, total: 0},
-    keys: {checked: 0, total: 0},
-    gems: {checked: 0, total: 0},
-    binoculars: {checked: 0, total: 0},
-    strawberries: {checked: 0, total: 0},
-    rooms: {checked: 0, total: 0},
-    total: {checked: 0, total: 0},
+    levelClear: {checked: 0, accessible: 0, total: 0},
+    heart: {checked: 0, accessible: 0, total: 0},
+    golden: {checked: 0, accessible: 0, total: 0},
+    cassette: {checked: 0, accessible: 0, total: 0},
+    checkpoints: {checked: 0, accessible: 0, total: 0},
+    cars: {checked: 0, accessible: 0, total: 0},
+    keys: {checked: 0, accessible: 0, total: 0},
+    gems: {checked: 0, accessible: 0, total: 0},
+    binoculars: {checked: 0, accessible: 0, total: 0},
+    strawberries: {checked: 0, accessible: 0, total: 0},
+    rooms: {checked: 0, accessible: 0, total: 0},
+    total: {checked: 0, accessible: 0, total: 0},
   }
 
   if (!randomizerOptions.includeCore && chapter.id === `core`) return result;
@@ -58,32 +61,26 @@ export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterS
       rooms: {},
     }
 
+    const logicSideData = logic.sides[i] || {
+      checkpoints: {},
+      cars: {},
+      keys: {},
+      gems: {},
+      strawberries: {},
+      binoculars: {},
+      rooms: {},
+    }
+
     // Get the location count for this side
-    const sideCount = getCheckedAndTotalLocationsForSide(sideCheckedLocations, side, randomizerOptions)
+    const sideCount = getCheckedAndTotalLocationsForSide(sideCheckedLocations, logicSideData, side, randomizerOptions)
 
     // Sum up all the counts
-    result.levelClear.checked += sideCount.levelClear.checked
-    result.levelClear.total += sideCount.levelClear.total
-    result.heart.checked += sideCount.heart.checked
-    result.heart.total += sideCount.heart.total
-    result.golden.checked += sideCount.golden.checked
-    result.golden.total += sideCount.golden.total
-    result.cassette.checked += sideCount.cassette.checked
-    result.cassette.total += sideCount.cassette.total
-    result.checkpoints.checked += sideCount.checkpoints.checked
-    result.checkpoints.total += sideCount.checkpoints.total
-    result.cars.checked += sideCount.cars.checked
-    result.cars.total += sideCount.cars.total
-    result.keys.checked += sideCount.keys.checked
-    result.keys.total += sideCount.keys.total
-    result.gems.checked += sideCount.gems.checked
-    result.gems.total += sideCount.gems.total
-    result.binoculars.checked += sideCount.binoculars.checked
-    result.binoculars.total += sideCount.binoculars.total
-    result.strawberries.checked += sideCount.strawberries.checked
-    result.strawberries.total += sideCount.strawberries.total
-    result.rooms.checked += sideCount.rooms.checked
-    result.rooms.total += sideCount.rooms.total
+    const keys = objectKeys(result);
+    for (const key of keys) {
+      result[key].checked += sideCount[key].checked
+      result[key].accessible += sideCount[key].accessible
+      result[key].total += sideCount[key].total
+    }
   }
 
   // Calculate total across all location types
@@ -116,20 +113,20 @@ export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterS
   return result
 }
 
-export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocations, side: SideProps, randomizerOptions: RandomizerOptions): FullLocationCount => {
+export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocations, sideLogicData: SideLogicData, side: SideProps, randomizerOptions: RandomizerOptions): FullLocationCount => {
   const result: FullLocationCount = {
-    levelClear: {checked: 0, total: 0},
-    heart: {checked: 0, total: 0},
-    golden: {checked: 0, total: 0},
-    cassette: {checked: 0, total: 0},
-    checkpoints: {checked: 0, total: 0},
-    cars: {checked: 0, total: 0},
-    keys: {checked: 0, total: 0},
-    gems: {checked: 0, total: 0},
-    binoculars: {checked: 0, total: 0},
-    strawberries: {checked: 0, total: 0},
-    rooms: {checked: 0, total: 0},
-    total: {checked: 0, total: 0},
+    levelClear: {checked: 0, accessible: 0, total: 0},
+    heart: {checked: 0, accessible: 0, total: 0},
+    golden: {checked: 0, accessible: 0, total: 0},
+    cassette: {checked: 0, accessible: 0, total: 0},
+    checkpoints: {checked: 0, accessible: 0, total: 0},
+    cars: {checked: 0, accessible: 0, total: 0},
+    keys: {checked: 0, accessible: 0, total: 0},
+    gems: {checked: 0, accessible: 0, total: 0},
+    binoculars: {checked: 0, accessible: 0, total: 0},
+    strawberries: {checked: 0, accessible: 0, total: 0},
+    rooms: {checked: 0, accessible: 0, total: 0},
+    total: {checked: 0, accessible: 0, total: 0},
   }
 
   if (!randomizerOptions.includeBSides && side.id === `b`) return result;
@@ -196,26 +193,26 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
   }
 
   // keys, gems, and checkpoints are always counted as ap locations so these can always be shown
-  result.checkpoints = getCheckedAndTotalCheckpointLocations(checkedLocations, side)
-  result.keys = getCheckedAndTotalKeyLocations(checkedLocations, side)
-  result.gems = getCheckedAndTotalGemLocations(checkedLocations, side)
+  result.checkpoints = getCheckedAndTotalCheckpointLocations(checkedLocations, sideLogicData, side)
+  result.keys = getCheckedAndTotalKeyLocations(checkedLocations, sideLogicData, side)
+  result.gems = getCheckedAndTotalGemLocations(checkedLocations, sideLogicData, side)
 
   // cars - only if carSanity is true
   if (randomizerOptions.carSanity) {
-    result.cars = getCheckedAndTotalCarLocations(checkedLocations, side)
+    result.cars = getCheckedAndTotalCarLocations(checkedLocations, sideLogicData, side)
   }
 
   // binoculars - only if binoSanity is true
   if (randomizerOptions.binoSanity) {
-    result.binoculars = getCheckedAndTotalBinocularLocations(checkedLocations, side)
+    result.binoculars = getCheckedAndTotalBinocularLocations(checkedLocations, sideLogicData, side)
   }
 
   // strawberries - always count
-  result.strawberries = getCheckedAndTotalBerryLocations(checkedLocations, side)
+  result.strawberries = getCheckedAndTotalBerryLocations(checkedLocations, sideLogicData, side)
 
   // rooms - only if roomSanity is true
   if (randomizerOptions.roomSanity) {
-    result.rooms = getCheckedAndTotalRoomLocations(checkedLocations, side)
+    result.rooms = getCheckedAndTotalRoomLocations(checkedLocations, sideLogicData, side)
   }
 
   // Calculate total across all location types
@@ -248,42 +245,51 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
   return result
 }
 
-export const getCheckedAndTotalCheckpointLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
+export const getCheckedAndTotalCheckpointLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
   let checked = 0
+  let accessible = 0
   let total = 0
   for (const roomId in side.rooms) {
     if (side.rooms[roomId]?.entities.checkpoint) {
       total++;
       if (checkedLocations.checkpoints[roomId]) {
         checked++;
+      } else if (logic.checkpoints[roomId] === LogicStatus.Accessible) {
+        accessible++;
       }
     }
   }
   return {
     checked,
+    accessible,
     total,
   }
 }
 
-export const getCheckedAndTotalCarLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
+export const getCheckedAndTotalCarLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
   let checked = 0
+  let accessible = 0
   let total = 0
   for (const roomId in side.rooms) {
     if (side.rooms[roomId]?.entities.car) {
       total++;
       if (checkedLocations.cars[roomId]) {
         checked++;
+      } else if (logic.cars[roomId] === LogicStatus.Accessible) {
+        accessible++;
       }
     }
   }
   return {
     checked,
+    accessible,
     total,
   }
 }
 
-export const getCheckedAndTotalKeyLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
+export const getCheckedAndTotalKeyLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
   let checked = 0
+  let accessible = 0
   let total = 0
   for (const roomId in side.rooms) {
     const keys = side.rooms[roomId]?.entities.key;
@@ -294,35 +300,43 @@ export const getCheckedAndTotalKeyLocations = (checkedLocations: LevelLocations,
       for (const key of keys) {
         if (checkedKeys[key.id]) {
           checked++;
+        } else if (logic.keys[roomId]?.[key.logicName] === LogicStatus.Accessible) {
+          accessible++;
         }
       }
     }
   }
   return {
     checked,
+    accessible,
     total,
   }
 }
 
-export const getCheckedAndTotalGemLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
+export const getCheckedAndTotalGemLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
   let checked = 0
+  let accessible = 0
   let total = 0
   for (const roomId in side.rooms) {
     if (side.rooms[roomId]?.entities.gem) {
       total++;
       if (checkedLocations.gems[roomId]) {
         checked++;
+      } else if (logic.gems[roomId] === LogicStatus.Accessible) {
+        accessible++;
       }
     }
   }
   return {
     checked,
+    accessible,
     total,
   }
 }
 
-export const getCheckedAndTotalBinocularLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
+export const getCheckedAndTotalBinocularLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
   let checked = 0
+  let accessible = 0
   let total = 0
   for (const roomId in side.rooms) {
     const binoculars = side.rooms[roomId]?.entities.binoculars;
@@ -333,18 +347,22 @@ export const getCheckedAndTotalBinocularLocations = (checkedLocations: LevelLoca
       for (const bino of binoculars) {
         if (checkedBinoculars[bino.id]) {
           checked++;
+        } else if (logic.binoculars[roomId]?.[bino.logicName] === LogicStatus.Accessible) {
+          accessible++;
         }
       }
     }
   }
   return {
     checked,
+    accessible,
     total,
   }
 }
 
-export const getCheckedAndTotalBerryLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
+export const getCheckedAndTotalBerryLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
   let checked = 0
+  let accessible = 0
   let total = 0
   for (const roomId in side.rooms) {
     const berries = side.rooms[roomId]?.entities.berry;
@@ -355,18 +373,22 @@ export const getCheckedAndTotalBerryLocations = (checkedLocations: LevelLocation
       for (const berry of berries) {
         if (checkedStrawberries[berry.id]) {
           checked++;
+        } else if (logic.strawberries[roomId]?.[berry.logicName] === LogicStatus.Accessible) {
+          accessible++;
         }
       }
     }
   }
   return {
     checked,
+    accessible,
     total,
   }
 }
 
-export const getCheckedAndTotalRoomLocations = (checkedLocations: LevelLocations, side: SideProps): LocationCount => {
+export const getCheckedAndTotalRoomLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
   let checked = 0
+  let accessible = 0
   let total = 0
   for (const roomId in side.rooms) {
     // Some rooms may be cutscene or just filler rooms which aren't counted as locations in AP
@@ -374,10 +396,13 @@ export const getCheckedAndTotalRoomLocations = (checkedLocations: LevelLocations
     total++
     if (checkedLocations.rooms[roomId]) {
       checked++
+    } else if (logic.rooms[roomId] === LogicStatus.Accessible) {
+      accessible++
     }
   }
   return {
     checked,
+    accessible,
     total,
   }
 }

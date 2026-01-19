@@ -10,10 +10,11 @@ import {ChapterHeaderImage} from "~/modules/chapter/HeaderImage";
 import {HeaderNav} from "~/modules/chapter/HeaderNav";
 import {AreaData, ChapterData, ChapterNav} from "~/modules/chapter/types";
 import {VALID_AREAS} from "~/modules/data/validAreas";
-import {fetchArea, getChapterImageUrl, getRoomPreviewUrl} from "~/modules/fetch/dataApi";
+import {fetchArea, fetchLogic, getChapterImageUrl, getRoomPreviewUrl} from "~/modules/fetch/dataApi";
 import {CampHead} from "~/modules/head/CampHead";
 import {useCampContext} from "~/modules/provide/CampContext";
-import {Area, Chapter} from "../../modules/data/dataTypes";
+import {Area, Chapter, SideId} from "../../modules/data/dataTypes";
+import {findLogicSidesFromRawLogic, RawLogicLevel} from "~/modules/data/ap/logicHandling";
 
 const ChapterPage: CampPage<ChapterProps> = ({area, chapter, sides, prevChapter, nextChapter}) => {
   const {settings: {listMode}} = useCampContext();
@@ -101,6 +102,18 @@ export const getStaticProps: GetStaticProps<ChapterProps, ChapterParams> = async
   const prevChapter: Chapter | undefined = area.chapters[chapterIndex - 1];
   const nextChapter: Chapter | undefined = area.chapters[chapterIndex + 1];
 
+  const fullLogic = await fetchLogic();
+  const logicSidesMap: Record<SideId, RawLogicLevel | null> = {
+    a: null,
+    b: null,
+    c: null,
+  }
+  const logicSides = findLogicSidesFromRawLogic(fullLogic, chapterIndex);
+  logicSides.forEach(s => {
+    const sideId = s.name.substring(s.name.length - 1) as SideId;
+    logicSidesMap[sideId] = s;
+  })
+
   return {
     props: {
       area: {
@@ -124,6 +137,7 @@ export const getStaticProps: GetStaticProps<ChapterProps, ChapterParams> = async
         href: `/${area.id}/${chapter.id}/${id}`,
         src: getRoomPreviewUrl(area.id, chapter.id, id, img),
         roomCount: checkpoints.reduce((a, b) => a + b.roomCount, 0),
+        sideLogic: logicSidesMap,
       })),
       ...(prevChapter && {prevChapter}),
       ...(nextChapter && {nextChapter}),

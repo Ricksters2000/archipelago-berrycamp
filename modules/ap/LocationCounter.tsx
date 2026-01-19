@@ -1,9 +1,11 @@
 import {FC} from "react";
 import {LocationType} from "../data/ap/apLocationData";
-import {LocationCount} from "../data/countLocations";
+import {LocationCount} from "../data/ap/countLocations";
 import {Grid2, Stack, Typography} from "@mui/material";
 import Image from "next/image";
 import {getCelesteItemImageUrl} from "../fetch/dataApi";
+import {logicColorKey} from "../data/ap/logicColorKey";
+import {LogicStatus} from "../data/ap/logicHandling";
 
 interface Props {
   type: LocationType;
@@ -22,7 +24,13 @@ export const LocationCounter: FC<Props> = ({type, locationCount}) => {
           objectFit={type === `binoculars` ? `none` : `contain`}
           objectPosition={type === `binoculars` ? `bottom` : undefined}
         />
-        <Typography>{`${locationCount.checked}/${locationCount.total}`}</Typography>
+        <Typography>
+          <span style={{color: logicColorKey[LogicStatus.Checked]}}>{locationCount.checked}</span>
+          /
+          <span style={{color: logicColorKey[LogicStatus.Accessible]}}>{locationCount.accessible}</span>
+          /
+          <span>{locationCount.total}</span>
+        </Typography>
       </Stack>
     </Grid2>
   )

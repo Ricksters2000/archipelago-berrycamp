@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import {FC, useState} from "react";
 import {AspectBox} from "../common/aspectBox/AspectBox";
-import {Checkpoint, Side} from "../data/dataTypes";
-import {getCheckedAndTotalLocationsForSide} from "../data/countLocations";
+import {Checkpoint, Side, SideId} from "../data/dataTypes";
+import {getCheckedAndTotalLocationsForSide} from "../data/ap/countLocations";
 import {createBlankSide, LevelLocations, useArchipelagoContext} from "../provide/ArchipelagoContext";
 import {sideIdToIndex} from "../common/levelIdToIndex";
 import {LocationCounterList} from "../ap/LocationCounterList";
 import {TotalLocationCounter} from "../ap/TotalLocationCounter";
+import {getLogicDataFromSide, RawLogicLevel, SideLogicData} from "../data/ap/logicHandling";
 
 export interface ChapterViewItemProps {
   chapterIndex: number;
@@ -20,6 +21,7 @@ export interface ChapterViewItemProps {
   rooms: Side[`rooms`];
   href: string;
   src: string;
+  sideLogic: Record<SideId, RawLogicLevel | null>
 }
 
 export interface ChapterViewProps {
@@ -36,8 +38,8 @@ export const ChapterGridView: FC<ChapterViewProps> = ({sides}) => {
 
 const ChapterGridViewItem: FC<ChapterViewItemProps> = (props) => {
   const [showCheckedLocations, setShowCheckedLocations] = useState(false);
-  const {chapterIndex, id, name, roomCount, href, src} = props;
-  const {checkedLocations, randomizerOptions} = useArchipelagoContext();
+  const {chapterIndex, id, name, roomCount, href, src, sideLogic} = props;
+  const {checkedLocations, randomizerOptions, playerInventory} = useArchipelagoContext();
   let sideCheckedLocations: LevelLocations | undefined;
   const chapter = checkedLocations.area.celeste[chapterIndex];
   if (chapter) {
@@ -46,7 +48,22 @@ const ChapterGridViewItem: FC<ChapterViewItemProps> = (props) => {
   if (!sideCheckedLocations) {
     sideCheckedLocations = createBlankSide();
   }
-  const totalCounts = getCheckedAndTotalLocationsForSide(sideCheckedLocations, props, randomizerOptions);
+  let logic = sideLogic[id as SideId];
+  let logicData: SideLogicData;
+  if (!logic) {
+    logicData = {
+      checkpoints: {},
+      cars: {},
+      strawberries: {},
+      gems: {},
+      keys: {},
+      binoculars: {},
+      rooms: {},
+    }
+  } else {
+    logicData = getLogicDataFromSide(logic, playerInventory);
+  }
+  const totalCounts = getCheckedAndTotalLocationsForSide(sideCheckedLocations, logicData, props, randomizerOptions);
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card component={Box} onMouseEnter={() => setShowCheckedLocations(true)} onMouseLeave={() => setShowCheckedLocations(false)}>

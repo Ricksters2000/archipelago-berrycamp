@@ -1,7 +1,7 @@
 import {Box, Card, CardActionArea, CardContent, CardMedia, List, ListItemButton, Typography} from '@mui/material'
 import {Container} from '@mui/system'
 import {VALID_AREAS} from 'modules/data/validAreas'
-import {fetchArea, getAreaImageUrl, getChapterImageUrl} from 'modules/fetch/dataApi'
+import {fetchArea, fetchLogic, getAreaImageUrl, getChapterImageUrl} from 'modules/fetch/dataApi'
 import {CampHead} from 'modules/head/CampHead'
 import {useCampContext} from 'modules/provide/CampContext'
 import Image from "next/image"
@@ -13,11 +13,12 @@ import {AspectBox} from '~/modules/common/aspectBox/AspectBox'
 import {Area, Side} from '../modules/data/dataTypes'
 import {CampPage} from './_app'
 import {useArchipelagoContext} from '~/modules/provide/ArchipelagoContext'
-import {getCheckedAndTotalLocationsForChapter} from '~/modules/data/countLocations'
+import {getCheckedAndTotalLocationsForChapter} from '~/modules/data/ap/countLocations'
 import {LocationCounterList} from '~/modules/ap/LocationCounterList'
 import {TotalLocationCounter} from '~/modules/ap/TotalLocationCounter'
+import {getLogicDataFromChapter, RawCelesteLogic} from '~/modules/data/ap/logicHandling'
 
-const AreaPage: CampPage<AreaProps> = ({area, chapters}) => {
+const AreaPage: CampPage<AreaProps> = ({area, chapters, logic}) => {
   return (
     <Fragment>
       <CampHead
@@ -26,29 +27,29 @@ const AreaPage: CampPage<AreaProps> = ({area, chapters}) => {
         image={getAreaImageUrl(area.id)}
       />
       <Container>
-        <AreaView area={area} chapters={chapters} />
+        <AreaView area={area} chapters={chapters} logic={logic} />
       </Container>
     </Fragment>
   )
 }
 
-export const AreaView: FC<AreaProps> = ({area, chapters}) => {
+export const AreaView: FC<AreaProps> = ({area, chapters, logic}) => {
   const {settings: {listMode}} = useCampContext();
 
   return (
     <Fragment>
       {listMode ? (
-        <ListArea area={area} chapters={chapters} />
+        <ListArea area={area} chapters={chapters} logic={logic} />
       ) : (
-        <GridArea area={area} chapters={chapters} />
+        <GridArea area={area} chapters={chapters} logic={logic} />
       )}
     </Fragment>
   );
 }
 
-const GridArea: FC<AreaProps> = ({area, chapters}) => {
+const GridArea: FC<AreaProps> = ({area, chapters, logic}) => {
   const [chapterHovering, setChapterHovering] = useState(``)
-  const {randomizerOptions, checkedLocations} = useArchipelagoContext()
+  const {randomizerOptions, checkedLocations, playerInventory} = useArchipelagoContext()
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box
@@ -69,7 +70,8 @@ const GridArea: FC<AreaProps> = ({area, chapters}) => {
           if (!checkedChapter) {
             checkedChapter = {sides: []}
           }
-          const totalCounts = getCheckedAndTotalLocationsForChapter(checkedChapter, chapter, randomizerOptions)
+          const chapterLogic = getLogicDataFromChapter(logic, i, playerInventory);
+          const totalCounts = getCheckedAndTotalLocationsForChapter(checkedChapter, chapterLogic, chapter, randomizerOptions);
           return (
             <Card key={chapter.id} onMouseEnter={() => setChapterHovering(chapter.id)} onMouseLeave={() => setChapterHovering(``)}>
               <Link passHref href={`/${area.id}/${chapter.id}`}>
@@ -145,6 +147,7 @@ const ListArea: FC<AreaProps> = ({area, chapters}) => {
 export interface AreaProps {
   area: AreaData;
   chapters: ChapterData[];
+  logic: RawCelesteLogic;
 }
 
 interface AreaData {
@@ -178,11 +181,13 @@ export const getStaticProps: GetStaticProps<AreaProps, AreaParams> = async ({par
   }
 
   const {id, name, desc, chapters}: Area = await fetchArea(params.areaId);
+  const logic = await fetchLogic();
 
   return {
     props: {
       area: {id, name, desc},
       chapters: chapters.map(({id, gameId, chapterNo: no, name, sides}) => ({id, gameId, name, sides, ...(no && {no})})),
+      logic,
     },
   };
 };

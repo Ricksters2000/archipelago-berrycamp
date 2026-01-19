@@ -1,6 +1,7 @@
 import {MultiEntityLocation, PlayerInventory} from "~/modules/provide/ArchipelagoContext";
 import {LogicGraph, RegionNode} from "./LogicGraph";
 import {SideId} from "../dataTypes";
+import {combineFarewellRawLogic} from "../farewellUtils";
 
 export interface RawCelesteLogic {
   levels: RawLogicLevel[];
@@ -137,11 +138,11 @@ export enum LogicStatus {
 }
 
 export interface LogicData {
-  chapters: [];
+  chapters: ChapterLogicData[];
 }
 
 export interface ChapterLogicData {
-  sides: [];
+  sides: SideLogicData[];
 }
 
 /** Anything that is undefined should be considered as Inaccessible */
@@ -159,7 +160,23 @@ export interface SideLogicData {
   rooms: Record<string, LogicStatus>;
 }
 
-// export const getLogicDataFromSide = (rawLogic: RawLogicLevel) => {
+export const findLogicSidesFromRawLogic = (rawLogic: RawCelesteLogic, chapterIndex: number) => {
+  if (chapterIndex === 10) {
+    return [combineFarewellRawLogic(rawLogic)]
+  }
+  const sides = rawLogic.levels.filter(l => {
+    if (l.name.includes(`10`)) return false;
+    return l.name.includes(chapterIndex.toString());
+  })
+  return sides;
+}
+
+export const getLogicDataFromChapter = (rawLogic: RawCelesteLogic, chapterIndex: number, inventory: PlayerInventory): ChapterLogicData => {
+  const sides = findLogicSidesFromRawLogic(rawLogic, chapterIndex);
+  const logicSides = sides.map(s => getLogicDataFromSide(s, inventory));
+  return {sides: logicSides};
+}
+
 export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerInventory) => {
   const graph = new LogicGraph(rawLogic);
   const root = graph.getRoot();
@@ -208,6 +225,9 @@ const traverseNode = (
     regionsChecked[node.roomId] = {[node.name]: true};
   }
   logicData.rooms[node.roomId] = LogicStatus.Accessible;
+  if (node.checkpoint) {
+    logicData.checkpoints[node.roomId] = LogicStatus.Accessible;
+  }
   for (const conn of node.connections) {
     if (passesRules(chapterIndex, sideId, conn.rules, inventory)) {
       traverseNode(chapterIndex, sideId, conn.child, logicData, inventory, regionsChecked);

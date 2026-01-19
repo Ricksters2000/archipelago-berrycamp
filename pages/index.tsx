@@ -2,7 +2,7 @@ import {Avatar, Box, Button, Chip, Container, Paper, styled, TextField, Typograp
 import {GetStaticProps} from "next";
 import {Fragment, useEffect, useState} from "react";
 import {Area} from "~/modules/data/dataTypes";
-import {fetchArea, getAPIconImageUrl, getRootImageUrl} from "~/modules/fetch/dataApi";
+import {fetchArea, fetchLogic, getAPIconImageUrl, getRootImageUrl} from "~/modules/fetch/dataApi";
 import {CampHead} from "~/modules/head/CampHead";
 import {AreaProps, AreaView} from "./[areaId]";
 import {CampPage} from "./_app";
@@ -12,7 +12,7 @@ import {ConnectionDisplay} from "~/modules/ap/ConnectionDisplay";
 import {localStorageAPUserKey, StoredAPUser} from "~/modules/data/ap/apStorageKeys";
 import Image from "next/image";
 
-export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
+export const HomePage: CampPage<AreaProps> = ({area, chapters, logic}) => {
   const [host, setHost] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -117,7 +117,7 @@ export const HomePage: CampPage<AreaProps> = ({area, chapters}) => {
             </Box>
           </Box>
         </Paper>
-        <AreaView area={area} chapters={chapters} />
+        <AreaView area={area} chapters={chapters} logic={logic} />
       </Container>
     </Fragment>
   )
@@ -127,11 +127,12 @@ export default HomePage;
 
 export const getStaticProps: GetStaticProps<AreaProps> = async () => {
   const {id, name, desc, chapters}: Area = await fetchArea("celeste");
-
+  const logic = await fetchLogic();
   return {
     props: {
       area: {id, name, desc},
       chapters: chapters.map(({id, gameId, chapterNo: no, name, sides}) => ({id, gameId, name, sides, ...(no && {no})})),
+      logic,
     },
   };
 };
