@@ -36,6 +36,7 @@ export class RegionNode {
  */
 export class LogicGraph {
   private root: RegionNode;
+  private checkpointNodes: Array<RegionNode> = [];
 
   constructor(level: RawLogicLevel) {
     let mainRoom: RawLogicRoom | undefined;
@@ -48,7 +49,7 @@ export class LogicGraph {
       }
     }
     if (!mainRoom) throw new Error(`Failed to spawn from level ${level.name}`);
-    const startRegion = mainRoom.regions.find(r => r.name === mainRoom.checkpoint_region)
+    const startRegion = mainRoom.regions.find(r => r.name === mainRoom?.checkpoint_region)
     if (!startRegion) throw new Error(`Failed to find region from starting room in level: ${level.name};${mainRoom.name}`)
     this.root = new RegionNode(mainRoom.name, startRegion, mainRoom.checkpoint);
     this.fillChildren(level, this.root, mainRoom, startRegion);
@@ -73,11 +74,15 @@ export class LogicGraph {
       if (!roomNodes) return null;
       return roomNodes[regionName];
     }
+    // add any nodes that are at a checkpoint except for the main spawn location
+    if (node.checkpoint && node.checkpoint !== `Start`) {
+      this.checkpointNodes.push(node);
+    }
     // get connecting regions from the current region
     for (let i = 0; i < currentRegion.connections.length; i++) {
       const childRegionConn = currentRegion.connections[i];
       if (!childRegionConn) continue;
-      const childRegion = currentRoom.regions.find(r => r.name === childRegionConn.dest);
+      const childRegion = currentRoom.regions.find(r => r.name === childRegionConn?.dest);
       if (!childRegion) continue;
       let childNode = getChildNode(currentRoom.name, childRegion.name);
       if (!childNode) {
@@ -131,4 +136,6 @@ export class LogicGraph {
   }
 
   getRoot() {return this.root}
+
+  getCheckpointNodes() {return this.checkpointNodes}
 }

@@ -175,7 +175,18 @@ export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerI
   const levelName = rawLogic.name;
   const chapterIndex = parseInt(levelName.substring(0, levelName.length - 1));
   const sideId = levelName.substring(levelName.length - 1) as SideId;
-  traverseNode(chapterIndex, sideId, root, logicData, inventory);
+  const regionsChecked = {};
+  traverseNode(chapterIndex, sideId, root, logicData, inventory, regionsChecked);
+  const checkpoints = inventory.checkpoints[chapterIndex]?.[sideId]
+  if (checkpoints) {
+    const checkpointNodes = graph.getCheckpointNodes();
+    for (const roomId in checkpoints) {
+      const node = checkpointNodes.find(n => n.roomId === roomId);
+      if (node) {
+        traverseNode(chapterIndex, sideId, node, logicData, inventory, regionsChecked);
+      }
+    }
+  }
   console.log(`${rawLogic.display_name} tree:`, graph)
   console.log(logicData)
   return logicData;
