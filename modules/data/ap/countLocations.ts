@@ -304,9 +304,8 @@ export const getCheckedAndTotalKeyLocations = (checkedLocations: LevelLocations,
     if (keys) {
       total += keys.length;
       const checkedKeys = checkedLocations.keys[roomId];
-      if (!checkedKeys) continue;
       for (const key of keys) {
-        if (checkedKeys[key.id]) {
+        if (checkedKeys?.[key.id]) {
           checked++;
         } else if (logic.keys[roomId]?.[key.logicName] === LogicStatus.Accessible) {
           accessible++;
@@ -351,9 +350,8 @@ export const getCheckedAndTotalBinocularLocations = (checkedLocations: LevelLoca
     if (binoculars) {
       total += binoculars.length;
       const checkedBinoculars = checkedLocations.binoculars[roomId];
-      if (!checkedBinoculars) continue;
       for (const bino of binoculars) {
-        if (checkedBinoculars[bino.id]) {
+        if (checkedBinoculars?.[bino.id]) {
           checked++;
         } else if (logic.binoculars[roomId]?.[bino.logicName] === LogicStatus.Accessible) {
           accessible++;
@@ -377,9 +375,8 @@ export const getCheckedAndTotalBerryLocations = (checkedLocations: LevelLocation
     if (berries) {
       total += berries.length;
       const checkedStrawberries = checkedLocations.strawberries[roomId];
-      if (!checkedStrawberries) continue;
       for (const berry of berries) {
-        if (checkedStrawberries[berry.id]) {
+        if (checkedStrawberries?.[berry.id]) {
           checked++;
         } else if (logic.strawberries[roomId]?.[berry.logicName] === LogicStatus.Accessible) {
           accessible++;

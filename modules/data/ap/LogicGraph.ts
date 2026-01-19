@@ -16,11 +16,14 @@ export class RegionNode {
   name: string;
   connections: Array<NodeConnection>;
   locations: Array<Location>;
+  /** Ids of rooms and region names that this shouldn't connect to */
+  cantAccessRoomsFromRegions: Array<[roomId: string, regionName: string]>;
 
   constructor(public roomId: string, region: RawLogicRegion, public checkpoint?: string) {
     this.name = region.name;
     this.connections = [];
     this.locations = [];
+    this.cantAccessRoomsFromRegions = [];
     region.locations?.forEach(l => {
       this.locations.push({
         name: l.name,
@@ -97,7 +100,8 @@ export class LogicGraph {
     // get potential room this region connects to
     const door = currentRoom.doors.find(d => d.name === currentRegion.name);
     // Can't access the room pass this door if it closes behind
-    if (door && !door.closes_behind) {
+    if (door) {
+      let currentRoomType: `source` | `dest` | undefined = undefined;
       let newRoomInfo = {
         roomId: ``,
         regionName: ``,
@@ -109,15 +113,20 @@ export class LogicGraph {
             roomId: r.dest_room,
             regionName: r.dest_door,
           }
+          currentRoomType = `source`;
           return true;
         } else if (r.dest_room === currentRoom.name && r.dest_door === door.name) {
           newRoomInfo = {
             roomId: r.source_room,
             regionName: r.source_door,
           }
+          currentRoomType = `dest`;
           return true;
         }
       });
+      // If a room is the source but it closes behind then most likely it can still access the room
+      // but if its a dest then it won't be able to access the room
+      if (door.closes_behind && currentRoomType === `dest`) return;
       if (!roomConn) return;
       const toRoom = level.rooms.find(r => r.name === newRoomInfo.roomId);
       if (!toRoom) return;
@@ -126,6 +135,10 @@ export class LogicGraph {
       let childNode = getChildNode(toRoom.name, toRegion.name);
       if (!childNode) {
         childNode = new RegionNode(toRoom.name, toRegion, toRoom.checkpoint_region === toRegion.name ? toRoom.checkpoint : undefined);
+      }
+      if (door.closes_behind) {
+        childNode.cantAccessRoomsFromRegions.push([currentRoom.name, node.name]);
+        childNode.connections = childNode.connections.filter(({child}) => !(child.roomId === currentRoom.name && child.name === node.name));
       }
       node.connections.push({
         rules: [],
@@ -138,4 +151,8 @@ export class LogicGraph {
   getRoot() {return this.root}
 
   getCheckpointNodes() {return this.checkpointNodes}
+
+  printTree() {
+
+  }
 }
