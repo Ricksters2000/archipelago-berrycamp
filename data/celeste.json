@@ -456,7 +456,8 @@
                     "id": 11,
                     "x": 96,
                     "y": 40,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -496,7 +497,8 @@
                     "id": 9,
                     "x": 288,
                     "y": 128,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -562,7 +564,8 @@
                     "id": 21,
                     "x": 32,
                     "y": 32,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ],
                 "spawn": [
@@ -620,7 +623,8 @@
                     "id": 12,
                     "x": 280,
                     "y": 104,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ],
                 "checkpoint": [
@@ -746,7 +750,8 @@
                     "id": 14,
                     "x": 248,
                     "y": 104,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -838,7 +843,8 @@
                     "id": 9,
                     "x": 264,
                     "y": 216,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -986,7 +992,8 @@
                     "id": 1,
                     "x": 272,
                     "y": 144,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1096,7 +1103,8 @@
                     "id": 8,
                     "x": 64,
                     "y": 104,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1136,7 +1144,8 @@
                     "id": 2,
                     "x": 120,
                     "y": 64,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1176,7 +1185,8 @@
                     "id": 2,
                     "x": 240,
                     "y": 48,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1216,7 +1226,8 @@
                     "id": 10,
                     "x": 144,
                     "y": 248,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1436,7 +1447,8 @@
                     "id": 12,
                     "x": 336,
                     "y": 96,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1476,7 +1488,8 @@
                     "id": 3,
                     "x": 64,
                     "y": 96,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1520,7 +1533,8 @@
                     "id": 2,
                     "x": 40,
                     "y": 40,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1554,7 +1568,8 @@
                     "id": 1,
                     "x": 192,
                     "y": 24,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ],
                 "spawn": [
@@ -1640,7 +1655,8 @@
                     "id": 1,
                     "x": 176,
                     "y": 72,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1692,7 +1708,8 @@
                     "id": 9,
                     "x": 296,
                     "y": 80,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ],
                 "checkpoint": [
@@ -1738,7 +1755,8 @@
                     "id": 2,
                     "x": 200,
                     "y": 48,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1778,7 +1796,8 @@
                     "id": 3,
                     "x": 104,
                     "y": 152,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -1890,7 +1909,8 @@
                     "id": 9,
                     "x": 240,
                     "y": 96,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ],
                 "heart": [
@@ -2248,7 +2268,8 @@
                   {
                     "id": "1088_-616",
                     "x": 24,
-                    "y": 224
+                    "y": 224,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -2527,7 +2548,8 @@
                   {
                     "id": "3520_-2016",
                     "x": 24,
-                    "y": 336
+                    "y": 336,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -2702,7 +2724,8 @@
                   {
                     "id": "584_64",
                     "x": 56,
-                    "y": 152
+                    "y": 152,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -2751,7 +2774,8 @@
                   {
                     "id": "1496_-48",
                     "x": 24,
-                    "y": 64
+                    "y": 64,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -2974,7 +2998,8 @@
                     "id": 1,
                     "x": 296,
                     "y": 64,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ],
                 "spawn": [
@@ -3110,7 +3135,8 @@
                     "id": 4,
                     "x": 296,
                     "y": 48,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3150,7 +3176,8 @@
                     "id": 15,
                     "x": 24,
                     "y": 64,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3254,7 +3281,8 @@
                     "id": 18,
                     "x": 128,
                     "y": 56,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3294,7 +3322,8 @@
                     "id": 22,
                     "x": 368,
                     "y": 280,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3334,7 +3363,8 @@
                     "id": 27,
                     "x": 280,
                     "y": 248,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3522,7 +3552,8 @@
                     "id": 7,
                     "x": 112,
                     "y": 72,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3562,7 +3593,8 @@
                     "id": 44,
                     "x": 352,
                     "y": 96,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3638,7 +3670,8 @@
                     "id": 5,
                     "x": 312,
                     "y": 240,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3706,7 +3739,8 @@
                     "id": 6,
                     "x": 152,
                     "y": 152,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3754,7 +3788,8 @@
                     "id": 67,
                     "x": 120,
                     "y": 320,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3802,13 +3837,15 @@
                     "id": 9,
                     "x": 360,
                     "y": 28,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 31,
                     "x": 148,
                     "y": 20,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry_2"
                   }
                 ]
               },
@@ -3856,14 +3893,16 @@
                     "id": 10,
                     "x": 64,
                     "y": 416,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "1880_472",
                     "x": 280,
-                    "y": 104
+                    "y": 104,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -3907,7 +3946,8 @@
                     "id": 6,
                     "x": 264,
                     "y": 80,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3947,7 +3987,8 @@
                     "id": 12,
                     "x": 296,
                     "y": 88,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -3991,7 +4032,8 @@
                     "id": 2,
                     "x": 112,
                     "y": 56,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -4351,7 +4393,8 @@
                     "id": 13,
                     "x": 80,
                     "y": 24,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -4856,7 +4899,8 @@
                   {
                     "id": "4592_-1912",
                     "x": 240,
-                    "y": 280
+                    "y": 280,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -4895,7 +4939,8 @@
                   {
                     "id": "4624_-2256",
                     "x": 16,
-                    "y": 480
+                    "y": 480,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -5582,7 +5627,8 @@
                   {
                     "id": "600_56",
                     "x": 32,
-                    "y": 160
+                    "y": 160,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -5814,7 +5860,8 @@
                     "id": 5,
                     "x": 376,
                     "y": 120,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -5866,7 +5913,8 @@
                     "id": 42,
                     "x": 88,
                     "y": 72,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -6105,7 +6153,8 @@
                   {
                     "id": 32,
                     "x": 204,
-                    "y": 140
+                    "y": 140,
+                    "logicName": "hallway_key_1"
                   }
                 ]
               },
@@ -6148,7 +6197,8 @@
                   {
                     "id": 1,
                     "x": 64,
-                    "y": 120
+                    "y": 120,
+                    "logicName": "key_5"
                   }
                 ]
               },
@@ -6264,13 +6314,15 @@
                     "id": 1,
                     "x": 192,
                     "y": 88,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 25,
                     "x": 56,
                     "y": 32,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry_2"
                   }
                 ]
               },
@@ -6314,7 +6366,8 @@
                     "id": 14,
                     "x": 296,
                     "y": 128,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -6362,7 +6415,8 @@
                     "id": 40,
                     "x": 288,
                     "y": 72,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -6482,7 +6536,8 @@
                     "id": 2,
                     "x": 176,
                     "y": 328,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -6526,7 +6581,8 @@
                     "id": 7,
                     "x": 272,
                     "y": 80,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -6566,7 +6622,8 @@
                     "id": 14,
                     "x": 120,
                     "y": 144,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -6618,7 +6675,8 @@
                     "id": 3,
                     "x": 224,
                     "y": 32,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -6662,7 +6720,8 @@
                     "id": 238,
                     "x": 296,
                     "y": 40,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -6750,14 +6809,16 @@
                     "id": 4,
                     "x": 272,
                     "y": 32,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ],
                 "key": [
                   {
                     "id": 2,
                     "x": 232,
-                    "y": 136
+                    "y": 136,
+                    "logicName": "key_2"
                   }
                 ]
               },
@@ -6937,7 +6998,8 @@
                     "id": 4,
                     "x": 160,
                     "y": 104,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ],
                 "spawn": [
@@ -7006,7 +7068,8 @@
                   {
                     "id": 13,
                     "x": 320,
-                    "y": 184
+                    "y": 184,
+                    "logicName": "key_4"
                   }
                 ]
               },
@@ -7272,7 +7335,8 @@
                     "id": 2,
                     "x": 112,
                     "y": 48,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -7474,7 +7538,8 @@
                     "id": 52,
                     "x": 288,
                     "y": 120,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -7662,7 +7727,8 @@
                     "id": 1,
                     "x": 160,
                     "y": 152,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -7774,7 +7840,8 @@
                     "id": 1,
                     "x": 272,
                     "y": 40,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -7858,7 +7925,8 @@
                     "id": 31,
                     "x": 296,
                     "y": 140,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -7902,7 +7970,8 @@
                     "id": 13,
                     "x": 136,
                     "y": 136,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -8038,7 +8107,8 @@
                     "id": 97,
                     "x": 584,
                     "y": 48,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -8142,13 +8212,15 @@
                     "id": 276,
                     "x": 408,
                     "y": 44,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 308,
                     "x": 1048,
                     "y": 144,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry_2"
                   }
                 ]
               },
@@ -8342,13 +8414,15 @@
                     "id": 6,
                     "x": 88,
                     "y": 72,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry_2"
                   },
                   {
                     "id": 18,
                     "x": 368,
                     "y": 352,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry_1"
                   }
                 ]
               },
@@ -8396,14 +8470,16 @@
                     "id": 2,
                     "x": 232,
                     "y": 56,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ],
                 "key": [
                   {
                     "id": 15,
                     "x": 104,
-                    "y": 240
+                    "y": 240,
+                    "logicName": "key_1"
                   }
                 ]
               },
@@ -8662,7 +8738,8 @@
                   {
                     "id": "6224_-432",
                     "x": 40,
-                    "y": 72
+                    "y": 72,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -9375,7 +9452,8 @@
                   {
                     "id": "-432_80",
                     "x": 1264,
-                    "y": 96
+                    "y": 96,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -9588,7 +9666,8 @@
                   {
                     "id": "560_-312",
                     "x": 56,
-                    "y": 88
+                    "y": 88,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -9881,7 +9960,8 @@
                     "id": 11,
                     "x": 256,
                     "y": 72,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -9925,7 +10005,8 @@
                     "id": 8,
                     "x": 312,
                     "y": 176,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -9969,7 +10050,8 @@
                     "id": 33,
                     "x": 344,
                     "y": 40,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10013,7 +10095,8 @@
                     "id": 11,
                     "x": 448,
                     "y": 80,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10093,7 +10176,8 @@
                     "id": 6,
                     "x": 160,
                     "y": 160,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10137,7 +10221,8 @@
                     "id": 16,
                     "x": 192,
                     "y": 48,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10213,7 +10298,8 @@
                     "id": 12,
                     "x": 184,
                     "y": 112,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10257,7 +10343,8 @@
                     "id": 13,
                     "x": 184,
                     "y": 104,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10302,7 +10389,8 @@
                   {
                     "id": "3704_-760",
                     "x": 752,
-                    "y": 112
+                    "y": 112,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -10404,13 +10492,15 @@
                     "id": 6,
                     "x": 344,
                     "y": 48,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 13,
                     "x": 416,
                     "y": 72,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry_2"
                   }
                 ]
               },
@@ -10462,20 +10552,23 @@
                     "id": 20,
                     "x": 336,
                     "y": 216,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 58,
                     "x": 280,
                     "y": 48,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry_2"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "4600_-1264",
                     "x": 24,
-                    "y": 216
+                    "y": 216,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -10515,7 +10608,8 @@
                     "id": 5,
                     "x": 160,
                     "y": 72,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10563,7 +10657,8 @@
                     "id": 1,
                     "x": 192,
                     "y": 40,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10679,7 +10774,8 @@
                     "id": 15,
                     "x": 328,
                     "y": 80,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10719,7 +10815,8 @@
                     "id": 11,
                     "x": 568,
                     "y": 48,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10833,7 +10930,8 @@
                     "id": 9,
                     "x": 72,
                     "y": 48,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -10877,7 +10975,8 @@
                     "id": 17,
                     "x": 424,
                     "y": 208,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ],
                 "checkpoint": [
@@ -10923,7 +11022,8 @@
                     "id": 26,
                     "x": 208,
                     "y": 40,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -11035,7 +11135,8 @@
                     "id": 21,
                     "x": 656,
                     "y": 80,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -11083,7 +11184,8 @@
                     "id": 35,
                     "x": 224,
                     "y": 152,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -11123,7 +11225,8 @@
                     "id": 43,
                     "x": 24,
                     "y": 136,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -11199,7 +11302,8 @@
                     "id": 28,
                     "x": 40,
                     "y": 280,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -11271,7 +11375,8 @@
                     "id": 55,
                     "x": 56,
                     "y": 128,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -11357,14 +11462,16 @@
                     "id": 11,
                     "x": 480,
                     "y": 160,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "9232_-4368",
                     "x": 472,
-                    "y": 336
+                    "y": 336,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -11408,7 +11515,8 @@
                     "id": 7,
                     "x": 208,
                     "y": 160,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -11524,7 +11632,8 @@
                     "id": 88,
                     "x": 608,
                     "y": 16,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -11640,7 +11749,8 @@
                     "id": 70,
                     "x": 128,
                     "y": 40,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -11720,7 +11830,8 @@
                     "id": 18,
                     "x": 1096,
                     "y": 128,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -12193,7 +12304,8 @@
                   {
                     "id": "4360_-512",
                     "x": 288,
-                    "y": 888
+                    "y": 888,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -12414,7 +12526,8 @@
                   {
                     "id": "8160_-1744",
                     "x": 280,
-                    "y": 1000
+                    "y": 1000,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -12535,7 +12648,8 @@
                   {
                     "id": "9600_-2736",
                     "x": 72,
-                    "y": 200
+                    "y": 200,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -12652,7 +12766,8 @@
                   {
                     "id": "13208_-2784",
                     "x": 88,
-                    "y": 216
+                    "y": 216,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -12785,7 +12900,8 @@
                   {
                     "id": "352_-56",
                     "x": 72,
-                    "y": 472
+                    "y": 472,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -12834,7 +12950,8 @@
                   {
                     "id": "624_-496",
                     "x": 24,
-                    "y": 64
+                    "y": 64,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -13255,7 +13372,8 @@
                     "id": 7,
                     "x": 664,
                     "y": 400,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -13307,13 +13425,15 @@
                     "id": 164,
                     "x": 48,
                     "y": 48,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 256,
                     "x": 232,
                     "y": 352,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry_2"
                   }
                 ]
               },
@@ -13353,7 +13473,8 @@
                     "id": 23,
                     "x": 296,
                     "y": 88,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -13387,7 +13508,8 @@
                     "id": 4,
                     "x": 160,
                     "y": 32,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ],
                 "spawn": [
@@ -13437,7 +13559,8 @@
                     "id": 2,
                     "x": 40,
                     "y": 128,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -13497,7 +13620,8 @@
                     "id": 22,
                     "x": 232,
                     "y": 72,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -13537,7 +13661,8 @@
                     "id": 2,
                     "x": 184,
                     "y": 80,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -13577,7 +13702,8 @@
                     "id": 6,
                     "x": 40,
                     "y": 52,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -13636,7 +13762,8 @@
                   {
                     "id": 55,
                     "x": 256,
-                    "y": 256
+                    "y": 256,
+                    "logicName": "key_1"
                   }
                 ]
               },
@@ -13748,7 +13875,8 @@
                     "id": 2,
                     "x": 40,
                     "y": 72,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -13868,7 +13996,8 @@
                     "id": 12,
                     "x": 184,
                     "y": 32,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -13908,7 +14037,8 @@
                     "id": 182,
                     "x": 288,
                     "y": 144,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -14078,7 +14208,8 @@
                     "id": 85,
                     "x": 232,
                     "y": 32,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -14178,7 +14309,8 @@
                     "id": 24,
                     "x": 120,
                     "y": 24,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -14225,7 +14357,8 @@
                   {
                     "id": 3,
                     "x": 160,
-                    "y": 56
+                    "y": 56,
+                    "logicName": "key_2"
                   }
                 ]
               },
@@ -14265,7 +14398,8 @@
                     "id": 23,
                     "x": 288,
                     "y": 96,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -14453,7 +14587,8 @@
                     "id": 4,
                     "x": 40,
                     "y": 80,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -14541,7 +14676,8 @@
                     "id": 3,
                     "x": 160,
                     "y": 120,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -14739,13 +14875,15 @@
                     "id": 10,
                     "x": 272,
                     "y": 216,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry_2"
                   },
                   {
                     "id": 14,
                     "x": 152,
                     "y": 40,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry_1"
                   }
                 ]
               },
@@ -14785,7 +14923,8 @@
                     "id": 2,
                     "x": 280,
                     "y": 48,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -14873,13 +15012,15 @@
                     "id": 72,
                     "x": 240,
                     "y": 64,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 183,
                     "x": 504,
                     "y": 64,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry_2"
                   }
                 ]
               },
@@ -14919,7 +15060,8 @@
                     "id": 99,
                     "x": 88,
                     "y": 48,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -14964,7 +15106,8 @@
                   {
                     "id": "5240_88",
                     "x": 32,
-                    "y": 104
+                    "y": 104,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -15194,7 +15337,8 @@
                     "id": 112,
                     "x": 336,
                     "y": 128,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -15652,25 +15796,29 @@
                     "id": 16,
                     "x": 368,
                     "y": 32,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 122,
                     "x": 392,
                     "y": 216,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry_2"
                   }
                 ],
                 "key": [
                   {
                     "id": 39,
                     "x": 200,
-                    "y": 152
+                    "y": 152,
+                    "logicName": "key_3"
                   },
                   {
-                    "id": 39,
+                    "id": 14,
                     "x": 280,
-                    "y": 152
+                    "y": 152,
+                    "logicName": "key_4"
                   }
                 ]
               },
@@ -15902,7 +16050,8 @@
                     "id": 157,
                     "x": 88,
                     "y": 120,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -15962,20 +16111,23 @@
                     "id": 217,
                     "x": 400,
                     "y": 328,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry_2"
                   },
                   {
                     "id": 335,
                     "x": 56,
                     "y": 352,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry_1"
                   }
                 ],
                 "key": [
                   {
                     "id": 216,
                     "x": 400,
-                    "y": 264
+                    "y": 264,
+                    "logicName": "key_5"
                   }
                 ]
               },
@@ -16015,7 +16167,8 @@
                     "id": 533,
                     "x": 184,
                     "y": 40,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -16337,7 +16490,8 @@
                     "id": 56,
                     "x": 432,
                     "y": 48,
-                    "checkpointId": 4
+                    "checkpointId": 4,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -16921,12 +17075,14 @@
                   {
                     "id": 221,
                     "x": 72,
-                    "y": 280
+                    "y": 280,
+                    "logicName": "key_1"
                   },
                   {
                     "id": 219,
                     "x": 248,
-                    "y": 280
+                    "y": 280,
+                    "logicName": "key_2"
                   }
                 ]
               },
@@ -17181,7 +17337,8 @@
                   {
                     "id": "2160_-808",
                     "x": 200,
-                    "y": 1016
+                    "y": 1016,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -17776,7 +17933,8 @@
                   {
                     "id": "648_-48",
                     "x": 24,
-                    "y": 96
+                    "y": 96,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -18654,7 +18812,8 @@
                   {
                     "id": "-1472_-2728",
                     "x": 832,
-                    "y": 72
+                    "y": 72,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -20581,7 +20740,8 @@
                   {
                     "id": "112_-576",
                     "x": 296,
-                    "y": 240
+                    "y": 240,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -20732,7 +20892,8 @@
                   {
                     "id": "2472_-1024",
                     "x": 48,
-                    "y": 64
+                    "y": 64,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -21639,12 +21800,14 @@
                   {
                     "id": "1024_720",
                     "x": 264,
-                    "y": 144
+                    "y": 144,
+                    "logicName": "binoculars_1"
                   },
                   {
                     "id": "1368_1200",
                     "x": 608,
-                    "y": 624
+                    "y": 624,
+                    "logicName": "binoculars_2"
                   }
                 ]
               },
@@ -22089,7 +22252,8 @@
                     "id": 61,
                     "x": 240,
                     "y": 128,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -22205,13 +22369,15 @@
                     "id": 85,
                     "x": 280,
                     "y": 136,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry_2"
                   },
                   {
                     "id": 136,
                     "x": 88,
                     "y": 88,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry_1"
                   }
                 ]
               },
@@ -22255,7 +22421,8 @@
                     "id": 54,
                     "x": 384,
                     "y": 32,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -22374,7 +22541,8 @@
                   {
                     "id": "2976_-2008",
                     "x": 16,
-                    "y": 168
+                    "y": 168,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -22426,14 +22594,16 @@
                     "id": 101,
                     "x": 128,
                     "y": 232,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "3592_-2080",
                     "x": 24,
-                    "y": 376
+                    "y": 376,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -22473,14 +22643,16 @@
                     "id": 102,
                     "x": 272,
                     "y": 40,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "3536_-2456",
                     "x": 288,
-                    "y": 408
+                    "y": 408,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -22594,7 +22766,8 @@
                     "id": 112,
                     "x": 32,
                     "y": 64,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -22670,7 +22843,8 @@
                     "id": 67,
                     "x": 192,
                     "y": 80,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -22826,7 +23000,8 @@
                     "id": 129,
                     "x": 540,
                     "y": 24,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -22866,7 +23041,8 @@
                     "id": 167,
                     "x": 368,
                     "y": 632,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -23048,14 +23224,16 @@
                     "id": 228,
                     "x": 64,
                     "y": 32,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "6696_-5160",
                     "x": 432,
-                    "y": 184
+                    "y": 184,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -23139,14 +23317,16 @@
                     "id": 248,
                     "x": 160,
                     "y": 40,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "8408_-5304",
                     "x": 32,
-                    "y": 320
+                    "y": 320,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -23230,7 +23410,8 @@
                     "id": 281,
                     "x": 56,
                     "y": 360,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -23269,7 +23450,8 @@
                   {
                     "id": "8440_-5832",
                     "x": 64,
-                    "y": 72
+                    "y": 72,
+                    "logicName": "binoculars"
                   }
                 ],
                 "gem": [
@@ -23363,14 +23545,16 @@
                     "id": 291,
                     "x": 272,
                     "y": 264,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "7744_-6104",
                     "x": 248,
-                    "y": 400
+                    "y": 400,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -23414,7 +23598,8 @@
                     "id": 331,
                     "x": 312,
                     "y": 32,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -23454,7 +23639,8 @@
                     "id": 354,
                     "x": 240,
                     "y": 568,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -23494,7 +23680,8 @@
                     "id": 43,
                     "x": 280,
                     "y": 32,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ],
                 "checkpoint": [
@@ -23612,7 +23799,8 @@
                     "id": 226,
                     "x": 64,
                     "y": 112,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -23652,7 +23840,8 @@
                     "id": 282,
                     "x": 300,
                     "y": 64,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -23728,7 +23917,8 @@
                     "id": 383,
                     "x": 416,
                     "y": 144,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -23810,7 +24000,8 @@
                     "id": 388,
                     "x": 144,
                     "y": 64,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -23964,7 +24155,8 @@
                     "id": 484,
                     "x": 56,
                     "y": 120,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24004,7 +24196,8 @@
                     "id": 527,
                     "x": 272,
                     "y": 136,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24112,7 +24305,8 @@
                     "id": 682,
                     "x": 288,
                     "y": 320,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24372,7 +24566,8 @@
                     "id": 7,
                     "x": 480,
                     "y": 64,
-                    "checkpointId": 4
+                    "checkpointId": 4,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24492,7 +24687,8 @@
                     "id": 237,
                     "x": 928,
                     "y": 144,
-                    "checkpointId": 4
+                    "checkpointId": 4,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24568,7 +24764,8 @@
                     "id": 473,
                     "x": 76,
                     "y": 180,
-                    "checkpointId": 4
+                    "checkpointId": 4,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24648,7 +24845,8 @@
                     "id": 398,
                     "x": 48,
                     "y": 72,
-                    "checkpointId": 4
+                    "checkpointId": 4,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24692,7 +24890,8 @@
                     "id": 515,
                     "x": 632,
                     "y": 124,
-                    "checkpointId": 4
+                    "checkpointId": 4,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24772,7 +24971,8 @@
                     "id": 425,
                     "x": 536,
                     "y": 168,
-                    "checkpointId": 4
+                    "checkpointId": 4,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24812,7 +25012,8 @@
                     "id": 504,
                     "x": 184,
                     "y": 72,
-                    "checkpointId": 4
+                    "checkpointId": 4,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24852,7 +25053,8 @@
                     "id": 829,
                     "x": 272,
                     "y": 664,
-                    "checkpointId": 4
+                    "checkpointId": 4,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -24904,7 +25106,8 @@
                     "id": 590,
                     "x": 816,
                     "y": 160,
-                    "checkpointId": 5
+                    "checkpointId": 5,
+                    "logicName": "strawberry"
                   }
                 ],
                 "checkpoint": [
@@ -24950,7 +25153,8 @@
                     "id": 639,
                     "x": 40,
                     "y": 48,
-                    "checkpointId": 5
+                    "checkpointId": 5,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -25232,14 +25436,16 @@
                     "id": 711,
                     "x": 40,
                     "y": 40,
-                    "checkpointId": 5
+                    "checkpointId": 5,
+                    "logicName": "strawberry"
                   }
                 ],
                 "key": [
                   {
                     "id": 712,
                     "x": 280,
-                    "y": 40
+                    "y": 40,
+                    "logicName": "key"
                   }
                 ]
               },
@@ -25319,7 +25525,8 @@
                     "id": 856,
                     "x": 336,
                     "y": 24,
-                    "checkpointId": 5
+                    "checkpointId": 5,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -25363,7 +25570,8 @@
                     "id": 759,
                     "x": 720,
                     "y": 80,
-                    "checkpointId": 5
+                    "checkpointId": 5,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -25551,19 +25759,22 @@
                     "id": 1068,
                     "x": 192,
                     "y": 1216,
-                    "checkpointId": 5
+                    "checkpointId": 5,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 1229,
                     "x": 280,
                     "y": 720,
-                    "checkpointId": 5
+                    "checkpointId": 5,
+                    "logicName": "strawberry_3"
                   },
                   {
                     "id": 1238,
                     "x": 40,
                     "y": 720,
-                    "checkpointId": 5
+                    "checkpointId": 5,
+                    "logicName": "strawberry_2"
                   }
                 ]
               },
@@ -25692,19 +25903,22 @@
                     "id": 37,
                     "x": 328,
                     "y": 2688,
-                    "checkpointId": 6
+                    "checkpointId": 6,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 114,
                     "x": 424,
                     "y": 1496,
-                    "checkpointId": 6
+                    "checkpointId": 6,
+                    "logicName": "strawberry_3"
                   },
                   {
                     "id": 127,
                     "x": 344,
                     "y": 2224,
-                    "checkpointId": 6
+                    "checkpointId": 6,
+                    "logicName": "strawberry_2"
                   }
                 ],
                 "heart": [
@@ -25811,19 +26025,22 @@
                     "id": 66,
                     "x": 72,
                     "y": 2840,
-                    "checkpointId": 6
+                    "checkpointId": 6,
+                    "logicName": "strawberry_1"
                   },
                   {
                     "id": 279,
                     "x": 1120,
                     "y": 2680,
-                    "checkpointId": 6
+                    "checkpointId": 6,
+                    "logicName": "strawberry_2"
                   },
                   {
                     "id": 342,
                     "x": 824,
                     "y": 2512,
-                    "checkpointId": 6
+                    "checkpointId": 6,
+                    "logicName": "strawberry_3"
                   }
                 ]
               },
@@ -25926,14 +26143,16 @@
                     "id": 1504,
                     "x": 672,
                     "y": 2688,
-                    "checkpointId": 6
+                    "checkpointId": 6,
+                    "logicName": "strawberry"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "26424_-22944",
                     "x": 504,
-                    "y": 3032
+                    "y": 3032,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -26371,7 +26590,8 @@
                   {
                     "id": "2160_-2096",
                     "x": 280,
-                    "y": 696
+                    "y": 696,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -26418,7 +26638,8 @@
                   {
                     "id": "2800_-2880",
                     "x": 920,
-                    "y": 96
+                    "y": 96,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -27363,7 +27584,8 @@
                   {
                     "id": "32_144",
                     "x": 208,
-                    "y": 768
+                    "y": 768,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -27452,7 +27674,8 @@
                   {
                     "id": "1200_-944",
                     "x": 128,
-                    "y": 128
+                    "y": 128,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -28353,7 +28576,8 @@
                     "id": 174,
                     "x": 120,
                     "y": 64,
-                    "checkpointId": 1
+                    "checkpointId": 1,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -28503,7 +28727,8 @@
                     "id": 211,
                     "x": 344,
                     "y": 48,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -28583,7 +28808,8 @@
                     "id": 248,
                     "x": 784,
                     "y": 24,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -28659,7 +28885,8 @@
                     "id": 276,
                     "x": 712,
                     "y": 104,
-                    "checkpointId": 2
+                    "checkpointId": 2,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -28933,7 +29160,8 @@
                     "id": 130,
                     "x": 272,
                     "y": 136,
-                    "checkpointId": 3
+                    "checkpointId": 3,
+                    "logicName": "strawberry"
                   }
                 ]
               },
@@ -30342,7 +30570,8 @@
                   {
                     "id": "824_-32",
                     "x": 16,
-                    "y": 56
+                    "y": 56,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -30391,7 +30620,8 @@
                   {
                     "id": "1944_-24",
                     "x": 16,
-                    "y": 64
+                    "y": 64,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -30973,7 +31203,8 @@
                   {
                     "id": "4320_-1800",
                     "x": 32,
-                    "y": 80
+                    "y": 80,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -31268,7 +31499,8 @@
                   {
                     "id": "8648_-1912",
                     "x": 24,
-                    "y": 64
+                    "y": 64,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -31633,7 +31865,8 @@
                   {
                     "id": "12664_-2496",
                     "x": 384,
-                    "y": 576
+                    "y": 576,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -31672,14 +31905,16 @@
                   {
                     "id": "12232_-2688",
                     "x": 1480,
-                    "y": 40
+                    "y": 40,
+                    "logicName": "binoculars"
                   }
                 ],
                 "key": [
                   {
                     "id": 261,
                     "x": 912,
-                    "y": 96
+                    "y": 96,
+                    "logicName": "key_3"
                   }
                 ]
               },
@@ -31718,14 +31953,16 @@
                   {
                     "id": "12432_-3104",
                     "x": 272,
-                    "y": 912
+                    "y": 912,
+                    "logicName": "binoculars"
                   }
                 ],
                 "key": [
                   {
                     "id": 70,
                     "x": 160,
-                    "y": 392
+                    "y": 392,
+                    "logicName": "key_4"
                   }
                 ]
               },
@@ -31764,14 +32001,16 @@
                   {
                     "id": "13456_-2456",
                     "x": 96,
-                    "y": 168
+                    "y": 168,
+                    "logicName": "binoculars"
                   }
                 ],
                 "key": [
                   {
                     "id": 315,
                     "x": 704,
-                    "y": 96
+                    "y": 96,
+                    "logicName": "key_2"
                   }
                 ]
               },
@@ -31810,14 +32049,16 @@
                   {
                     "id": "13400_-2928",
                     "x": 40,
-                    "y": 72
+                    "y": 72,
+                    "logicName": "binoculars"
                   }
                 ],
                 "key": [
                   {
                     "id": 444,
                     "x": 608,
-                    "y": 96
+                    "y": 96,
+                    "logicName": "key_1"
                   }
                 ]
               },
@@ -31860,14 +32101,16 @@
                   {
                     "id": "12584_-3120",
                     "x": 64,
-                    "y": 136
+                    "y": 136,
+                    "logicName": "binoculars"
                   }
                 ],
                 "key": [
                   {
                     "id": 593,
                     "x": 952,
-                    "y": 40
+                    "y": 40,
+                    "logicName": "key_5"
                   }
                 ]
               },
@@ -31938,7 +32181,8 @@
                   {
                     "id": "12992_-5120",
                     "x": 224,
-                    "y": 376
+                    "y": 376,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -32009,7 +32253,8 @@
                   {
                     "id": "12992_-3328",
                     "x": 24,
-                    "y": 760
+                    "y": 760,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -32090,7 +32335,8 @@
                   {
                     "id": "12896_-5512",
                     "x": 128,
-                    "y": 592
+                    "y": 592,
+                    "logicName": "binoculars"
                   }
                 ],
                 "car": [
@@ -32139,7 +32385,8 @@
                   {
                     "id": "12912_-6168",
                     "x": 64,
-                    "y": 120
+                    "y": 120,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -32218,7 +32465,8 @@
                   {
                     "id": "13944_-6248",
                     "x": 32,
-                    "y": 152
+                    "y": 152,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -32451,7 +32699,8 @@
                   {
                     "id": "17648_-6184",
                     "x": 120,
-                    "y": 136
+                    "y": 136,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -32490,17 +32739,20 @@
                   {
                     "id": "146232_-280",
                     "x": 168,
-                    "y": 1936
+                    "y": 1936,
+                    "logicName": "binoculars_1"
                   },
                   {
                     "id": "146256_-440",
                     "x": 192,
-                    "y": 1776
+                    "y": 1776,
+                    "logicName": "binoculars_2"
                   },
                   {
                     "id": "146184_-944",
                     "x": 120,
-                    "y": 1272
+                    "y": 1272,
+                    "logicName": "binoculars_3"
                   }
                 ]
               },
@@ -32777,7 +33029,8 @@
                   {
                     "id": "23880_-6768",
                     "x": 184,
-                    "y": 48
+                    "y": 48,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -32820,7 +33073,8 @@
                   {
                     "id": "24472_-6672",
                     "x": 24,
-                    "y": 136
+                    "y": 136,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -32863,7 +33117,8 @@
                   {
                     "id": "25568_-6664",
                     "x": 56,
-                    "y": 112
+                    "y": 112,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -32902,7 +33157,8 @@
                   {
                     "id": "26072_-6776",
                     "x": 32,
-                    "y": 176
+                    "y": 176,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -32987,7 +33243,8 @@
                   {
                     "id": "26312_-6968",
                     "x": 256,
-                    "y": 456
+                    "y": 456,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33126,7 +33383,8 @@
                   {
                     "id": "27080_-8208",
                     "x": 32,
-                    "y": 80
+                    "y": 80,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33213,7 +33471,8 @@
                   {
                     "id": "28648_-7672",
                     "x": 408,
-                    "y": 480
+                    "y": 480,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33330,7 +33589,8 @@
                   {
                     "id": "32248_-7768",
                     "x": 64,
-                    "y": 616
+                    "y": 616,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33373,7 +33633,8 @@
                   {
                     "id": "32432_-8496",
                     "x": 40,
-                    "y": 72
+                    "y": 72,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33452,7 +33713,8 @@
                   {
                     "id": "33992_-8592",
                     "x": 24,
-                    "y": 128
+                    "y": 128,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33499,7 +33761,8 @@
                   {
                     "id": "34864_-8664",
                     "x": 96,
-                    "y": 40
+                    "y": 40,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33578,7 +33841,8 @@
                   {
                     "id": "35176_-7816",
                     "x": 88,
-                    "y": 56
+                    "y": 56,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33649,7 +33913,8 @@
                   {
                     "id": "36816_-7872",
                     "x": 80,
-                    "y": 720
+                    "y": 720,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33696,12 +33961,14 @@
                   {
                     "id": "37008_-8680",
                     "x": 16,
-                    "y": 96
+                    "y": 96,
+                    "logicName": "binoculars_1"
                   },
                   {
                     "id": "37576_-8664",
                     "x": 584,
-                    "y": 112
+                    "y": 112,
+                    "logicName": "binoculars_2"
                   }
                 ]
               },
@@ -33748,7 +34015,8 @@
                   {
                     "id": "38952_-8608",
                     "x": 48,
-                    "y": 240
+                    "y": 240,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33795,7 +34063,8 @@
                   {
                     "id": "39696_-8720",
                     "x": 152,
-                    "y": 72
+                    "y": 72,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33920,7 +34189,8 @@
                   {
                     "id": "44536_-10080",
                     "x": 56,
-                    "y": 88
+                    "y": 88,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -33999,7 +34269,8 @@
                   {
                     "id": "45672_-10232",
                     "x": 40,
-                    "y": 64
+                    "y": 64,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -34078,7 +34349,8 @@
                   {
                     "id": "46960_-10304",
                     "x": 48,
-                    "y": 112
+                    "y": 112,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -34121,7 +34393,8 @@
                   {
                     "id": "47580_-10256",
                     "x": 60,
-                    "y": 128
+                    "y": 128,
+                    "logicName": "binoculars"
                   }
                 ]
               },
@@ -34930,7 +35203,8 @@
                   {
                     "id": "47580_-10256",
                     "x": -29268,
-                    "y": 2896
+                    "y": 2896,
+                    "logicName": "binoculars"
                   }
                 ],
                 "checkpoint": [
@@ -35052,14 +35326,16 @@
                     "id": 9,
                     "x": 160,
                     "y": 1520,
-                    "checkpointId": 0
+                    "checkpointId": 0,
+                    "logicName": "moon_berry"
                   }
                 ],
                 "binoculars": [
                   {
                     "id": "82032_-13272",
                     "x": 240,
-                    "y": 4600
+                    "y": 4600,
+                    "logicName": "binoculars"
                   }
                 ]
               },

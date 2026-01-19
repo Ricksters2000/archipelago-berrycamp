@@ -222,7 +222,7 @@ const traverseNode = (
     } else {
       logicStatus = LogicStatus.InAccessible;
     }
-    setLocationLogic(node.roomId, node.name, logicData, loc.type, logicStatus);
+    setLocationLogic(node.roomId, loc.name, logicData, loc.type, logicStatus);
   }
 }
 
@@ -379,7 +379,7 @@ function passesRule(
   }
 }
 
-const setLocationLogic = (roomId: string, regionName: string, logicData: SideLogicData, locationType: LogicLocationType, status: LogicStatus) => {
+const setLocationLogic = (roomId: string, itemName: string, logicData: SideLogicData, locationType: LogicLocationType, status: LogicStatus) => {
   switch (locationType) {
     case `level_clear`:
       logicData.levelClear = status;
@@ -402,25 +402,25 @@ const setLocationLogic = (roomId: string, regionName: string, logicData: SideLog
     case `binoculars`:
       const binocularRegions = logicData.binoculars[roomId];
       if (binocularRegions) {
-        binocularRegions[regionName] = status;
+        binocularRegions[itemName] = status;
       } else {
-        logicData.binoculars[roomId] = {[regionName]: status};
+        logicData.binoculars[roomId] = {[itemName]: status};
       }
       break;
     case `key`:
       const keyRegions = logicData.keys[roomId];
       if (keyRegions) {
-        keyRegions[regionName] = status;
+        keyRegions[itemName] = status;
       } else {
-        logicData.keys[roomId] = {[regionName]: status};
+        logicData.keys[roomId] = {[itemName]: status};
       }
       break;
     case `strawberry`:
       const strawberryRegions = logicData.strawberries[roomId];
       if (strawberryRegions) {
-        strawberryRegions[regionName] = status;
+        strawberryRegions[itemName] = status;
       } else {
-        logicData.strawberries[roomId] = {[regionName]: status};
+        logicData.strawberries[roomId] = {[itemName]: status};
       }
       break;
     case `clutter`:

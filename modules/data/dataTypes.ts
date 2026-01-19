@@ -70,6 +70,7 @@ export interface SpawnPoint extends ExtentCanvasPoint {
 export interface BerryPoint extends ExtentCanvasPoint {
   id: number;
   checkpointId: number;
+  logicName: string;
 
   // Currently broken.
   order: number;
@@ -77,6 +78,7 @@ export interface BerryPoint extends ExtentCanvasPoint {
 
 export interface IdPoint<T extends number | string> extends ExtentCanvasPoint {
   id: T;
+  logicName: string;
 }
 
 export interface Canvas {

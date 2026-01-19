@@ -231,7 +231,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
             if (checkedBerries && checkedBerries[berry.id]) {
               context.drawImage(img, pos.x - 8, pos.y - 8)
             } else {
-              const logicStatus = logicData.strawberries[id]?.[``];
+              const logicStatus = logicData.strawberries[id]?.[berry.logicName];
               drawMarkedItemOnPos(logicStatus, pos.x - 5, pos.y - 5, 10, 10);
             }
           }
@@ -241,7 +241,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (entities.key) {
         for (const key of entities.key) {
           const pos = getRoomPos(key)
-          let logicStatus = logicData.keys[id]?.[``];
+          let logicStatus = logicData.keys[id]?.[key.logicName];
           if (checkedKeys?.[key.id]) logicStatus = LogicStatus.Checked;
           drawMarkedItemOnPos(logicStatus, pos.x - 7, pos.y - 7, 12, 12)
         }
@@ -250,7 +250,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (entities.binoculars && randomizerOptions.binoSanity) {
         for (const binoculars of entities.binoculars) {
           const pos = getRoomPos(binoculars)
-          let logicStatus = logicData.binoculars[id]?.[``];
+          let logicStatus = logicData.binoculars[id]?.[binoculars.logicName];
           if (checkedBinoculars?.[binoculars.id]) logicStatus = LogicStatus.Checked;
           drawMarkedItemOnPos(logicStatus, pos.x - 6, pos.y - 15, 11, 15)
         }
