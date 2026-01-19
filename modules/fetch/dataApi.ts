@@ -29,6 +29,28 @@ export const fetchLogicLevel = async (chapterIndex: number, sideId: string): Pro
   const levelName = `${chapterIndex}${sideId}`;
   const logicLevel = rawlogic.levels.find(l => l.name === levelName);
   if (!logicLevel) throw new Error(`Failed to find logic level from: ${chapterIndex}${sideId}`);
+  // Farewell is split into three sections which this will combine them together
+  if (chapterIndex === 10) {
+    const afterEmptySpace = rawlogic.levels.find(l => l.name === `10b`);
+    const endGolden = rawlogic.levels.find(l => l.name === `10c`);
+    if (!afterEmptySpace || !endGolden) throw new Error(`Failed to get split sections of farewell: ${afterEmptySpace} | ${endGolden}`);
+    logicLevel.room_connections.push({
+      source_room: `e-08`,
+      source_door: `east`,
+      dest_room: `f-door`,
+      dest_door: `west`,
+    });
+    logicLevel.room_connections.push(...afterEmptySpace.room_connections);
+    logicLevel.rooms.push(...afterEmptySpace.rooms);
+    logicLevel.room_connections.push({
+      source_room: `j-19`,
+      source_door: `top`,
+      dest_room: `end-golden`,
+      dest_door: `bottom`,
+    });
+    logicLevel.room_connections.push(...endGolden.room_connections);
+    logicLevel.rooms.push(...endGolden.rooms);
+  }
   return logicLevel;
 }
 

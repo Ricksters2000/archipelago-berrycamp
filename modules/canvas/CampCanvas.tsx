@@ -11,6 +11,7 @@ import {getCelesteItemImageUrl, getCollectedCelesteItemImageUrl} from "../fetch/
 import {ConnectionStatus} from "../data/ConnectionStatus";
 import {LogicStatus} from "../data/ap/logicHandling";
 import {logicColorKey} from "../data/ap/logicColorKey";
+import {isAfterEmptySpace, isChapterIndexFarewell} from "../data/farewellUtils";
 
 type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden`;
 
@@ -128,6 +129,11 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
 
     contentViewRef.current = undefined;
 
+    let isFarewell = false;
+    if (typeof chapterId === `string`) {
+      isFarewell = isChapterIndexFarewell(chapterIdToIndex(chapterId));
+    }
+
     /**
      * Load new rooms.
      */
@@ -221,6 +227,10 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       }
       // Display checked and unchecked locations if connected
       if (connectionStatus !== ConnectionStatus.Connected) return;
+      if (isFarewell) {
+        if (!randomizerOptions.includeFarewell) return;
+        if (randomizerOptions.includeFarewell === `empty-space` && isAfterEmptySpace(id)) return;
+      }
       context.lineWidth = 2;
       const checkedBerries = sideCheckedLocations.strawberries[id]
       if (entities.berry) {
@@ -345,7 +355,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         drawMarkedItemOnPos(logicStatus, position.x + 1, position.y + 1, width - 2, height - 2, `stroke`)
       }
     });
-  }, [contentViewRef, imagesRef, rooms, checkpoints, checkedDrawStyle, uncheckedDrawStyle, sideId, sideCheckedLocations, randomizerOptions, connectionStatus, logicData]);
+  }, [contentViewRef, imagesRef, rooms, checkpoints, checkedDrawStyle, uncheckedDrawStyle, sideId, sideCheckedLocations, randomizerOptions, connectionStatus, logicData, chapterId]);
 
   const {setViewBox, draw} = useExtentCanvas({
     ref,
