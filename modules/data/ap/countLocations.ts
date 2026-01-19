@@ -136,6 +136,8 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
   result.levelClear.total = 1
   if (checkedLocations.levelClear) {
     result.levelClear.checked = 1
+  } else if (sideLogicData.levelClear === LogicStatus.Accessible) {
+    result.levelClear.accessible = 1
   }
 
   // heart - only for a-side as the heart for the other sides counts as a level clear
@@ -152,6 +154,8 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
       result.heart.total = 1
       if (checkedLocations.heart) {
         result.heart.checked = 1
+      } else if (sideLogicData.heart === LogicStatus.Accessible) {
+        result.heart.accessible = 1
       }
     }
   }
@@ -170,6 +174,8 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
       result.golden.total = 1
       if (checkedLocations.golden) {
         result.golden.checked = 1
+      } else if (sideLogicData.golden === LogicStatus.Accessible) {
+        result.heart.accessible = 1
       }
     }
   }
@@ -188,6 +194,8 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
       result.cassette.total = 1
       if (checkedLocations.cassette) {
         result.cassette.checked = 1
+      } else if (sideLogicData.cassette === LogicStatus.Accessible) {
+        result.cassette.accessible = 1
       }
     }
   }
