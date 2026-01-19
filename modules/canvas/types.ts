@@ -3,6 +3,7 @@ import {MutableRefObject} from "react";
 import {CanvasImage} from "./CampCanvas";
 import {Entities} from "../data/dataTypes";
 import {CheckpointData} from "../map";
+import {SideLogicData} from "../data/ap/logicHandling";
 
 export interface CampCanvasProps {
   view: ExtentCanvasViewBox | undefined;
@@ -10,6 +11,7 @@ export interface CampCanvasProps {
   checkpoints: CheckpointData[];
   imagesRef: MutableRefObject<CanvasImage[]>;
   contentViewRef: MutableRefObject<ExtentCanvasViewBox | undefined>;
+  logicData: SideLogicData;
   onViewChange: (reason: ExtentCanvasViewChangeReason) => void;
   onSelectRoom: (x: number, y: number) => void;
   onTeleport: (x: number, y: number) => void;

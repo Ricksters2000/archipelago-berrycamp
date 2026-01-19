@@ -178,6 +178,7 @@ export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerI
   traverseNode(chapterIndex, sideId, root, logicData, inventory);
   console.log(`${rawLogic.display_name} tree:`, graph)
   console.log(logicData)
+  return logicData;
 }
 
 const traverseNode = (
