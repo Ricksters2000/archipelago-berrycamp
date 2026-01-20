@@ -312,7 +312,11 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
               context.drawImage(img, pos.x - 10, pos.y - 9);
             })
           } else {
-            drawMarkedItemOnPos(logicData.heart, pos.x - 8, pos.y - 8, 16, 16);
+            let logicStatus = logicData.heart;
+            if (sideId !== `a`) {
+              logicStatus = logicData.levelClear;
+            }
+            drawMarkedItemOnPos(logicStatus, pos.x - 8, pos.y - 8, 16, 16);
           }
         }
       }
