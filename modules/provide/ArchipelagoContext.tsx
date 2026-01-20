@@ -18,6 +18,7 @@ export type PlayerInventory = {
   keys: ChapterItems;
   /** The key from the `RoomItems` type will be the gem name */
   gems: ChapterItems;
+  strawberry: number;
   springs?: true;
   trafficBlocks?: true;
   pinkCassetteBlocks?: true;
@@ -88,6 +89,9 @@ export type CheckedLocations = {
 // anything thats not on here should be randomized by default
 export type RandomizerOptions = {
   activeLevels: Array<string>;
+  goalArea: string;
+  lockGoalArea: boolean;
+  strawberriesRequired: number;
   checkpointSanity: boolean;
   binoSanity: boolean;
   keySanity: boolean;
@@ -113,6 +117,9 @@ export interface IArchipelagoContext {
 
 export const defaultRandomizerOptions: RandomizerOptions = {
   activeLevels: [],
+  goalArea: `7a`,
+  lockGoalArea: true,
+  strawberriesRequired: 40,
   checkpointSanity: false,
   binoSanity: false,
   keySanity: false,
@@ -149,6 +156,7 @@ export const createBlankSide = (): LevelLocations => {
 }
 
 export const createEmptyPlayerInventory = (): PlayerInventory => ({
+  strawberry: 0,
   checkpoints: {},
   keys: {},
   gems: {},

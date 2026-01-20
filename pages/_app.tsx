@@ -145,6 +145,9 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
           const gemSide = getOrCreateSide(playerInventoryDraft.gems, itemData.chapterId, itemData.sideId);
           gemSide[itemData.itemName] = true;
           break;
+        case `strawberry`:
+          playerInventoryDraft.strawberry++;
+          break;
         default:
           playerInventoryDraft[itemData.type] = true;
       }
@@ -156,6 +159,9 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       const slotData = packet.slot_data as CelesteSlotData
       const playerRandomizerOptions: RandomizerOptions = {
         activeLevels: slotData.active_levels,
+        goalArea: slotData.goal_area,
+        lockGoalArea: slotData.lock_goal_area === 1,
+        strawberriesRequired: slotData.strawberries_required,
         checkpointSanity: slotData.checkpointsanity === 1,
         binoSanity: slotData.binosanity === 1,
         keySanity: slotData.keysanity === 1,

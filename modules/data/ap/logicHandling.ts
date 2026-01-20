@@ -1,4 +1,4 @@
-import {MultiEntityLocation, PlayerInventory} from "~/modules/provide/ArchipelagoContext";
+import {MultiEntityLocation, PlayerInventory, RandomizerOptions} from "~/modules/provide/ArchipelagoContext";
 import {LogicGraph, RegionNode} from "./LogicGraph";
 import {SideId} from "../dataTypes";
 import {combineFarewellRawLogic} from "../farewellUtils";
@@ -171,13 +171,13 @@ export const findLogicSidesFromRawLogic = (rawLogic: RawCelesteLogic, chapterInd
   return sides;
 }
 
-export const getLogicDataFromChapter = (rawLogic: RawCelesteLogic, chapterIndex: number, inventory: PlayerInventory): ChapterLogicData => {
+export const getLogicDataFromChapter = (rawLogic: RawCelesteLogic, chapterIndex: number, inventory: PlayerInventory, randomizerOptions: RandomizerOptions): ChapterLogicData => {
   const sides = findLogicSidesFromRawLogic(rawLogic, chapterIndex);
-  const logicSides = sides.map(s => getLogicDataFromSide(s, inventory));
+  const logicSides = sides.map(s => getLogicDataFromSide(s, inventory, randomizerOptions));
   return {sides: logicSides};
 }
 
-export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerInventory) => {
+export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerInventory, randomizerOptions: RandomizerOptions) => {
   const graph = new LogicGraph(rawLogic);
   const root = graph.getRoot();
   const logicData: SideLogicData = {
@@ -190,6 +190,10 @@ export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerI
     rooms: {},
   }
   const levelName = rawLogic.name;
+  if (levelName === randomizerOptions.goalArea && randomizerOptions.lockGoalArea) {
+    // if the player doesn't have enough strawberries to access the level then they can't get anything there in logic
+    if (inventory.strawberry < randomizerOptions.strawberriesRequired) return logicData;
+  }
   const chapterIndex = parseInt(levelName.substring(0, levelName.length - 1));
   const sideId = levelName.substring(levelName.length - 1) as SideId;
   const regionsChecked = {};

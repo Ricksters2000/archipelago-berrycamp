@@ -31,7 +31,7 @@ const ROOM_HEIGHT = 184;
 
 export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side, logic}) => {
   const {settings: {everestUrl}} = useCampContext();
-  const {playerInventory} = useArchipelagoContext();
+  const {playerInventory, randomizerOptions} = useArchipelagoContext();
   const {isReady, query} = useRouter();
   const {isLargeScreen} = useMobile();
 
@@ -47,7 +47,7 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side, lo
   const imagesRef = useRef<CanvasImage[]>([]);
   const contentViewRef = useRef<ExtentCanvasViewBox | undefined>();
 
-  const logicData = useMemo(() => getLogicDataFromSide(logic, playerInventory), [playerInventory, logic]);
+  const logicData = useMemo(() => getLogicDataFromSide(logic, playerInventory, randomizerOptions), [playerInventory, logic, randomizerOptions]);
 
   const {
     size: sidebarSize,

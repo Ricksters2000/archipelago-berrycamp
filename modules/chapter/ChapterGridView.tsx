@@ -61,7 +61,7 @@ const ChapterGridViewItem: FC<ChapterViewItemProps> = (props) => {
       rooms: {},
     }
   } else {
-    logicData = getLogicDataFromSide(logic, playerInventory);
+    logicData = getLogicDataFromSide(logic, playerInventory, randomizerOptions);
   }
   const totalCounts = getCheckedAndTotalLocationsForSide(sideCheckedLocations, logicData, props, chapterIndex, randomizerOptions);
   return (

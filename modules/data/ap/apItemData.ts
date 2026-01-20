@@ -31,6 +31,8 @@ export const getItemDataFromAP = (ap: number) => {
 }
 
 const itemAPToItemData: Record<number, ItemData> = {
+  0xCA10000: {type: `strawberry`},
+
   // #region Checkpoints
   0xCA14000: {
     type: `checkpoints`,

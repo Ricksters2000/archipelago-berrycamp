@@ -70,7 +70,7 @@ const GridArea: FC<AreaProps> = ({area, chapters, logic}) => {
           if (!checkedChapter) {
             checkedChapter = {sides: []}
           }
-          const chapterLogic = getLogicDataFromChapter(logic, i, playerInventory);
+          const chapterLogic = getLogicDataFromChapter(logic, i, playerInventory, randomizerOptions);
           const totalCounts = getCheckedAndTotalLocationsForChapter(checkedChapter, chapterLogic, chapter, randomizerOptions);
           return (
             <Card key={chapter.id} onMouseEnter={() => setChapterHovering(chapter.id)} onMouseLeave={() => setChapterHovering(``)}>
