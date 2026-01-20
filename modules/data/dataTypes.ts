@@ -63,6 +63,8 @@ export interface Entities {
   cassette: ExtentCanvasPoint[];
 }
 
+export type EntitiesWithLogicNameKey = keyof Pick<Entities, `berry` | `binoculars` | `key`>;
+
 export interface SpawnPoint extends ExtentCanvasPoint {
   name?: string;
 }

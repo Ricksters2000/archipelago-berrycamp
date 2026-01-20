@@ -204,8 +204,6 @@ export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerI
       }
     }
   }
-  console.log(`${rawLogic.display_name} tree:`, graph)
-  console.log(logicData)
   return logicData;
 }
 

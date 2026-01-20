@@ -1,7 +1,9 @@
 import {objectKeys} from "~/modules/common/objectKeys";
-import {ChapterSides, LevelLocations, RandomizerOptions} from "../../provide/ArchipelagoContext";
-import {Chapter, Side} from "../dataTypes";
+import {ChapterSides, LevelLocations, MultiRoomLocationKeys, RandomizerOptions, SingleRoomLocationKeys} from "../../provide/ArchipelagoContext";
+import {Chapter, Entities, EntitiesWithLogicNameKey, Side} from "../dataTypes";
 import {ChapterLogicData, LogicStatus, SideLogicData} from "./logicHandling";
+import {isChapterIndexFarewell, shouldIncludeFarewellRoom} from "../farewellUtils";
+import {chapterIdToIndex} from "~/modules/common/levelIdToIndex";
 
 export interface LocationCount {
   checked: number;
@@ -72,7 +74,7 @@ export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterS
     }
 
     // Get the location count for this side
-    const sideCount = getCheckedAndTotalLocationsForSide(sideCheckedLocations, logicSideData, side, randomizerOptions)
+    const sideCount = getCheckedAndTotalLocationsForSide(sideCheckedLocations, logicSideData, side, chapterIdToIndex(chapter.id), randomizerOptions)
 
     // Sum up all the counts
     const keys = objectKeys(result);
@@ -113,7 +115,7 @@ export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterS
   return result
 }
 
-export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocations, sideLogicData: SideLogicData, side: SideProps, randomizerOptions: RandomizerOptions): FullLocationCount => {
+export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocations, sideLogicData: SideLogicData, side: SideProps, chapterIndex: number, randomizerOptions: RandomizerOptions): FullLocationCount => {
   const result: FullLocationCount = {
     levelClear: {checked: 0, accessible: 0, total: 0},
     heart: {checked: 0, accessible: 0, total: 0},
@@ -201,26 +203,26 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
   }
 
   // keys, gems, and checkpoints are always counted as ap locations so these can always be shown
-  result.checkpoints = getCheckedAndTotalCheckpointLocations(checkedLocations, sideLogicData, side)
-  result.keys = getCheckedAndTotalKeyLocations(checkedLocations, sideLogicData, side)
-  result.gems = getCheckedAndTotalGemLocations(checkedLocations, sideLogicData, side)
+  result.checkpoints = getCheckedAndTotalForSingleRoomItems(`checkpoints`, `checkpoint`, checkedLocations, sideLogicData, side, chapterIndex, randomizerOptions)
+  result.keys = getCheckedAndTotalForMultiRoomItems(`keys`, `key`, checkedLocations, sideLogicData, side, chapterIndex, randomizerOptions)
+  result.gems = getCheckedAndTotalForSingleRoomItems(`gems`, `gem`, checkedLocations, sideLogicData, side, chapterIndex, randomizerOptions)
 
   // cars - only if carSanity is true
   if (randomizerOptions.carSanity) {
-    result.cars = getCheckedAndTotalCarLocations(checkedLocations, sideLogicData, side)
+    result.cars = getCheckedAndTotalForSingleRoomItems(`cars`, `car`, checkedLocations, sideLogicData, side, chapterIndex, randomizerOptions)
   }
 
   // binoculars - only if binoSanity is true
   if (randomizerOptions.binoSanity) {
-    result.binoculars = getCheckedAndTotalBinocularLocations(checkedLocations, sideLogicData, side)
+    result.binoculars = getCheckedAndTotalForMultiRoomItems(`binoculars`, `binoculars`, checkedLocations, sideLogicData, side, chapterIndex, randomizerOptions)
   }
 
   // strawberries - always count
-  result.strawberries = getCheckedAndTotalBerryLocations(checkedLocations, sideLogicData, side)
+  result.strawberries = getCheckedAndTotalForMultiRoomItems(`strawberries`, `berry`, checkedLocations, sideLogicData, side, chapterIndex, randomizerOptions)
 
   // rooms - only if roomSanity is true
   if (randomizerOptions.roomSanity) {
-    result.rooms = getCheckedAndTotalRoomLocations(checkedLocations, sideLogicData, side)
+    result.rooms = getCheckedAndTotalRoomLocations(checkedLocations, sideLogicData, side, chapterIndex, randomizerOptions)
   }
 
   // Calculate total across all location types
@@ -253,151 +255,98 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
   return result
 }
 
-export const getCheckedAndTotalCheckpointLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
+const getCheckedAndTotalForSingleRoomItems = (
+  key: SingleRoomLocationKeys,
+  entityKey: keyof Entities,
+  checkedLocations: LevelLocations,
+  logic: SideLogicData,
+  side: SideProps,
+  chapterIndex: number,
+  randomizerOptions: RandomizerOptions,
+): LocationCount => {
   let checked = 0
   let accessible = 0
   let total = 0
-  for (const roomId in side.rooms) {
-    if (side.rooms[roomId]?.entities.checkpoint) {
-      total++;
-      if (checkedLocations.checkpoints[roomId]) {
-        checked++;
-      } else if (logic.checkpoints[roomId] === LogicStatus.Accessible) {
-        accessible++;
-      }
-    }
-  }
-  return {
-    checked,
-    accessible,
-    total,
-  }
-}
 
-export const getCheckedAndTotalCarLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
-  let checked = 0
-  let accessible = 0
-  let total = 0
-  for (const roomId in side.rooms) {
-    if (side.rooms[roomId]?.entities.car) {
-      total++;
-      if (checkedLocations.cars[roomId]) {
-        checked++;
-      } else if (logic.cars[roomId] === LogicStatus.Accessible) {
-        accessible++;
-      }
-    }
-  }
-  return {
-    checked,
-    accessible,
-    total,
-  }
-}
+  const isFarewell = isChapterIndexFarewell(chapterIndex);
 
-export const getCheckedAndTotalKeyLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
-  let checked = 0
-  let accessible = 0
-  let total = 0
-  for (const roomId in side.rooms) {
-    const keys = side.rooms[roomId]?.entities.key;
-    if (keys) {
-      total += keys.length;
-      const checkedKeys = checkedLocations.keys[roomId];
-      for (const key of keys) {
-        if (checkedKeys?.[key.id]) {
-          checked++;
-        } else if (logic.keys[roomId]?.[key.logicName] === LogicStatus.Accessible) {
-          accessible++;
-        }
-      }
-    }
-  }
-  return {
-    checked,
-    accessible,
-    total,
-  }
-}
-
-export const getCheckedAndTotalGemLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
-  let checked = 0
-  let accessible = 0
-  let total = 0
-  for (const roomId in side.rooms) {
-    if (side.rooms[roomId]?.entities.gem) {
-      total++;
-      if (checkedLocations.gems[roomId]) {
-        checked++;
-      } else if (logic.gems[roomId] === LogicStatus.Accessible) {
-        accessible++;
-      }
-    }
-  }
-  return {
-    checked,
-    accessible,
-    total,
-  }
-}
-
-export const getCheckedAndTotalBinocularLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
-  let checked = 0
-  let accessible = 0
-  let total = 0
-  for (const roomId in side.rooms) {
-    const binoculars = side.rooms[roomId]?.entities.binoculars;
-    if (binoculars) {
-      total += binoculars.length;
-      const checkedBinoculars = checkedLocations.binoculars[roomId];
-      for (const bino of binoculars) {
-        if (checkedBinoculars?.[bino.id]) {
-          checked++;
-        } else if (logic.binoculars[roomId]?.[bino.logicName] === LogicStatus.Accessible) {
-          accessible++;
-        }
-      }
-    }
-  }
-  return {
-    checked,
-    accessible,
-    total,
-  }
-}
-
-export const getCheckedAndTotalBerryLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
-  let checked = 0
-  let accessible = 0
-  let total = 0
-  for (const roomId in side.rooms) {
-    const berries = side.rooms[roomId]?.entities.berry;
-    if (berries) {
-      total += berries.length;
-      const checkedStrawberries = checkedLocations.strawberries[roomId];
-      for (const berry of berries) {
-        if (checkedStrawberries?.[berry.id]) {
-          checked++;
-        } else if (logic.strawberries[roomId]?.[berry.logicName] === LogicStatus.Accessible) {
-          accessible++;
-        }
-      }
-    }
-  }
-  return {
-    checked,
-    accessible,
-    total,
-  }
-}
-
-export const getCheckedAndTotalRoomLocations = (checkedLocations: LevelLocations, logic: SideLogicData, side: SideProps): LocationCount => {
-  let checked = 0
-  let accessible = 0
-  let total = 0
   for (const roomId in side.rooms) {
     // Some rooms may be cutscene or just filler rooms which aren't counted as locations in AP
     if (side.rooms[roomId]?.hideInTracker) continue;
+    if (isFarewell && !shouldIncludeFarewellRoom(roomId, randomizerOptions)) continue;
+    if (side.rooms[roomId]?.entities[entityKey]) {
+      total++;
+      if (checkedLocations[key][roomId]) {
+        checked++;
+      } else if (logic[key][roomId] === LogicStatus.Accessible) {
+        accessible++;
+      }
+    }
+  }
+  return {
+    checked,
+    accessible,
+    total,
+  }
+}
+
+const getCheckedAndTotalForMultiRoomItems = (
+  key: MultiRoomLocationKeys,
+  entityKey: EntitiesWithLogicNameKey,
+  checkedLocations: LevelLocations,
+  logic: SideLogicData,
+  side: SideProps,
+  chapterIndex: number,
+  randomizerOptions: RandomizerOptions,
+): LocationCount => {
+  let checked = 0
+  let accessible = 0
+  let total = 0
+
+  const isFarewell = isChapterIndexFarewell(chapterIndex);
+
+  for (const roomId in side.rooms) {
+    // Some rooms may be cutscene or just filler rooms which aren't counted as locations in AP
+    if (side.rooms[roomId]?.hideInTracker) continue;
+    if (isFarewell && !shouldIncludeFarewellRoom(roomId, randomizerOptions)) continue;
+    const entities = side.rooms[roomId]?.entities[entityKey];
+    if (entities) {
+      total += entities.length;
+      const checkedItems = checkedLocations[key][roomId];
+      for (const entity of entities) {
+        // @ts-ignore
+        if (checkedItems?.[entity.id]) {
+          checked++;
+        } else if (logic[key]?.[roomId]?.[entity.logicName] === LogicStatus.Accessible) {
+          accessible++;
+        }
+      }
+    }
+  }
+  return {
+    checked,
+    accessible,
+    total,
+  }
+}
+
+export const getCheckedAndTotalRoomLocations = (
+  checkedLocations: LevelLocations,
+  logic: SideLogicData,
+  side: SideProps,
+  chapterIndex: number,
+  randomizerOptions: RandomizerOptions,
+): LocationCount => {
+  let checked = 0
+  let accessible = 0
+  let total = 0
+
+  const isFarewell = isChapterIndexFarewell(chapterIndex);
+
+  for (const roomId in side.rooms) {
+    // Some rooms may be cutscene or just filler rooms which aren't counted as locations in AP
+    if (side.rooms[roomId]?.hideInTracker) continue;
+    if (isFarewell && !shouldIncludeFarewellRoom(roomId, randomizerOptions)) continue;
     total++
     if (checkedLocations.rooms[roomId]) {
       checked++

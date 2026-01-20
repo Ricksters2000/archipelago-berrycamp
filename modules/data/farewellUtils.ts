@@ -1,12 +1,37 @@
+import {RandomizerOptions} from "../provide/ArchipelagoContext";
 import {RawCelesteLogic} from "./ap/logicHandling";
 
 const goldenRoomId = `end-golden`;
 const startOfEmptySpaceRoomArea = `f`;
+const introRoomArea = `intro`;
+
+export const shouldIncludeFarewellRoom = (roomId: string, randomizerOptions: RandomizerOptions) => {
+  const includeFarewell = playerIsIncludingFarewell(randomizerOptions);
+  if (!includeFarewell) return false;
+  if (includeFarewell === `emptySpace` && isAfterEmptySpace(roomId)) return false;
+  if (includeFarewell === `farewell` && isFarewellGoldenRoom(roomId)) return false;
+  return true;
+}
+
+export const playerIsIncludingFarewell = (randomizerOptions: RandomizerOptions): false | `emptySpace` | `farewell` | `endGolden` => {
+  if (randomizerOptions.activeLevels.includes(`10c`)) {
+    return `endGolden`;
+  }
+  if (randomizerOptions.activeLevels.includes(`10b`)) {
+    return `farewell`;
+  }
+  if (randomizerOptions.activeLevels.includes(`10a`)) {
+    return `emptySpace`;
+  }
+  return false;
+}
 
 export const isChapterIndexFarewell = (chapterIndex: number) => chapterIndex === 10;
 
 export const isAfterEmptySpace = (roomId: string) => {
   if (isFarewellGoldenRoom(roomId)) return true;
+  // prevent it considering the intro room as after empty space
+  if (roomId.includes(introRoomArea)) return false;
   const roomArea = roomId[0];
   if (!roomArea) return false;
   return roomArea >= startOfEmptySpaceRoomArea

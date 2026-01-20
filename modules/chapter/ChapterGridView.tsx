@@ -63,7 +63,7 @@ const ChapterGridViewItem: FC<ChapterViewItemProps> = (props) => {
   } else {
     logicData = getLogicDataFromSide(logic, playerInventory);
   }
-  const totalCounts = getCheckedAndTotalLocationsForSide(sideCheckedLocations, logicData, props, randomizerOptions);
+  const totalCounts = getCheckedAndTotalLocationsForSide(sideCheckedLocations, logicData, props, chapterIndex, randomizerOptions);
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card component={Box} onMouseEnter={() => setShowCheckedLocations(true)} onMouseLeave={() => setShowCheckedLocations(false)}>

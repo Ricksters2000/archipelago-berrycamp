@@ -155,6 +155,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       console.log(`Connected to archipelago`, packet, client)
       const slotData = packet.slot_data as CelesteSlotData
       const playerRandomizerOptions: RandomizerOptions = {
+        activeLevels: slotData.active_levels,
         checkpointSanity: slotData.checkpointsanity === 1,
         binoSanity: slotData.binosanity === 1,
         keySanity: slotData.keysanity === 1,

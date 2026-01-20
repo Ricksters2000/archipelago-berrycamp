@@ -11,7 +11,7 @@ import {getCelesteItemImageUrl, getCollectedCelesteItemImageUrl} from "../fetch/
 import {ConnectionStatus} from "../data/ConnectionStatus";
 import {LogicStatus} from "../data/ap/logicHandling";
 import {logicColorKey} from "../data/ap/logicColorKey";
-import {isAfterEmptySpace, isChapterIndexFarewell} from "../data/farewellUtils";
+import {isChapterIndexFarewell, shouldIncludeFarewellRoom} from "../data/farewellUtils";
 
 type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden`;
 
@@ -228,8 +228,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       // Display checked and unchecked locations if connected
       if (connectionStatus !== ConnectionStatus.Connected) return;
       if (isFarewell) {
-        if (!randomizerOptions.includeFarewell) return;
-        if (randomizerOptions.includeFarewell === `empty-space` && isAfterEmptySpace(id)) return;
+        if (!shouldIncludeFarewellRoom(id, randomizerOptions)) return;
       }
       context.lineWidth = 2;
       const checkedBerries = sideCheckedLocations.strawberries[id]

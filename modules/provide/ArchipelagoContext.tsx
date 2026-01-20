@@ -58,6 +58,9 @@ export type PlayerInventory = {
 /** The first id is for the room id and then for the entity id */
 export type MultiEntityLocation<K extends string | number | symbol, V = true> = Record<string, Record<K, V>>;
 
+export type SingleRoomLocationKeys = keyof Pick<LevelLocations, `checkpoints` | `cars` | `gems` | `rooms`>;
+export type MultiRoomLocationKeys = keyof Pick<LevelLocations, `strawberries` | `binoculars` | `keys`>;
+
 export type LevelLocations = {
   levelClear?: true;
   heart?: true;
@@ -84,6 +87,7 @@ export type CheckedLocations = {
 
 // anything thats not on here should be randomized by default
 export type RandomizerOptions = {
+  activeLevels: Array<string>;
   checkpointSanity: boolean;
   binoSanity: boolean;
   keySanity: boolean;
@@ -108,6 +112,7 @@ export interface IArchipelagoContext {
 }
 
 export const defaultRandomizerOptions: RandomizerOptions = {
+  activeLevels: [],
   checkpointSanity: false,
   binoSanity: false,
   keySanity: false,
