@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {useArchipelagoContext} from "../provide/ArchipelagoContext";
 import {ConnectionStatus} from "../data/ConnectionStatus";
-import {Typography} from "@mui/material";
+import {styled, Typography} from "@mui/material";
 
 export const ConnectionDisplay: FC = () => {
   const {connectionStatus, errorMsg} = useArchipelagoContext();
@@ -12,10 +12,14 @@ export const ConnectionDisplay: FC = () => {
   return (
     <Typography color={connectionStatus === ConnectionStatus.Connected ? `green` : `red`}>
       {
-        connectionStatus === ConnectionStatus.Connected ? `Connected`
+        connectionStatus === ConnectionStatus.Connected ? <GreenText>Connected</GreenText>
           : connectionStatus === ConnectionStatus.Disconnected ? `Disconnected`
             : errorMsg
       }
     </Typography>
   )
 }
+
+const GreenText = styled(`span`)(({theme}) => ({
+  color: theme.palette.mode === "light" ? `#00af00` : `#35ff35`,
+}));

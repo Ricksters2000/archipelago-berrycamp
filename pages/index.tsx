@@ -1,4 +1,5 @@
-import {Avatar, Box, Button, Chip, Container, Paper, styled, TextField, Typography} from "@mui/material";
+import {Avatar, Box, Button, Chip, Collapse, Container, Paper, styled, TextField, Typography} from "@mui/material";
+import ArrowDownIcon from "@mui/icons-material/ArrowDropDown";
 import {GetStaticProps} from "next";
 import {Fragment, useEffect, useState} from "react";
 import {Area} from "~/modules/data/dataTypes";
@@ -11,11 +12,14 @@ import {ConnectionStatus} from "~/modules/data/ConnectionStatus";
 import {ConnectionDisplay} from "~/modules/ap/ConnectionDisplay";
 import {localStorageAPUserKey, StoredAPUser} from "~/modules/data/ap/apStorageKeys";
 import Image from "next/image";
+import {logicColorKey} from "~/modules/data/ap/logicColorKey";
+import {LogicStatus} from "~/modules/data/ap/logicHandling";
 
 export const HomePage: CampPage<AreaProps> = ({area, chapters, logic}) => {
   const [host, setHost] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [displayTrackerInfo, setDisplayTrackerInfo] = useState(false);
   const {login, connectionStatus} = useArchipelagoContext()
 
   useEffect(() => {
@@ -79,12 +83,28 @@ export const HomePage: CampPage<AreaProps> = ({area, chapters, logic}) => {
               <Typography>
                 Once connected, hovering over the chapters and sides will show all checked locations.
               </Typography>
-              <Typography>
-                Checked locations will be marked <GrayText>grey</GrayText> and any locations not checked yet will be marked <GreenText>green</GreenText>.
-              </Typography>
-              <Typography>
-                Locations are marked with an outline of a rectangle but this can be changed to be a filled rectangle in the options in the top right.
-              </Typography>
+              <Box component={`span`} sx={{cursor: `pointer`}} display={`inline-flex`} gap={1}
+                onMouseDown={() => setDisplayTrackerInfo(prev => !prev)}
+              >
+                <DropDownIcon rotate={displayTrackerInfo}><ArrowDownIcon /></DropDownIcon>
+                <Typography>Tracker Color Key</Typography>
+              </Box>
+              <Collapse in={displayTrackerInfo}>
+                <Typography>{`In grid view: `}
+                  <span style={{color: logicColorKey[LogicStatus.Checked]}}>Checked</span>
+                  {` / `}
+                  <span style={{color: logicColorKey[LogicStatus.Accessible]}}>Reachable</span>
+                  {` / `}
+                  <span>Total</span>
+                </Typography>
+                <Typography>In interactive map:</Typography>
+                <Typography><span style={{color: logicColorKey[LogicStatus.InAccessible]}}>Red</span> - Locations that are not reachable in logic</Typography>
+                <Typography><span style={{color: logicColorKey[LogicStatus.Accessible]}}>Green</span> - Locations that are reachable in logic</Typography>
+                <Typography><span style={{color: logicColorKey[LogicStatus.Checked]}}>Gray</span> - Locations that have already been checked</Typography>
+                <Typography>
+                  Locations are marked with an outline of a rectangle but this can be changed to be a filled rectangle in the options in the top right.
+                </Typography>
+              </Collapse>
             </Container>
             <Box display={`flex`} gap={1} flexDirection={`column`}>
               <TextField
@@ -137,10 +157,8 @@ export const getStaticProps: GetStaticProps<AreaProps> = async () => {
   };
 };
 
-const GrayText = styled(`span`)(({theme}) => ({
-  color: theme.palette.mode === "light" ? `#808080` : `#c2c2c2`,
-}));
-
-const GreenText = styled(`span`)(({theme}) => ({
-  color: theme.palette.mode === "light" ? `#00af00` : `#35ff35`,
-}));
+const DropDownIcon = styled(`span`)((props) => ({
+  transform: props.rotate ? `rotate(180deg)` : `rotate(0deg)`,
+  transition: `transform 150ms cubic-bezier(0.4, 0, 0.2, 1)`,
+  height: `24px`,
+}))
