@@ -177,7 +177,7 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
       if (checkedLocations.golden) {
         result.golden.checked = 1
       } else if (sideLogicData.golden === LogicStatus.Accessible) {
-        result.heart.accessible = 1
+        result.golden.accessible = 1
       }
     }
   }
