@@ -13,7 +13,7 @@ import {LogicStatus} from "../data/ap/logicHandling";
 import {logicColorKey} from "../data/ap/logicColorKey";
 import {isChapterIndexFarewell, shouldIncludeFarewellRoom} from "../data/farewellUtils";
 
-type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden`;
+type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden` | `strawberry` | `heart`;
 
 export const CampCanvas: FC<CampCanvasProps> = memo(({
   view,
@@ -47,6 +47,8 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     ghostHeart: undefined,
     levelClear: undefined,
     golden: undefined,
+    strawberry: undefined,
+    heart: undefined,
   })
 
   const [contextMenu, setContextMenu] = useState<{
@@ -241,7 +243,14 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
               context.drawImage(img, pos.x - 8, pos.y - 8)
             } else {
               const logicStatus = logicData.strawberries[id]?.[berry.logicName];
-              drawMarkedItemOnPos(logicStatus, pos.x - 5, pos.y - 5, 10, 10);
+              if (berry.manualDisplayInTracker) {
+                drawCollectedItemImage(`strawberry`, getCelesteItemImageUrl(`berry`), (img) => {
+                  context.drawImage(img, pos.x - 8, pos.y - 8)
+                  drawMarkedItemOnPos(logicStatus, pos.x - 5, pos.y - 5, 10, 10);
+                })
+              } else {
+                drawMarkedItemOnPos(logicStatus, pos.x - 5, pos.y - 5, 10, 10);
+              }
             }
           }
         })
@@ -316,7 +325,14 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
             if (sideId !== `a`) {
               logicStatus = logicData.levelClear;
             }
-            drawMarkedItemOnPos(logicStatus, pos.x - 8, pos.y - 8, 16, 16);
+            if (heart.manualDisplayInTracker) {
+              drawCollectedItemImage(`heart`, getCelesteItemImageUrl(`heart`), (img) => {
+                context.drawImage(img, pos.x - 10, pos.y - 9);
+                drawMarkedItemOnPos(logicStatus, pos.x - 8, pos.y - 8, 16, 16);
+              })
+            } else {
+              drawMarkedItemOnPos(logicStatus, pos.x - 8, pos.y - 8, 16, 16);
+            }
           }
         }
       }

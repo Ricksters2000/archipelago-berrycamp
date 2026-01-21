@@ -59,7 +59,7 @@ export interface Entities {
   gem: ExtentCanvasPoint[];
   car: ExtentCanvasPoint[];
   golden: ExtentCanvasPoint[];
-  heart: ExtentCanvasPoint[];
+  heart: ManualDisplayCanvasPoint[];
   cassette: ExtentCanvasPoint[];
 }
 
@@ -69,7 +69,12 @@ export interface SpawnPoint extends ExtentCanvasPoint {
   name?: string;
 }
 
-export interface BerryPoint extends ExtentCanvasPoint {
+export interface ManualDisplayCanvasPoint extends ExtentCanvasPoint {
+  /** Some items may not be displayed in the map which this will force them to appear */
+  manualDisplayInTracker?: boolean;
+}
+
+export interface BerryPoint extends ManualDisplayCanvasPoint {
   id: number;
   checkpointId: number;
   logicName: string;

@@ -1915,8 +1915,9 @@
                 ],
                 "heart": [
                   {
-                    "x": 160,
-                    "y": 160
+                    "x": 180,
+                    "y": 150,
+                    "manualDisplayInTracker": true
                   }
                 ]
               },
@@ -3789,7 +3790,8 @@
                     "x": 120,
                     "y": 320,
                     "checkpointId": 0,
-                    "logicName": "strawberry"
+                    "logicName": "strawberry",
+                    "manualDisplayInTracker": true
                   }
                 ]
               },
@@ -10344,7 +10346,8 @@
                     "x": 184,
                     "y": 104,
                     "checkpointId": 0,
-                    "logicName": "strawberry"
+                    "logicName": "strawberry",
+                    "manualDisplayInTracker": true
                   }
                 ]
               },
@@ -14876,7 +14879,8 @@
                     "x": 272,
                     "y": 216,
                     "checkpointId": 1,
-                    "logicName": "strawberry_2"
+                    "logicName": "strawberry_2",
+                    "manualDisplayInTracker": true
                   },
                   {
                     "id": 14,
@@ -18741,7 +18745,8 @@
                 "heart": [
                   {
                     "x": 264,
-                    "y": 136
+                    "y": 136,
+                    "manualDisplayInTracker": true
                   }
                 ]
               },
@@ -25019,7 +25024,8 @@
                     "x": 184,
                     "y": 72,
                     "checkpointId": 4,
-                    "logicName": "strawberry"
+                    "logicName": "strawberry",
+                    "manualDisplayInTracker": true
                   }
                 ]
               },
