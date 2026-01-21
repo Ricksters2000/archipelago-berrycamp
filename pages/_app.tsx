@@ -155,7 +155,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
 
     const onConnected = (packet: ConnectedPacket) => {
       setConnectionStatus(ConnectionStatus.Connected)
-      console.log(`Connected to archipelago`, packet, client)
+      // console.log(`Connected to archipelago`, packet, client)
       const slotData = packet.slot_data as CelesteSlotData
       const playerRandomizerOptions: RandomizerOptions = {
         activeLevels: slotData.active_levels,
