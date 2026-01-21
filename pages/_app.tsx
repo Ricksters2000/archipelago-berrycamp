@@ -151,6 +151,14 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
         default:
           playerInventoryDraft[itemData.type] = true;
       }
+      // the different types of clutters aren't actual items but they still appear in the rules in logic
+      // so this will act as though the players have clutter as long as they have the required items to get them in chapter 3
+      if (playerInventoryDraft.coins) {
+        playerInventoryDraft.brownClutter = true;
+      }
+      if (playerInventoryDraft.dashRefills) {
+        playerInventoryDraft.greenClutter = true;
+      }
     }
 
     const onConnected = (packet: ConnectedPacket) => {

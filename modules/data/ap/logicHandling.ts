@@ -394,8 +394,11 @@ function passesRule(
     // ───────────────────────────────
     //
     case "brown_clutter":
+      return !!inventory.brownClutter;
     case "green_clutter":
+      return !!inventory.greenClutter;
     case "pink_clutter":
+      return !!inventory.pinkClutter;
     case "cannot_access":
       return false;
   }

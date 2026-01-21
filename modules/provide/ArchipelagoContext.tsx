@@ -54,6 +54,9 @@ export type PlayerInventory = {
   whiteBlock?: true;
   torches?: true;
   bird?: true;
+  pinkClutter?: true;
+  greenClutter?: true;
+  brownClutter?: true;
 }
 
 /** The first id is for the room id and then for the entity id */
@@ -157,6 +160,7 @@ export const createBlankSide = (): LevelLocations => {
 
 export const createEmptyPlayerInventory = (): PlayerInventory => ({
   strawberry: 0,
+  pinkClutter: true,
   checkpoints: {},
   keys: {},
   gems: {},
