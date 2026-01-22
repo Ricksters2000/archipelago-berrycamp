@@ -12,6 +12,7 @@ import {ConnectionStatus} from "../data/ConnectionStatus";
 import {LogicStatus} from "../data/ap/logicHandling";
 import {logicColorKey} from "../data/ap/logicColorKey";
 import {isChapterIndexFarewell, shouldIncludeFarewellRoom} from "../data/farewellUtils";
+import {includeLevelInTracker} from "../data/ap/includeLevelInTracker";
 
 type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden` | `strawberry` | `heart`;
 
@@ -132,8 +133,11 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     contentViewRef.current = undefined;
 
     let isFarewell = false;
-    if (typeof chapterId === `string`) {
-      isFarewell = isChapterIndexFarewell(chapterIdToIndex(chapterId));
+    let includeLevel = true;
+    if (typeof chapterId === `string` && typeof sideId === `string`) {
+      const chapterIndex = chapterIdToIndex(chapterId);
+      isFarewell = isChapterIndexFarewell(chapterIndex);
+      includeLevel = includeLevelInTracker(chapterIndex, sideId, randomizerOptions);
     }
 
     /**
@@ -229,6 +233,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       }
       // Display checked and unchecked locations if connected
       if (connectionStatus !== ConnectionStatus.Connected) return;
+      if (!includeLevel) return;
       if (isFarewell) {
         if (!shouldIncludeFarewellRoom(id, randomizerOptions)) return;
       }

@@ -4,6 +4,7 @@ import {Chapter, Entities, EntitiesWithLogicNameKey, Side} from "../dataTypes";
 import {ChapterLogicData, LogicStatus, SideLogicData} from "./logicHandling";
 import {isChapterIndexFarewell, shouldIncludeFarewellRoom} from "../farewellUtils";
 import {chapterIdToIndex} from "~/modules/common/levelIdToIndex";
+import {includeLevelInTracker} from "./includeLevelInTracker";
 
 export interface LocationCount {
   checked: number;
@@ -131,8 +132,9 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
     total: {checked: 0, accessible: 0, total: 0},
   }
 
-  if (!randomizerOptions.includeBSides && side.id === `b`) return result;
-  if (!randomizerOptions.includeCSides && side.id === `c`) return result;
+  if (!includeLevelInTracker(chapterIndex, side.id, randomizerOptions)) {
+    return result;
+  }
 
   // levelClear - always count (1 per side)
   result.levelClear.total = 1
