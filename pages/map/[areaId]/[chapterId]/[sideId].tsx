@@ -1,11 +1,12 @@
 import {Clear, ScreenshotMonitor, Search} from "@mui/icons-material";
 import {Box, Button, IconButton, TextField} from "@mui/material";
 import {ExtentCanvasSize, ExtentCanvasViewBox} from "extent-canvas";
+import dynamic from "next/dynamic";
 import {useRouter} from "next/router";
 import {GetStaticPaths, GetStaticProps} from "next/types";
 import {ParsedUrlQuery} from "querystring";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
-import {CampCanvas, CanvasImage, CanvasRoom, viewsCollide} from "~/modules/canvas";
+import {CanvasImage, CanvasRoom, viewsCollide} from "~/modules/canvas";
 import {showRoom} from "~/modules/chapter";
 import {ResizableDivider} from "~/modules/common/resizableDivider/ResizableDivider";
 import {useMobile} from "~/modules/common/useMobile";
@@ -22,6 +23,7 @@ import {useCampContext} from "~/modules/provide/CampContext";
 import {generateRoomTags} from "~/modules/room";
 import {teleport} from "~/modules/teleport/teleport";
 import {CampPage} from "~/pages/_app";
+const CampCanvas = dynamic(() => import(`~/modules/canvas/CampCanvas`).then(_ => _.CampCanvas), {ssr: false});
 
 const headerSize: number = 48;
 const halfDividerSize: number = 16;
