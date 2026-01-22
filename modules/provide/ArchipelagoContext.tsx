@@ -2,8 +2,68 @@ import {Client} from "archipelago.js";
 import {createContext, useContext} from "react";
 import {ConnectionStatus} from "../data/ConnectionStatus";
 
+export type ChapterItems<V = RoomItems> = Record<number, SideItems<V>>;
+
+type SideItems<V = RoomItems> = {
+  a?: V;
+  b?: V;
+  c?: V;
+}
+
+type RoomItems = Record<string, true>;
+
+export type PlayerInventory = {
+  checkpoints: ChapterItems;
+  /** The key from the `RoomItems` type will be the key name */
+  keys: ChapterItems;
+  /** The key from the `RoomItems` type will be the gem name */
+  gems: ChapterItems;
+  strawberry: number;
+  springs?: true;
+  trafficBlocks?: true;
+  pinkCassetteBlocks?: true;
+  blueCassetteBlocks?: true;
+  dreamBlocks?: true;
+  coins?: true;
+  movingPlatforms?: true;
+  blueBoosters?: true;
+  blueClouds?: true;
+  moveBlocks?: true;
+  swapBlocks?: true;
+  redBoosters?: true;
+  theoCrystal?: true;
+  feathers?: true;
+  bumpers?: true;
+  kevins?: true;
+  pinkClouds?: true;
+  badelineBoosters?: true;
+  fireAndIceBalls?: true;
+  coreToggles?: true;
+  coreBlocks?: true;
+  pufferfish?: true;
+  jellyfish?: true;
+  breakerBoxes?: true;
+  dashRefills?: true;
+  doubleDashRefills?: true;
+  yellowCassetteBlocks?: true;
+  greenCassetteBlocks?: true;
+  dashSwitches?: true;
+  seekers?: true;
+  strawberrySeeds?: true;
+  sinkingPlatforms?: true;
+  whiteBlock?: true;
+  torches?: true;
+  bird?: true;
+  pinkClutter?: true;
+  greenClutter?: true;
+  brownClutter?: true;
+}
+
 /** The first id is for the room id and then for the entity id */
-type MultiEntityLocation<K extends string | number | symbol> = Record<string, Record<K, true>>;
+export type MultiEntityLocation<K extends string | number | symbol, V = true> = Record<string, Record<K, V>>;
+
+export type SingleRoomLocationKeys = keyof Pick<LevelLocations, `checkpoints` | `cars` | `gems` | `rooms`>;
+export type MultiRoomLocationKeys = keyof Pick<LevelLocations, `strawberries` | `binoculars` | `keys`>;
 
 export type LevelLocations = {
   levelClear?: true;
@@ -31,6 +91,10 @@ export type CheckedLocations = {
 
 // anything thats not on here should be randomized by default
 export type RandomizerOptions = {
+  activeLevels: Array<string>;
+  goalArea: string;
+  lockGoalArea: boolean;
+  strawberriesRequired: number;
   checkpointSanity: boolean;
   binoSanity: boolean;
   keySanity: boolean;
@@ -50,10 +114,15 @@ export interface IArchipelagoContext {
   errorMsg: string,
   randomizerOptions: RandomizerOptions;
   checkedLocations: CheckedLocations;
+  playerInventory: PlayerInventory;
   login: (host: string, name: string, password: string) => void;
 }
 
 export const defaultRandomizerOptions: RandomizerOptions = {
+  activeLevels: [],
+  goalArea: `7a`,
+  lockGoalArea: true,
+  strawberriesRequired: 40,
   checkpointSanity: false,
   binoSanity: false,
   keySanity: false,
@@ -73,19 +142,6 @@ export const defaultCheckedLocations: CheckedLocations = {
   }
 }
 
-export const ArchipelagoContext = createContext<IArchipelagoContext>({
-  client: new Client(),
-  connectionStatus: ConnectionStatus.NoConnection,
-  errorMsg: ``,
-  randomizerOptions: defaultRandomizerOptions,
-  checkedLocations: defaultCheckedLocations,
-  login: () => undefined,
-})
-
-export const useArchipelagoContext = (): IArchipelagoContext => {
-  return useContext<IArchipelagoContext>(ArchipelagoContext)
-}
-
 export const createBlankChapter = (): ChapterSides => {
   return {sides: []}
 }
@@ -100,4 +156,26 @@ export const createBlankSide = (): LevelLocations => {
     binoculars: {},
     rooms: {},
   }
+}
+
+export const createEmptyPlayerInventory = (): PlayerInventory => ({
+  strawberry: 0,
+  pinkClutter: true,
+  checkpoints: {},
+  keys: {},
+  gems: {},
+})
+
+export const ArchipelagoContext = createContext<IArchipelagoContext>({
+  client: new Client(),
+  connectionStatus: ConnectionStatus.NoConnection,
+  errorMsg: ``,
+  randomizerOptions: defaultRandomizerOptions,
+  checkedLocations: defaultCheckedLocations,
+  playerInventory: createEmptyPlayerInventory(),
+  login: () => undefined,
+})
+
+export const useArchipelagoContext = (): IArchipelagoContext => {
+  return useContext<IArchipelagoContext>(ArchipelagoContext)
 }

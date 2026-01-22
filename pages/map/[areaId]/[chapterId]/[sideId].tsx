@@ -10,12 +10,14 @@ import {showRoom} from "~/modules/chapter";
 import {ResizableDivider} from "~/modules/common/resizableDivider/ResizableDivider";
 import {useMobile} from "~/modules/common/useMobile";
 import {useResize} from "~/modules/common/useResize";
+import {getLogicDataFromSide, RawLogicLevel} from "~/modules/data/ap/logicHandling";
 import {Area, Chapter, Side} from "~/modules/data/dataTypes";
 import {VALID_AREAS} from "~/modules/data/validAreas";
-import {fetchArea, getRoomImageUrl, getRoomPreviewUrl} from "~/modules/fetch/dataApi";
+import {fetchArea, fetchLogic, fetchLogicLevel, getRoomImageUrl, getRoomPreviewUrl} from "~/modules/fetch/dataApi";
 import {CampHead} from "~/modules/head/CampHead";
 import {AreaData, ChapterData, CheckpointData, CheckpointDataExtended, MapRoomMenu, RoomData, SideData} from "~/modules/map";
 import {MapEntityMenu} from "~/modules/map/MapEntityMenu";
+import {useArchipelagoContext} from "~/modules/provide/ArchipelagoContext";
 import {useCampContext} from "~/modules/provide/CampContext";
 import {generateRoomTags} from "~/modules/room";
 import {teleport} from "~/modules/teleport/teleport";
@@ -27,8 +29,9 @@ const halfDividerSize: number = 16;
 const ROOM_WIDTH = 320;
 const ROOM_HEIGHT = 184;
 
-export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) => {
+export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side, logic}) => {
   const {settings: {everestUrl}} = useCampContext();
+  const {playerInventory, randomizerOptions} = useArchipelagoContext();
   const {isReady, query} = useRouter();
   const {isLargeScreen} = useMobile();
 
@@ -43,6 +46,8 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
 
   const imagesRef = useRef<CanvasImage[]>([]);
   const contentViewRef = useRef<ExtentCanvasViewBox | undefined>();
+
+  const logicData = useMemo(() => getLogicDataFromSide(logic, playerInventory, randomizerOptions), [playerInventory, logic, randomizerOptions]);
 
   const {
     size: sidebarSize,
@@ -356,6 +361,7 @@ export const SideMapPage: CampPage<SideMapPageProps> = ({area, chapter, side}) =
             checkpoints={side.checkpoints}
             imagesRef={imagesRef}
             contentViewRef={contentViewRef}
+            logicData={logicData}
             onViewChange={handleViewChange}
             onTeleport={handleTeleport}
             onSelectRoom={handleSelectRoom}
@@ -396,6 +402,7 @@ interface SideMapPageProps {
   area: AreaData;
   chapter: ChapterData;
   side: SideData;
+  logic: RawLogicLevel;
 };
 
 export interface MapParams {
@@ -417,7 +424,8 @@ export const getStaticProps: GetStaticProps<SideMapPageProps, SideMapPageParams>
 
   const area: Area = await fetchArea(areaId);
 
-  const chapter: Chapter | undefined = area.chapters.find(chapter => chapter.id === chapterId);
+  const chapterIndex = area.chapters.findIndex(chapter => chapter.id === chapterId);
+  const chapter: Chapter | undefined = area.chapters[chapterIndex];
   if (chapter === undefined) {
     throw Error(`Chapter not found for ${chapterId}`);
   }
@@ -426,6 +434,8 @@ export const getStaticProps: GetStaticProps<SideMapPageProps, SideMapPageParams>
   if (side === undefined) {
     throw Error(`Side not found for ${sideId} in chpater ${chapterId}`);
   }
+
+  const logic = await fetchLogicLevel(chapterIndex, sideId);
 
   return {
     props: {
@@ -457,6 +467,7 @@ export const getStaticProps: GetStaticProps<SideMapPageProps, SideMapPageParams>
           roomOrder: checkpoint.roomOrder,
         })),
       },
+      logic,
     }
   };
 }

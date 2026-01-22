@@ -9,8 +9,12 @@ import {createBlankSide, LevelLocations, useArchipelagoContext} from "../provide
 import {chapterIdToIndex, sideIdToIndex} from "../common/levelIdToIndex";
 import {getCelesteItemImageUrl, getCollectedCelesteItemImageUrl} from "../fetch/dataApi";
 import {ConnectionStatus} from "../data/ConnectionStatus";
+import {LogicStatus} from "../data/ap/logicHandling";
+import {logicColorKey} from "../data/ap/logicColorKey";
+import {isChapterIndexFarewell, shouldIncludeFarewellRoom} from "../data/farewellUtils";
+import {includeLevelInTracker} from "../data/ap/includeLevelInTracker";
 
-type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden`;
+type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden` | `strawberry` | `heart`;
 
 export const CampCanvas: FC<CampCanvasProps> = memo(({
   view,
@@ -18,6 +22,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
   checkpoints,
   imagesRef,
   contentViewRef,
+  logicData,
   onViewChange,
   onTeleport,
   onSelectRoom,
@@ -43,6 +48,8 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     ghostHeart: undefined,
     levelClear: undefined,
     golden: undefined,
+    strawberry: undefined,
+    heart: undefined,
   })
 
   const [contextMenu, setContextMenu] = useState<{
@@ -83,7 +90,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     if (sideCheckedLocations && checkedDrawStyle || uncheckedDrawStyle) {
       preventUpdateView.current = true;
     }
-  }, [sideCheckedLocations, uncheckedDrawStyle, checkedDrawStyle, connectionStatus])
+  }, [sideCheckedLocations, uncheckedDrawStyle, checkedDrawStyle, connectionStatus, logicData])
 
   /**
    * Set the current view.
@@ -125,6 +132,14 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
 
     contentViewRef.current = undefined;
 
+    let isFarewell = false;
+    let includeLevel = true;
+    if (typeof chapterId === `string` && typeof sideId === `string`) {
+      const chapterIndex = chapterIdToIndex(chapterId);
+      isFarewell = isChapterIndexFarewell(chapterIndex);
+      includeLevel = includeLevelInTracker(chapterIndex, sideId, randomizerOptions);
+    }
+
     /**
      * Load new rooms.
      */
@@ -158,16 +173,15 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (viewBoxRef.current === undefined) {
         return;
       }
-      const drawMarkedItemOnPos = (checked: boolean | undefined, x: number, y: number, width: number, height: number, forceDrawStyle?: CanvasDrawStyle) => {
+      const drawMarkedItemOnPos = (logicStatus: LogicStatus = LogicStatus.InAccessible, x: number, y: number, width: number, height: number, forceDrawStyle?: CanvasDrawStyle) => {
         context.globalCompositeOperation = `lighter`;
         let drawStyle;
-        if (checked) {
-          context.fillStyle = `gray`;
-          context.strokeStyle = `gray`;
+        const color = logicColorKey[logicStatus];
+        context.fillStyle = color;
+        context.strokeStyle = color;
+        if (logicStatus === LogicStatus.Checked) {
           drawStyle = checkedDrawStyle;
         } else {
-          context.fillStyle = `green`;
-          context.strokeStyle = `green`;
           drawStyle = uncheckedDrawStyle;
         }
         if (forceDrawStyle) drawStyle = forceDrawStyle;
@@ -219,6 +233,10 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       }
       // Display checked and unchecked locations if connected
       if (connectionStatus !== ConnectionStatus.Connected) return;
+      if (!includeLevel) return;
+      if (isFarewell) {
+        if (!shouldIncludeFarewellRoom(id, randomizerOptions)) return;
+      }
       context.lineWidth = 2;
       const checkedBerries = sideCheckedLocations.strawberries[id]
       if (entities.berry) {
@@ -229,7 +247,15 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
             if (checkedBerries && checkedBerries[berry.id]) {
               context.drawImage(img, pos.x - 8, pos.y - 8)
             } else {
-              drawMarkedItemOnPos(false, pos.x - 5, pos.y - 5, 10, 10);
+              const logicStatus = logicData.strawberries[id]?.[berry.logicName];
+              if (berry.manualDisplayInTracker) {
+                drawCollectedItemImage(`strawberry`, getCelesteItemImageUrl(`berry`), (img) => {
+                  context.drawImage(img, pos.x - 8, pos.y - 8)
+                  drawMarkedItemOnPos(logicStatus, pos.x - 5, pos.y - 5, 10, 10);
+                })
+              } else {
+                drawMarkedItemOnPos(logicStatus, pos.x - 5, pos.y - 5, 10, 10);
+              }
             }
           }
         })
@@ -238,21 +264,27 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (entities.key) {
         for (const key of entities.key) {
           const pos = getRoomPos(key)
-          drawMarkedItemOnPos(checkedKeys && checkedKeys[key.id], pos.x - 7, pos.y - 7, 12, 12)
+          let logicStatus = logicData.keys[id]?.[key.logicName];
+          if (checkedKeys?.[key.id]) logicStatus = LogicStatus.Checked;
+          drawMarkedItemOnPos(logicStatus, pos.x - 7, pos.y - 7, 12, 12)
         }
       }
       const checkedBinoculars = sideCheckedLocations.binoculars[id]
       if (entities.binoculars && randomizerOptions.binoSanity) {
         for (const binoculars of entities.binoculars) {
           const pos = getRoomPos(binoculars)
-          drawMarkedItemOnPos(checkedBinoculars && checkedBinoculars[binoculars.id], pos.x - 6, pos.y - 15, 11, 15)
+          let logicStatus = logicData.binoculars[id]?.[binoculars.logicName];
+          if (checkedBinoculars?.[binoculars.id]) logicStatus = LogicStatus.Checked;
+          drawMarkedItemOnPos(logicStatus, pos.x - 6, pos.y - 15, 11, 15)
         }
       }
       if (entities.car && randomizerOptions.carSanity) {
         const car = entities.car[0]
         if (car) {
           const pos = getRoomPos(car)
-          drawMarkedItemOnPos(sideCheckedLocations.cars[id], pos.x - 22, pos.y - 16, 46, 16)
+          let logicStatus = logicData.cars[id];
+          if (sideCheckedLocations.cars[id]) logicStatus = LogicStatus.Checked;
+          drawMarkedItemOnPos(logicStatus, pos.x - 22, pos.y - 16, 46, 16)
         }
       }
       if (entities.cassette) {
@@ -264,7 +296,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
               context.drawImage(img, pos.x - 16, pos.y - 16)
             })
           } else {
-            drawMarkedItemOnPos(false, pos.x - 10, pos.y - 8, 20, 14)
+            drawMarkedItemOnPos(logicData.cassette, pos.x - 10, pos.y - 8, 20, 14)
           }
         }
       }
@@ -279,7 +311,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
           } else {
             drawCollectedItemImage(`golden`, getCelesteItemImageUrl(`golden`), img => {
               context.drawImage(img, pos.x - 8, pos.y - 8);
-              drawMarkedItemOnPos(false, pos.x - 5, pos.y - 6, 12, 12);
+              drawMarkedItemOnPos(logicData.golden, pos.x - 5, pos.y - 6, 12, 12);
             })
           }
         }
@@ -294,7 +326,18 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
               context.drawImage(img, pos.x - 10, pos.y - 9);
             })
           } else {
-            drawMarkedItemOnPos(false, pos.x - 8, pos.y - 8, 16, 16);
+            let logicStatus = logicData.heart;
+            if (sideId !== `a`) {
+              logicStatus = logicData.levelClear;
+            }
+            if (heart.manualDisplayInTracker) {
+              drawCollectedItemImage(`heart`, getCelesteItemImageUrl(`heart`), (img) => {
+                context.drawImage(img, pos.x - 10, pos.y - 9);
+                drawMarkedItemOnPos(logicStatus, pos.x - 8, pos.y - 8, 16, 16);
+              })
+            } else {
+              drawMarkedItemOnPos(logicStatus, pos.x - 8, pos.y - 8, 16, 16);
+            }
           }
         }
       }
@@ -302,14 +345,18 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         const gem = entities.gem[0]
         if (gem) {
           const pos = getRoomPos(gem)
-          drawMarkedItemOnPos(sideCheckedLocations.gems[id], pos.x - 11, pos.y - 11, 22, 22)
+          let logicStatus = logicData.gems[id];
+          if (sideCheckedLocations.gems[id]) logicStatus = LogicStatus.Checked;
+          drawMarkedItemOnPos(logicStatus, pos.x - 11, pos.y - 11, 22, 22)
         }
       }
       if (entities.checkpoint) {
         const checkpoint = entities.checkpoint[0]
         if (checkpoint) {
           const pos = getRoomPos(checkpoint)
-          drawMarkedItemOnPos(sideCheckedLocations.checkpoints[id], pos.x - 10, pos.y - 23, 20, 23)
+          let logicStatus = logicData.checkpoints[id];
+          if (sideCheckedLocations.checkpoints[id]) logicStatus = LogicStatus.Checked;
+          drawMarkedItemOnPos(logicStatus, pos.x - 10, pos.y - 23, 20, 23)
         }
       }
       let lastRoomId = ``;
@@ -327,10 +374,12 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       if (!hideInTracker && randomizerOptions.roomSanity) {
         const width = view.right - view.left
         const height = view.bottom - view.top
-        drawMarkedItemOnPos(sideCheckedLocations.rooms[id], position.x + 1, position.y + 1, width - 2, height - 2, `stroke`)
+        let logicStatus = logicData.rooms[id];
+        if (sideCheckedLocations.rooms[id]) logicStatus = LogicStatus.Checked;
+        drawMarkedItemOnPos(logicStatus, position.x + 1, position.y + 1, width - 2, height - 2, `stroke`)
       }
     });
-  }, [contentViewRef, imagesRef, rooms, checkpoints, checkedDrawStyle, uncheckedDrawStyle, sideId, sideCheckedLocations, randomizerOptions, connectionStatus]);
+  }, [contentViewRef, imagesRef, rooms, checkpoints, checkedDrawStyle, uncheckedDrawStyle, sideId, sideCheckedLocations, randomizerOptions, connectionStatus, logicData, chapterId]);
 
   const {setViewBox, draw} = useExtentCanvas({
     ref,

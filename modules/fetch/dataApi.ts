@@ -1,6 +1,9 @@
 import area from "~/data/celeste.json";
+import logic from "~/data/logic.json";
 import {Area} from "../data/dataTypes";
-import {LocationType} from "../data/apLocationData";
+import {LocationType} from "../data/ap/apLocationData";
+import {RawCelesteLogic, RawLogicLevel} from "../data/ap/logicHandling";
+import {combineFarewellRawLogic} from "../data/farewellUtils";
 
 const baseImgUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/img`;
 
@@ -17,6 +20,21 @@ export const fetchArea = async (_: string): Promise<Area> => {
    */
   return area as never;
 };
+
+export const fetchLogic = async (): Promise<RawCelesteLogic> => {
+  return logic as never;
+}
+
+export const fetchLogicLevel = async (chapterIndex: number, sideId: string): Promise<RawLogicLevel> => {
+  const rawLogic = await fetchLogic();
+  const levelName = `${chapterIndex}${sideId}`;
+  const logicLevel = rawLogic.levels.find(l => l.name === levelName);
+  if (!logicLevel) throw new Error(`Failed to find logic level from: ${chapterIndex}${sideId}`);
+  if (chapterIndex === 10) {
+    return combineFarewellRawLogic(rawLogic);
+  }
+  return logicLevel;
+}
 
 export const getRootImageUrl = (): string => {
   return `${baseImgUrl}/celeste/chapters/city.png`

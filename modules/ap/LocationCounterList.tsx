@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {FullLocationCount} from "../data/countLocations";
+import {FullLocationCount} from "../data/ap/countLocations";
 import {Fade, Grid2} from "@mui/material";
 import {LocationCounter} from "./LocationCounter";
 import {useArchipelagoContext} from "../provide/ArchipelagoContext";

@@ -1,8 +1,10 @@
 import {FC} from "react";
-import {LocationCount} from "../data/countLocations";
+import {LocationCount} from "../data/ap/countLocations";
 import {Box, Fade, Typography} from "@mui/material";
 import Image from "next/image";
 import {getCelesteItemImageUrl} from "../fetch/dataApi";
+import {useArchipelagoContext} from "../provide/ArchipelagoContext";
+import {ConnectionStatus} from "../data/ConnectionStatus";
 
 interface Props {
   show: boolean;
@@ -10,7 +12,9 @@ interface Props {
 }
 
 export const TotalLocationCounter: FC<Props> = ({totalCount, show}) => {
+  const {connectionStatus} = useArchipelagoContext();
   const {checked, total} = totalCount;
+  if (connectionStatus !== ConnectionStatus.Connected) return null;
   return (
     <Fade in={show}>
       <Box
