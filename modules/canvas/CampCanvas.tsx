@@ -87,7 +87,9 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
   }, [chapterId, checkedLocations.area.celeste, sideId])
 
   useEffect(() => {
-    preventUpdateView.current = true;
+    if (sideCheckedLocations && checkedDrawStyle || uncheckedDrawStyle) {
+      preventUpdateView.current = true;
+    }
   }, [sideCheckedLocations, uncheckedDrawStyle, checkedDrawStyle, connectionStatus, logicData])
 
   /**
