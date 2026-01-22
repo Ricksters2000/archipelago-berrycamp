@@ -1,10 +1,13 @@
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
   reactStrictMode: true,
   images: {
     unoptimized: true,
     domains: [],
   },
-  webpack: (config, {isServer}) => {
+  webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback.fs = false;
     }
