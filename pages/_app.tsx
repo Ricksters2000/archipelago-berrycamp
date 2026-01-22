@@ -28,7 +28,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
   const client = useMemo(() => new Client(), [])
   const loginClient = useCallback((host: string, name: string, password: string = "") => {
     setConnectionStatus(ConnectionStatus.Connecting)
-    const connOptions: Required<ConnectionOptions> = {...defaultConnectionOptions, password}
+    const connOptions: Required<ConnectionOptions> = {...defaultConnectionOptions, password, tags: [`Tracker`]}
     client.login(host, name, `Celeste (Open World)`, connOptions)
       .then(() => {
         const apUser: StoredAPUser = {

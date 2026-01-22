@@ -29,6 +29,15 @@ export interface FullLocationCount {
 
 type SideProps = Omit<Side, `img` | `canvas` | `name`>
 
+const countTotal = (fullLocationCount: FullLocationCount) => {
+  objectKeys(fullLocationCount).forEach(k => {
+    if (k === `total`) return;
+    fullLocationCount.total.checked += fullLocationCount[k].checked
+    fullLocationCount.total.accessible += fullLocationCount[k].accessible
+    fullLocationCount.total.total += fullLocationCount[k].total
+  })
+}
+
 export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterSides, logic: ChapterLogicData, chapter: Omit<Chapter, `desc`>, randomizerOptions: RandomizerOptions): FullLocationCount => {
   const result: FullLocationCount = {
     levelClear: {checked: 0, accessible: 0, total: 0},
@@ -85,33 +94,6 @@ export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterS
       result[key].total += sideCount[key].total
     }
   }
-
-  // Calculate total across all location types
-  result.total.checked =
-    result.levelClear.checked +
-    result.heart.checked +
-    result.golden.checked +
-    result.cassette.checked +
-    result.checkpoints.checked +
-    result.cars.checked +
-    result.keys.checked +
-    result.gems.checked +
-    result.binoculars.checked +
-    result.strawberries.checked +
-    result.rooms.checked
-
-  result.total.total =
-    result.levelClear.total +
-    result.heart.total +
-    result.golden.total +
-    result.cassette.total +
-    result.checkpoints.total +
-    result.cars.total +
-    result.keys.total +
-    result.gems.total +
-    result.binoculars.total +
-    result.strawberries.total +
-    result.rooms.total
 
   return result
 }
@@ -228,31 +210,7 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
   }
 
   // Calculate total across all location types
-  result.total.checked =
-    result.levelClear.checked +
-    result.heart.checked +
-    result.golden.checked +
-    result.cassette.checked +
-    result.checkpoints.checked +
-    result.cars.checked +
-    result.keys.checked +
-    result.gems.checked +
-    result.binoculars.checked +
-    result.strawberries.checked +
-    result.rooms.checked
-
-  result.total.total =
-    result.levelClear.total +
-    result.heart.total +
-    result.golden.total +
-    result.cassette.total +
-    result.checkpoints.total +
-    result.cars.total +
-    result.keys.total +
-    result.gems.total +
-    result.binoculars.total +
-    result.strawberries.total +
-    result.rooms.total
+  countTotal(result);
 
   return result
 }

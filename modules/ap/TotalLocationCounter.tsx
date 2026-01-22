@@ -5,6 +5,8 @@ import Image from "next/image";
 import {getCelesteItemImageUrl} from "../fetch/dataApi";
 import {useArchipelagoContext} from "../provide/ArchipelagoContext";
 import {ConnectionStatus} from "../data/ConnectionStatus";
+import {logicColorKey} from "../data/ap/logicColorKey";
+import {LogicStatus} from "../data/ap/logicHandling";
 
 interface Props {
   show: boolean;
@@ -13,7 +15,7 @@ interface Props {
 
 export const TotalLocationCounter: FC<Props> = ({totalCount, show}) => {
   const {connectionStatus} = useArchipelagoContext();
-  const {checked, total} = totalCount;
+  const {checked, accessible, total} = totalCount;
   if (connectionStatus !== ConnectionStatus.Connected) return null;
   return (
     <Fade in={show}>
@@ -31,7 +33,11 @@ export const TotalLocationCounter: FC<Props> = ({totalCount, show}) => {
           <Image src={getCelesteItemImageUrl(`fullClear`)} alt="Full Clear" objectFit="contain" height={40} width={40} />
         )}
         <Typography fontSize={24} fontWeight={700} width={`100%`} textAlign={`right`}>
-          {`${checked}/${total}`}
+          <span style={{color: logicColorKey[LogicStatus.Checked]}}>{checked}</span>
+          /
+          <span style={{color: logicColorKey[LogicStatus.Accessible]}}>{accessible}</span>
+          /
+          <span>{total}</span>
         </Typography>
       </Box>
     </Fade>
