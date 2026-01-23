@@ -520,13 +520,9 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     if (view === undefined || context === null) {
       return;
     }
-    console.log(`updating view:`, firstLoad.current, preventUpdateView.current)
     if (firstLoad.current) {
-      console.log(`first load started:`, firstLoad.current)
       firstLoad.current = false;
-      console.log(`updated first load:`, firstLoad.current)
     } else if (preventUpdateView.current) {
-      console.log(`preventing view update:`, firstLoad.current, preventUpdateView.current)
       preventUpdateView.current = false;
       return;
     }
