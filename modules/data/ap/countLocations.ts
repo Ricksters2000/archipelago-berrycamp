@@ -4,7 +4,7 @@ import {Chapter, Entities, EntitiesWithLogicNameKey, Side} from "../dataTypes";
 import {ChapterLogicData, LogicStatus, SideLogicData} from "./logicHandling";
 import {isChapterIndexFarewell, shouldIncludeFarewellRoom} from "../farewellUtils";
 import {chapterIdToIndex} from "~/modules/common/levelIdToIndex";
-import {includeLevelInTracker} from "./includeLevelInTracker";
+import {includeLevelInTracker, levelHasHeartLocation} from "./trackerLevelUtils";
 
 export interface LocationCount {
   checked: number;
@@ -127,7 +127,7 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
   }
 
   // heart - only for a-side as the heart for the other sides counts as a level clear
-  if (side.id === `a`) {
+  if (levelHasHeartLocation(chapterIndex, side.id)) {
     let hasHeart = false;
     // check if chapter contains a heart crystal
     for (const roomId in side.rooms) {

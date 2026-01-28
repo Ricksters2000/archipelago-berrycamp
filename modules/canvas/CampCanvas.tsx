@@ -12,7 +12,7 @@ import {ConnectionStatus} from "../data/ConnectionStatus";
 import {LogicStatus} from "../data/ap/logicHandling";
 import {logicColorKey} from "../data/ap/logicColorKey";
 import {isChapterIndexFarewell, shouldIncludeFarewellRoom} from "../data/farewellUtils";
-import {includeLevelInTracker} from "../data/ap/includeLevelInTracker";
+import {includeLevelInTracker, levelHasHeartLocation} from "../data/ap/trackerLevelUtils";
 
 type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden` | `strawberry` | `heart`;
 
@@ -134,10 +134,12 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
 
     let isFarewell = false;
     let includeLevel = true;
+    let levelHasHeartInTracker = false;
     if (typeof chapterId === `string` && typeof sideId === `string`) {
       const chapterIndex = chapterIdToIndex(chapterId);
       isFarewell = isChapterIndexFarewell(chapterIndex);
       includeLevel = includeLevelInTracker(chapterIndex, sideId, randomizerOptions);
+      levelHasHeartInTracker = levelHasHeartLocation(chapterIndex, sideId);
     }
 
     /**
@@ -321,13 +323,13 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
         if (heart) {
           const pos = getRoomPos(heart);
           // The hearts aren't tracked for B and C sides but completing the level is basically getting the heart in their
-          if (sideCheckedLocations.heart || sideId !== `a` && sideCheckedLocations.levelClear) {
+          if (sideCheckedLocations.heart || !levelHasHeartInTracker && sideCheckedLocations.levelClear) {
             drawCollectedItemImage(`ghostHeart`, getCollectedCelesteItemImageUrl(`ghostHeart`), img => {
               context.drawImage(img, pos.x - 10, pos.y - 9);
             })
           } else {
             let logicStatus = logicData.heart;
-            if (sideId !== `a`) {
+            if (!levelHasHeartInTracker) {
               logicStatus = logicData.levelClear;
             }
             if (heart.manualDisplayInTracker) {
@@ -366,7 +368,7 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       }
       // Since getting the heart is essentially a level clear for B and C sides then this doesn't need to show for them
       // Maybe later on this can be displayed for the other sides when the flag is shown in the top right corner instead of left.
-      if (id === lastRoomId && sideCheckedLocations.levelClear && sideId === `a`) {
+      if (id === lastRoomId && sideCheckedLocations.levelClear && levelHasHeartInTracker) {
         drawCollectedItemImage(`levelClear`, getCelesteItemImageUrl(`levelClear`), img => {
           context.drawImage(img, position.x, position.y)
         })
