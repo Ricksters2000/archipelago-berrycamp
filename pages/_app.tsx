@@ -81,6 +81,9 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
         case 'golden':
           currentSide.golden = true
           break
+        case 'wingedGolden':
+          currentSide.wingedGolden = true
+          break
         case 'cassette':
           currentSide.cassette = true
           break

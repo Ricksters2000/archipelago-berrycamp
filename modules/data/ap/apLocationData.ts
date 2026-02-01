@@ -1,7 +1,7 @@
 // Location IDs from: https://github.com/PoryGoneDev/Celeste-Archipelago-Open-World/blob/main/Source/Locations/APLocationData.cs
 
 export type LocationType = SimpleLocationType | NumberIdLocationType | BinocularsLocationType;
-export type SimpleLocationType = `car` | `golden` | `cassette` | `heart` | `gem` | `checkpoint` | `levelClear` | `room`;
+export type SimpleLocationType = `car` | `golden` | `wingedGolden` | `cassette` | `heart` | `gem` | `checkpoint` | `levelClear` | `room`;
 type NumberIdLocationType = `berry` | `key`
 type BinocularsLocationType = `binoculars`
 
@@ -264,6 +264,7 @@ export const CarAPToID: Record<number, LocationData> = {
 export const GoldenAPToID: Record<number, LocationData> = {
   // Forsaken City
   0xCA11000: {type: "golden", location: [1, 0, "1"]},
+  0xCA11001: {type: "wingedGolden", location: [1, 0, "end"]},
   0xCA11002: {type: "golden", location: [1, 1, "00"]},
   0xCA11003: {type: "golden", location: [1, 2, "00"]},
 
@@ -328,8 +329,6 @@ export const StrawberryAPToID: Record<number, LocationData> = {
   0xCA10011: {type: "berry", location: [1, 0, "10zb", 1]},
   0xCA10012: {type: "berry", location: [1, 0, "11", 9]},
   0xCA10013: {type: "berry", location: [1, 0, "12z", 8]},
-
-  0xCA11001: {type: "berry", location: [1, 0, "end", 4]},
 
   // Old Site
   0xCA10014: {type: "berry", location: [2, 0, "1", 1]},

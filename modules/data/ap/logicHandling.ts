@@ -150,6 +150,7 @@ export interface SideLogicData {
   levelClear?: LogicStatus;
   heart?: LogicStatus;
   golden?: LogicStatus;
+  wingedGolden?: LogicStatus;
   cassette?: LogicStatus;
   checkpoints: Record<string, LogicStatus>;
   cars: Record<string, LogicStatus>;
@@ -423,7 +424,11 @@ const setLocationLogic = (roomId: string, itemName: string, logicData: SideLogic
       logicData.cassette = status;
       break;
     case `golden_strawberry`:
-      logicData.golden = status;
+      if (itemName === `winged_golden`) {
+        logicData.wingedGolden = status;
+      } else {
+        logicData.golden = status;
+      }
       break;
     case `gem`:
       logicData.gems[roomId] = status;

@@ -61,7 +61,7 @@ export const getCelesteItemImageUrl = (itemName: LocationType | ExtraItems) => {
   return `${baseImgUrl}/celeste/items/${itemName}.png`;
 };
 
-type CollectedCelesteItem = `ghostBerry` | `ghostCassette` | `ghostGolden` | `ghostHeart`;
+type CollectedCelesteItem = `ghostBerry` | `ghostCassette` | `ghostGolden` | `ghostWingedGolden` | `ghostHeart`;
 export const getCollectedCelesteItemImageUrl = (itemName: CollectedCelesteItem) => {
   return `${baseImgUrl}/celeste/items/collected/${itemName}.png`;
 }

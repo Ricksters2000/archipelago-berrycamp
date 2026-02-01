@@ -70,6 +70,7 @@ export type LevelLocations = {
   levelClear?: true;
   heart?: true;
   golden?: true;
+  wingedGolden?: true;
   cassette?: true;
   checkpoints: Record<string, true>;
   cars: Record<string, true>;

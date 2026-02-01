@@ -16,6 +16,7 @@ export interface FullLocationCount {
   levelClear: LocationCount;
   heart: LocationCount;
   golden: LocationCount;
+  wingedGolden: LocationCount;
   cassette: LocationCount;
   checkpoints: LocationCount;
   cars: LocationCount;
@@ -43,6 +44,7 @@ export const getCheckedAndTotalLocationsForChapter = (checkedLocations: ChapterS
     levelClear: {checked: 0, accessible: 0, total: 0},
     heart: {checked: 0, accessible: 0, total: 0},
     golden: {checked: 0, accessible: 0, total: 0},
+    wingedGolden: {checked: 0, accessible: 0, total: 0},
     cassette: {checked: 0, accessible: 0, total: 0},
     checkpoints: {checked: 0, accessible: 0, total: 0},
     cars: {checked: 0, accessible: 0, total: 0},
@@ -103,6 +105,7 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
     levelClear: {checked: 0, accessible: 0, total: 0},
     heart: {checked: 0, accessible: 0, total: 0},
     golden: {checked: 0, accessible: 0, total: 0},
+    wingedGolden: {checked: 0, accessible: 0, total: 0},
     cassette: {checked: 0, accessible: 0, total: 0},
     checkpoints: {checked: 0, accessible: 0, total: 0},
     cars: {checked: 0, accessible: 0, total: 0},
@@ -149,11 +152,16 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
   // golden - only if includeGoldens is true
   if (randomizerOptions.includeGoldens) {
     let hasGolden = false;
+    let hasWingedGolden = false;
     // check if chapter contains a golden berry
     for (const roomId in side.rooms) {
-      if (side.rooms[roomId]?.entities.golden) {
-        hasGolden = true;
-        break;
+      const golden = side.rooms[roomId]?.entities.golden?.[0];
+      if (golden) {
+        if (golden.winged) {
+          hasWingedGolden = true;
+        } else {
+          hasGolden = true;
+        }
       }
     }
     if (hasGolden) {
@@ -162,6 +170,14 @@ export const getCheckedAndTotalLocationsForSide = (checkedLocations: LevelLocati
         result.golden.checked = 1
       } else if (sideLogicData.golden === LogicStatus.Accessible) {
         result.golden.accessible = 1
+      }
+    }
+    if (hasWingedGolden) {
+      result.wingedGolden.total = 1
+      if (checkedLocations.wingedGolden) {
+        result.wingedGolden.checked = 1
+      } else if (sideLogicData.wingedGolden === LogicStatus.Accessible) {
+        result.wingedGolden.accessible = 1
       }
     }
   }
