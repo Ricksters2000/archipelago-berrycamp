@@ -19,6 +19,7 @@ export type PlayerInventory = {
   /** The key from the `RoomItems` type will be the gem name */
   gems: ChapterItems;
   strawberry: number;
+  grannysHouseKey?: true;
   springs?: true;
   trafficBlocks?: true;
   pinkCassetteBlocks?: true;
