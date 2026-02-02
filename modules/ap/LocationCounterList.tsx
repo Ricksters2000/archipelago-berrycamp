@@ -38,6 +38,9 @@ export const LocationCounterList: FC<Props> = ({show, fullLocationCount}) => {
         {fullLocationCount.golden.total > 0 && (
           <LocationCounter type="golden" locationCount={fullLocationCount.golden} />
         )}
+        {fullLocationCount.wingedGolden.total > 0 && (
+          <LocationCounter type="wingedGolden" locationCount={fullLocationCount.wingedGolden} />
+        )}
         {fullLocationCount.cassette.total > 0 && (
           <LocationCounter type="cassette" locationCount={fullLocationCount.cassette} />
         )}

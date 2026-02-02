@@ -58,7 +58,7 @@ export interface Entities {
   checkpoint: ExtentCanvasPoint[];
   gem: ExtentCanvasPoint[];
   car: ExtentCanvasPoint[];
-  golden: ExtentCanvasPoint[];
+  golden: GoldenPoint[];
   heart: ManualDisplayCanvasPoint[];
   cassette: ExtentCanvasPoint[];
 }
@@ -86,6 +86,10 @@ export interface BerryPoint extends ManualDisplayCanvasPoint {
 export interface IdPoint<T extends number | string> extends ExtentCanvasPoint {
   id: T;
   logicName: string;
+}
+
+export interface GoldenPoint extends ExtentCanvasPoint {
+  winged?: boolean;
 }
 
 export interface Canvas {

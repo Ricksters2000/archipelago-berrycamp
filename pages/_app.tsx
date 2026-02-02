@@ -6,7 +6,7 @@ import {CampThemeProvider} from 'modules/provide/CampTheme';
 import {NextPage} from 'next';
 import {AppProps} from 'next/app';
 import '../styles/globals.css';
-import {Client, ConnectedPacket, ConnectionOptions, ConnectionRefusedPacket, defaultConnectionOptions, ReceivedItemsPacket, RoomUpdatePacket} from 'archipelago.js';
+import {Client, clientStatuses, ConnectedPacket, ConnectionOptions, ConnectionRefusedPacket, defaultConnectionOptions, ReceivedItemsPacket, RoomUpdatePacket} from 'archipelago.js';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {ArchipelagoContext, ChapterItems, CheckedLocations, createBlankChapter, createBlankSide, createEmptyPlayerInventory, defaultCheckedLocations, defaultRandomizerOptions, PlayerInventory, RandomizerOptions} from '~/modules/provide/ArchipelagoContext';
 import {ConnectionStatus} from '~/modules/data/ConnectionStatus';
@@ -59,6 +59,11 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
 
   useEffect(() => {
     if (!client) return
+    const checkGoalLocations = (checkedLocationsDraft: CheckedLocations) => {
+      checkLocation(checkedLocationsDraft, {type: "levelClear", location: [8, 0, "Clear"]})
+      checkLocation(checkedLocationsDraft, {type: `room`, location: [8, 0, "inside"]})
+    }
+
     const checkLocation = (checkedLocationsDraft: CheckedLocations, locationData: LocationData) => {
       let chapter = checkedLocationsDraft.area.celeste[locationData.location[0]]
       if (!chapter) {
@@ -80,6 +85,9 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
           break
         case 'golden':
           currentSide.golden = true
+          break
+        case 'wingedGolden':
+          currentSide.wingedGolden = true
           break
         case 'cassette':
           currentSide.cassette = true
@@ -161,7 +169,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       }
     }
 
-    const onConnected = (packet: ConnectedPacket) => {
+    const onConnected = async (packet: ConnectedPacket) => {
       setConnectionStatus(ConnectionStatus.Connected)
       // console.log(`Connected to archipelago`, packet, client)
       const slotData = packet.slot_data as CelesteSlotData
@@ -182,6 +190,7 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
         includeBSides: slotData.include_b_sides === 1,
         includeCSides: slotData.include_c_sides === 1,
       }
+      const status = await client.players.self.fetchStatus()
       setRandomizerOptions(playerRandomizerOptions)
       if (packet.checked_locations.length > 0) {
         setCheckedLocations(draft => {
@@ -189,6 +198,9 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
             const locationData = getLocationDataFromAP(checked)
             checkLocation(draft, locationData)
           })
+          if (status === clientStatuses.goal) {
+            checkGoalLocations(draft)
+          }
         })
       }
       if (client.items.received.length > 0) {
@@ -219,14 +231,18 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
       setPlayerInventory(createEmptyPlayerInventory())
     }
 
-    const onRoomUpdate = (packet: RoomUpdatePacket) => {
+    const onRoomUpdate = async (packet: RoomUpdatePacket) => {
       if (!packet.checked_locations) return;
+      const status = await client.players.self.fetchStatus()
       setCheckedLocations(draft => {
         if (!packet.checked_locations) return
         packet.checked_locations.forEach(checked => {
           const locationData = getLocationDataFromAP(checked)
           checkLocation(draft, locationData)
         })
+        if (status === clientStatuses.goal) {
+          checkGoalLocations(draft)
+        }
       })
     }
 

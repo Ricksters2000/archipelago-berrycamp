@@ -150,6 +150,7 @@ export interface SideLogicData {
   levelClear?: LogicStatus;
   heart?: LogicStatus;
   golden?: LogicStatus;
+  wingedGolden?: LogicStatus;
   cassette?: LogicStatus;
   checkpoints: Record<string, LogicStatus>;
   cars: Record<string, LogicStatus>;
@@ -193,6 +194,13 @@ export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerI
   if (levelName === randomizerOptions.goalArea && randomizerOptions.lockGoalArea) {
     // if the player doesn't have enough strawberries to access the level then they can't get anything there in logic
     if (inventory.strawberry < randomizerOptions.strawberriesRequired) return logicData;
+  }
+  // if the player doesn't have the grannys house key then they can't access the epilogue
+  if (levelName === `8a`) {
+    if (!inventory.grannysHouseKey) return logicData;
+    // These don't appear in the logic file but these are always accessible as long as the player has the grannys house key
+    logicData.levelClear = LogicStatus.Accessible;
+    logicData.rooms[`inside`] = LogicStatus.Accessible;
   }
   const chapterIndex = parseInt(levelName.substring(0, levelName.length - 1));
   const sideId = levelName.substring(levelName.length - 1) as SideId;
@@ -416,7 +424,11 @@ const setLocationLogic = (roomId: string, itemName: string, logicData: SideLogic
       logicData.cassette = status;
       break;
     case `golden_strawberry`:
-      logicData.golden = status;
+      if (itemName === `winged_golden`) {
+        logicData.wingedGolden = status;
+      } else {
+        logicData.golden = status;
+      }
       break;
     case `gem`:
       logicData.gems[roomId] = status;

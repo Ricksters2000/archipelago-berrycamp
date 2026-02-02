@@ -19,6 +19,7 @@ export type PlayerInventory = {
   /** The key from the `RoomItems` type will be the gem name */
   gems: ChapterItems;
   strawberry: number;
+  grannysHouseKey?: true;
   springs?: true;
   trafficBlocks?: true;
   pinkCassetteBlocks?: true;
@@ -69,6 +70,7 @@ export type LevelLocations = {
   levelClear?: true;
   heart?: true;
   golden?: true;
+  wingedGolden?: true;
   cassette?: true;
   checkpoints: Record<string, true>;
   cars: Record<string, true>;

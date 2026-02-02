@@ -14,7 +14,7 @@ import {logicColorKey} from "../data/ap/logicColorKey";
 import {isChapterIndexFarewell, shouldIncludeFarewellRoom} from "../data/farewellUtils";
 import {includeLevelInTracker, levelHasHeartLocation} from "../data/ap/trackerLevelUtils";
 
-type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden` | `strawberry` | `heart`;
+type CollectedItemImageKey = `ghostBerry` | `ghostCassette` | `ghostHeart` | `ghostGolden` | `levelClear` | `golden` | `wingedGolden` | `ghostWingedGolden` | `strawberry` | `heart`;
 
 export const CampCanvas: FC<CampCanvasProps> = memo(({
   view,
@@ -48,6 +48,8 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
     ghostHeart: undefined,
     levelClear: undefined,
     golden: undefined,
+    wingedGolden: undefined,
+    ghostWingedGolden: undefined,
     strawberry: undefined,
     heart: undefined,
   })
@@ -304,7 +306,19 @@ export const CampCanvas: FC<CampCanvasProps> = memo(({
       }
       if (entities.golden && randomizerOptions.includeGoldens) {
         const golden = entities.golden[0]
-        if (golden) {
+        if (golden?.winged) {
+          const pos = getRoomPos(golden);
+          if (sideCheckedLocations.wingedGolden) {
+            drawCollectedItemImage(`ghostWingedGolden`, getCollectedCelesteItemImageUrl(`ghostWingedGolden`), img => {
+              context.drawImage(img, pos.x - 8, pos.y - 8);
+            })
+          } else {
+            drawCollectedItemImage(`wingedGolden`, getCelesteItemImageUrl(`wingedGolden`), img => {
+              context.drawImage(img, pos.x - 8, pos.y - 8);
+              drawMarkedItemOnPos(logicData.wingedGolden, pos.x - 5, pos.y - 3, 33, 13);
+            })
+          }
+        } else {
           const pos = getRoomPos(golden);
           if (sideCheckedLocations.golden) {
             drawCollectedItemImage(`ghostGolden`, getCollectedCelesteItemImageUrl(`ghostGolden`), img => {

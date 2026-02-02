@@ -1831,6 +1831,13 @@
                     "x": 56,
                     "y": 160
                   }
+                ],
+                "golden": [
+                  {
+                    "x": 104,
+                    "y": 88,
+                    "winged": true
+                  }
                 ]
               },
               "canvas": {
@@ -27742,9 +27749,9 @@
               "roomCount": 4,
               "roomOrder": [
                 "outside",
-                "inside",
                 "bridge",
-                "secret"
+                "secret",
+                "inside"
               ],
               "canvas": {
                 "position": {
