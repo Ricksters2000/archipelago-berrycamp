@@ -27749,9 +27749,9 @@
               "roomCount": 4,
               "roomOrder": [
                 "outside",
-                "inside",
                 "bridge",
-                "secret"
+                "secret",
+                "inside"
               ],
               "canvas": {
                 "position": {
