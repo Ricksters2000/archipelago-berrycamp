@@ -24,7 +24,7 @@ export const LocationCounter: FC<Props> = ({type, locationCount}) => {
           objectFit={type === `binoculars` ? `none` : `contain`}
           objectPosition={type === `binoculars` ? `bottom` : undefined}
         />
-        <Typography>
+        <Typography style={{color: `#fff`}}>
           <span style={{color: logicColorKey[LogicStatus.Checked]}}>{locationCount.checked}</span>
           /
           <span style={{color: logicColorKey[LogicStatus.Accessible]}}>{locationCount.accessible}</span>

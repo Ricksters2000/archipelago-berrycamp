@@ -32,7 +32,17 @@ export const TotalLocationCounter: FC<Props> = ({totalCount, show}) => {
         {checked === total && (
           <Image src={getCelesteItemImageUrl(`fullClear`)} alt="Full Clear" objectFit="contain" height={40} width={40} />
         )}
-        <Typography fontSize={24} fontWeight={700} width={`100%`} textAlign={`right`}>
+        <Typography
+          fontSize={24}
+          fontWeight={700}
+          padding={.5}
+          marginLeft={`auto`}
+          width={`fit-content`}
+          textAlign={`right`}
+          style={{color: `#fff`}}
+          bgcolor={`#0000006e`}
+          borderRadius={1}
+        >
           <span style={{color: logicColorKey[LogicStatus.Checked]}}>{checked}</span>
           /
           <span style={{color: logicColorKey[LogicStatus.Accessible]}}>{accessible}</span>
