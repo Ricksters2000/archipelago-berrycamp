@@ -203,15 +203,6 @@ const App = ({Component, pageProps}: AppProps<GlobalCampProps>) => {
           }
         })
       }
-      if (client.items.received.length > 0) {
-        setPlayerInventory(draft => {
-          client.items.received.forEach(item => {
-            const itemData = getItemDataFromAP(item.id)
-            if (!itemData) return;
-            receiveItem(draft, itemData)
-          })
-        })
-      }
     }
 
     const onConnectionRefused = (packet: ConnectionRefusedPacket) => {
