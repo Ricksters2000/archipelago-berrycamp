@@ -75,7 +75,7 @@ const itemAPToItemData: Record<number, ItemData> = {
     chapterId: 2,
     chapterName: `Old Site`,
     sideId: `a`,
-    roomId: `end_0`,
+    roomId: `end_3`,
   },
   0xCA14006: {
     type: `checkpoints`,
