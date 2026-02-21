@@ -304,9 +304,11 @@ function passesRule(
     case "Search Key 2":
     case "Search Key 3": {
       // If keysanity is disabled then it can assume that the player will always have the key
-      if (!randomizerOptions.keySanity) {
-        return true;
-      }
+      // TODO: Currently doesn't work as intended since some keys will have different rules in order to get 
+      // which can lead to moments like in chapter 5 where the player can't get a key but logic will think they can still pass the locked door.
+      // if (!randomizerOptions.keySanity) {
+      //   return true;
+      // }
       const chapter = inventory.keys[chapterIndex];
       const side = chapter?.[sideId];
       return !!side?.[ruleType];
