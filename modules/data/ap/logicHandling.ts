@@ -205,14 +205,14 @@ export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerI
   const chapterIndex = parseInt(levelName.substring(0, levelName.length - 1));
   const sideId = levelName.substring(levelName.length - 1) as SideId;
   const regionsChecked = {};
-  traverseNode(chapterIndex, sideId, root, logicData, inventory, regionsChecked);
+  traverseNode(chapterIndex, sideId, root, logicData, inventory, randomizerOptions, regionsChecked);
   const checkpoints = inventory.checkpoints[chapterIndex]?.[sideId]
   if (checkpoints) {
     const checkpointNodes = graph.getCheckpointNodes();
     for (const roomId in checkpoints) {
       const node = checkpointNodes.find(n => n.roomId === roomId);
       if (node) {
-        traverseNode(chapterIndex, sideId, node, logicData, inventory, regionsChecked);
+        traverseNode(chapterIndex, sideId, node, logicData, inventory, randomizerOptions, regionsChecked);
       }
     }
   }
@@ -225,6 +225,7 @@ const traverseNode = (
   node: RegionNode,
   logicData: SideLogicData,
   inventory: PlayerInventory,
+  randomizerOptions: RandomizerOptions,
   regionsChecked: Record<string, Record<string, true>> = {}
 ) => {
   let roomRegionsChecked = regionsChecked[node.roomId];
@@ -239,15 +240,15 @@ const traverseNode = (
     logicData.checkpoints[node.roomId] = LogicStatus.Accessible;
   }
   for (const conn of node.connections) {
-    if (passesRules(chapterIndex, sideId, conn.rules, inventory)) {
-      traverseNode(chapterIndex, sideId, conn.child, logicData, inventory, regionsChecked);
+    if (passesRules(chapterIndex, sideId, conn.rules, inventory, randomizerOptions)) {
+      traverseNode(chapterIndex, sideId, conn.child, logicData, inventory, randomizerOptions, regionsChecked);
     } else if (!logicData.rooms[node.roomId]) {
       logicData.rooms[node.roomId] = LogicStatus.InAccessible;
     }
   }
   for (const loc of node.locations) {
     let logicStatus;
-    if (passesRules(chapterIndex, sideId, loc.rules, inventory)) {
+    if (passesRules(chapterIndex, sideId, loc.rules, inventory, randomizerOptions)) {
       logicStatus = LogicStatus.Accessible;
     } else {
       logicStatus = LogicStatus.InAccessible;
@@ -256,12 +257,12 @@ const traverseNode = (
   }
 }
 
-const passesRules = (chapterIndex: number, sideId: SideId, rules: Rules, inventory: PlayerInventory) => {
+const passesRules = (chapterIndex: number, sideId: SideId, rules: Rules, inventory: PlayerInventory, randomizerOptions: RandomizerOptions) => {
   if (rules.length === 0) return true;
   for (const ruleArr of rules) {
     let passes = true;
     for (const rule of ruleArr) {
-      if (!passesRule(chapterIndex, sideId, rule, inventory)) {
+      if (!passesRule(chapterIndex, sideId, rule, inventory, randomizerOptions)) {
         passes = false;
         break;
       }
@@ -276,6 +277,7 @@ function passesRule(
   sideId: SideId,
   ruleType: RuleType,
   inventory: PlayerInventory,
+  randomizerOptions: RandomizerOptions
 ): boolean {
   switch (ruleType) {
     //
@@ -301,6 +303,10 @@ function passesRule(
     case "Search Key 1":
     case "Search Key 2":
     case "Search Key 3": {
+      // If keysanity is disabled then it can assume that the player will always have the key
+      if (!randomizerOptions.keySanity) {
+        return true;
+      }
       const chapter = inventory.keys[chapterIndex];
       const side = chapter?.[sideId];
       return !!side?.[ruleType];
