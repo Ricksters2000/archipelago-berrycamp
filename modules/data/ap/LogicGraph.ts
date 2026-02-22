@@ -1,13 +1,15 @@
 import {LogicLocationType, RawLogicLevel, RawLogicRegion, RawLogicRoom, Rules} from "./logicHandling";
 
-interface Location {
+export interface Location {
   name: string;
+  /** Useful for getting the full key names */
+  displayName: string;
   id?: string | number;
   type: LogicLocationType;
   rules: Rules;
 }
 
-interface NodeConnection {
+export interface NodeConnection {
   child: RegionNode;
   rules: Rules;
 }
@@ -27,6 +29,7 @@ export class RegionNode {
     region.locations?.forEach(l => {
       this.locations.push({
         name: l.name,
+        displayName: l.display_name,
         type: l.type,
         rules: l.rule,
       })

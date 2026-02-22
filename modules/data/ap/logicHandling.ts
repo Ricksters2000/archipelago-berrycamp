@@ -1,5 +1,5 @@
 import {MultiEntityLocation, PlayerInventory, RandomizerOptions} from "~/modules/provide/ArchipelagoContext";
-import {LogicGraph, RegionNode} from "./LogicGraph";
+import {Location, LogicGraph, NodeConnection, RegionNode} from "./LogicGraph";
 import {SideId} from "../dataTypes";
 import {combineFarewellRawLogic} from "../farewellUtils";
 
@@ -161,6 +161,10 @@ export interface SideLogicData {
   rooms: Record<string, LogicStatus>;
 }
 
+export const ruleIncludesLockedDoor = (rule: RuleType) => {
+  if (rule.includes(`Key`)) return true;
+}
+
 export const findLogicSidesFromRawLogic = (rawLogic: RawCelesteLogic, chapterIndex: number) => {
   if (chapterIndex === 10) {
     return [combineFarewellRawLogic(rawLogic)]
@@ -204,15 +208,27 @@ export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerI
   }
   const chapterIndex = parseInt(levelName.substring(0, levelName.length - 1));
   const sideId = levelName.substring(levelName.length - 1) as SideId;
-  const regionsChecked = {};
-  traverseNode(chapterIndex, sideId, root, logicData, inventory, randomizerOptions, regionsChecked);
+  const regionsChecked: Record<string, Record<string, boolean>> = {};
+  let regionsToRecheck: Array<RegionNode> = [];
+  const accessibleKeys: Array<string> = [];
+  traverseNode(chapterIndex, sideId, root, logicData, inventory, randomizerOptions, regionsChecked, regionsToRecheck, accessibleKeys);
+  regionsToRecheck = [...new Set(regionsToRecheck)]
+  while (regionsToRecheck.length > 0) {
+    const node = regionsToRecheck.pop();
+    if (!node) continue;
+    regionsChecked[node.roomId] = {
+      ...regionsChecked[node.roomId],
+      [node.name]: false,
+    }
+    traverseNode(chapterIndex, sideId, node, logicData, inventory, randomizerOptions, regionsChecked, regionsToRecheck, accessibleKeys, false)
+  }
   const checkpoints = inventory.checkpoints[chapterIndex]?.[sideId]
   if (checkpoints) {
     const checkpointNodes = graph.getCheckpointNodes();
     for (const roomId in checkpoints) {
       const node = checkpointNodes.find(n => n.roomId === roomId);
       if (node) {
-        traverseNode(chapterIndex, sideId, node, logicData, inventory, randomizerOptions, regionsChecked);
+        traverseNode(chapterIndex, sideId, node, logicData, inventory, randomizerOptions, regionsChecked, regionsToRecheck, accessibleKeys);
       }
     }
   }
@@ -226,7 +242,10 @@ const traverseNode = (
   logicData: SideLogicData,
   inventory: PlayerInventory,
   randomizerOptions: RandomizerOptions,
-  regionsChecked: Record<string, Record<string, true>> = {}
+  regionsChecked: Record<string, Record<string, boolean>> = {},
+  regionsToRecheck: Array<RegionNode> = [],
+  accessibleKeys: Array<string> = [],
+  firstCheck = true,
 ) => {
   let roomRegionsChecked = regionsChecked[node.roomId];
   if (roomRegionsChecked) {
@@ -239,30 +258,58 @@ const traverseNode = (
   if (node.checkpoint) {
     logicData.checkpoints[node.roomId] = LogicStatus.Accessible;
   }
-  for (const conn of node.connections) {
-    if (passesRules(chapterIndex, sideId, conn.rules, inventory, randomizerOptions)) {
-      traverseNode(chapterIndex, sideId, conn.child, logicData, inventory, randomizerOptions, regionsChecked);
+  /** Some areas may need to be checked twice like locked doors may want to know if the required key can be accessed before checking */
+  const shouldDoubleCheck = (rules: Rules) => {
+    if (!firstCheck) return false;
+    for (const ruleGroup of rules) {
+      for (const rule of ruleGroup) {
+        if (!randomizerOptions.keySanity && rule.includes(`Key`)) return true;
+      }
+    }
+    return false;
+  }
+  const connectionsToRecheck: Array<NodeConnection> = []
+  const locationsToRecheck: Array<Location> = []
+  const checkConnection = (conn: NodeConnection) => {
+    if (passesRules(chapterIndex, sideId, conn.rules, inventory, accessibleKeys)) {
+      traverseNode(chapterIndex, sideId, conn.child, logicData, inventory, randomizerOptions, regionsChecked, regionsToRecheck, accessibleKeys);
+    } else if (shouldDoubleCheck(conn.rules)) {
+      connectionsToRecheck.push(conn)
+      regionsToRecheck.push(node)
     } else if (!logicData.rooms[node.roomId]) {
       logicData.rooms[node.roomId] = LogicStatus.InAccessible;
     }
   }
-  for (const loc of node.locations) {
+  const checkLocation = (loc: Location) => {
     let logicStatus;
-    if (passesRules(chapterIndex, sideId, loc.rules, inventory, randomizerOptions)) {
+    if (passesRules(chapterIndex, sideId, loc.rules, inventory, accessibleKeys)) {
+      if (!randomizerOptions.keySanity && loc.type === `key`) {
+        accessibleKeys.push(loc.displayName)
+      }
       logicStatus = LogicStatus.Accessible;
     } else {
+      if (shouldDoubleCheck(loc.rules)) {
+        locationsToRecheck.push(loc);
+        regionsToRecheck.push(node);
+      }
       logicStatus = LogicStatus.InAccessible;
     }
     setLocationLogic(node.roomId, loc.name, logicData, loc.type, logicStatus);
   }
+  for (const conn of node.connections) {
+    checkConnection(conn)
+  }
+  for (const loc of node.locations) {
+    checkLocation(loc)
+  }
 }
 
-const passesRules = (chapterIndex: number, sideId: SideId, rules: Rules, inventory: PlayerInventory, randomizerOptions: RandomizerOptions) => {
+const passesRules = (chapterIndex: number, sideId: SideId, rules: Rules, inventory: PlayerInventory, accessibleKeys: Array<string>) => {
   if (rules.length === 0) return true;
   for (const ruleArr of rules) {
     let passes = true;
     for (const rule of ruleArr) {
-      if (!passesRule(chapterIndex, sideId, rule, inventory, randomizerOptions)) {
+      if (!passesRule(chapterIndex, sideId, rule, inventory, accessibleKeys)) {
         passes = false;
         break;
       }
@@ -277,7 +324,7 @@ function passesRule(
   sideId: SideId,
   ruleType: RuleType,
   inventory: PlayerInventory,
-  randomizerOptions: RandomizerOptions
+  accessibleKeys: Array<string>,
 ): boolean {
   switch (ruleType) {
     //
@@ -303,12 +350,10 @@ function passesRule(
     case "Search Key 1":
     case "Search Key 2":
     case "Search Key 3": {
-      // If keysanity is disabled then it can assume that the player will always have the key
-      // TODO: Currently doesn't work as intended since some keys will have different rules in order to get 
-      // which can lead to moments like in chapter 5 where the player can't get a key but logic will think they can still pass the locked door.
-      // if (!randomizerOptions.keySanity) {
-      //   return true;
-      // }
+      // If keysanity is disabled then it can assume that the player can reach this as long as the required key is accessible
+      if (accessibleKeys.includes(ruleType)) {
+        return true;
+      }
       const chapter = inventory.keys[chapterIndex];
       const side = chapter?.[sideId];
       return !!side?.[ruleType];
