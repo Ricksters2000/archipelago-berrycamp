@@ -212,16 +212,6 @@ export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerI
   let regionsToRecheck: Array<RegionNode> = [];
   const accessibleKeys: Array<string> = [];
   traverseNode(chapterIndex, sideId, root, logicData, inventory, randomizerOptions, regionsChecked, regionsToRecheck, accessibleKeys);
-  regionsToRecheck = [...new Set(regionsToRecheck)]
-  while (regionsToRecheck.length > 0) {
-    const node = regionsToRecheck.pop();
-    if (!node) continue;
-    regionsChecked[node.roomId] = {
-      ...regionsChecked[node.roomId],
-      [node.name]: false,
-    }
-    traverseNode(chapterIndex, sideId, node, logicData, inventory, randomizerOptions, regionsChecked, regionsToRecheck, accessibleKeys, false)
-  }
   const checkpoints = inventory.checkpoints[chapterIndex]?.[sideId]
   if (checkpoints) {
     const checkpointNodes = graph.getCheckpointNodes();
@@ -231,6 +221,16 @@ export const getLogicDataFromSide = (rawLogic: RawLogicLevel, inventory: PlayerI
         traverseNode(chapterIndex, sideId, node, logicData, inventory, randomizerOptions, regionsChecked, regionsToRecheck, accessibleKeys);
       }
     }
+  }
+  regionsToRecheck = [...new Set(regionsToRecheck)]
+  while (regionsToRecheck.length > 0) {
+    const node = regionsToRecheck.pop();
+    if (!node) continue;
+    regionsChecked[node.roomId] = {
+      ...regionsChecked[node.roomId],
+      [node.name]: false,
+    }
+    traverseNode(chapterIndex, sideId, node, logicData, inventory, randomizerOptions, regionsChecked, regionsToRecheck, accessibleKeys, false)
   }
   return logicData;
 }
